@@ -37,7 +37,6 @@ This paper is an R markdown document that includes self-contained, reproducible 
 3. For compiling into a pdf in the style of an Elsevier document: elsarticle.cls, elsevier-harvard.csl, elsevier-harvard-without-titles.csl, elsevier-vancouver.csl, elsevier-without-titles.cls, elsevier-with-titles.csl, elsevier-with-titles-alphabetical.csl, mybibfile.bib
 -->
 
-
 Introduction
 ==========================
 
@@ -47,47 +46,146 @@ As the statistics suggest, the burden of road accidents is also not borne evenly
 
 Given the relevance and cost of the matter, as well as the important variations of the impacts among different population segments, numerous efforts efforts exist to better understand the factors that affect road safety - including the probable consequences of the crash. Consequently, a stream of research in the analysis of road accidents is concerned with the severity of crashes. In particular, multivariate analysis of crash severity is a useful way to clarify the way various factors can affect the outcome of an incident, to discriminate between various levels of injury, from no injury (i.e., property damage only), to different degrees of injury up to and including fatality. This is an active area of research [@Savolainen2011statistical], and one where methodological developments have aimed at improving the reliability, accuracy, and precision of models. 
 
-This paper aspires to contribute to the literature on crash severity by describing an approach to model the interactions between participants in a crash, in the context of incidents involving two parties. The importance of these interactions has been recognized in the existing literature [e.g., @Chiou2013modeling; @Lee2014analysis; @Li2017interplay], and in this paper we present a systematic approach to model the way participants in a crash interact to influence the severity of the accident for each party. By way of application, we demonstrate the approach through an empirical analysis of data drawn from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. The results suggest that there are important interactions between the various descriptors of the participants in the crash. More generally, the example shows how modelling the interactions between participants explicitly leads to richer insights into the covariates of crash severity, in addition to better model fits. The approach described in this paper is intuitive, simple to implement, and can be adapted to advanced modelling methods with ease.
+This paper aspires to contribute to the literature on crash severity by describing an approach to model the interactions between participants in a crash, in the context of incidents involving two parties. The importance of these interactions has been recognized in the existing literature [e.g., @Chiou2013modeling; @Lee2014analysis; @Tarrao2014modeling; @Li2017interplay], and in this paper we present a systematic approach to model the way participants in a crash interact to influence the severity of the accident for each party. By way of application, we demonstrate the approach through an empirical analysis of data drawn from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. The results suggest that there are important interactions between the various descriptors of the participants in the crash. More generally, the example shows how modelling the interactions between participants explicitly leads to richer insights into the covariates of crash severity, in addition to better model fits. The approach described in this paper is intuitive, simple to implement, and can be adapted to advanced modelling methods with ease.
 
-The rest of this paper is structure as follows. In Section \ref{sec:review-of-methods} we present a concise review of the methods used to analyze crash severity, with a particular focus on techniques that consider the interactions between participants in a crash.
-
+The rest of this paper is structure as follows. In Section \ref{sec:review-of-methods} we present a concise review of the methods used to analyze crash severity, with a particular focus on techniques that consider the interactions between participants in a crash. Section \ref{sec:methods} describes the data conditions, preprocessing, and approach for incorporating participant interactions in models of crash severity. An illustrative application of the modelling strategy described in this paper appears in \ref{sec:application}. We then present some additional thoughts about the applicability of this approach in Section \ref{sec:further-considerations} before offering some concluding remarks in Section \ref{sec:concluding-remarks}.
 
 Methodological approaches in crash severity analysis {#sec:review-of-methods}
 ============
 
+Modelling the outcomes of crashes in terms of the severity of injuries to participants has been a preoccupation since as early as 
+
+@Kim1995personal
+@Savolainen2011statistical
+
+Reviews:
+
+
+@Shamsunnahar2013evaluating review discrete outcome frameworks.
+
 Methods:
 
-@Iranitalab2017comparison; @Khan2015exploring; @Chang2006analysis: machine learning
+@Iranitalab2017comparison; @Khan2015exploring; @Chang2006analysis; @Effati2015geospatial: machine learning
 @Quddus2010road: ordinal models
 @Kadilar2016effect: conditional logistic regression
-@Mooradian2013analysis: partial proportional odds models
+@Mooradian2013analysis; @Sasidharan2014partial: partial proportional odds models
 @Ma2008multivariate: counts
-
+@Patil2012analysis: nested logit
+@Aziz2013exploring: random parameter logit models
+@Haleem2013effect: mixed logit
+@Wang2015copula: copula
 
 Interplay between participants:
 
 @Chiou2013modeling
 
 @Lee2014analysis consider effect on crash severity of interactions between different types of vehicles. This they do by subsetting the dataset and estimating independent models for each subset of data. Since they consider three types of vehicles, namely cars (C), light trucks (L), and heavy trucks (H), they work with nine datasets, for each type of interactions (i.e., C-C, C-L, C-H, and so on). 
+@Tarrao2014modeling
+
+@Mannering2016unobserved
 
 @Li2017interplay
 
-Methods
+@Salon2018determinants
+
+@Chen2019investigation
+
+@Wu2014mixed two-vehicle crashes do not really consider the interactions.
+
+Crash severity is often modelled using ordinal models for categorical data (for a review of this kind of analysis, see [@Savolainen2011statistical]). Models of crash severity often include variables in the following categories (see [@Montella2013crash]):
+
+Category | Examples
+-|-
+Person-related | Attributes of participants in the crash, e.g., injury status, age, gender, licensing status, professional driver status 
+Traffic unit-related | Attributes of the traffic unit, e.g., type of traffic unit (car, motorcycle, etc.), maneouver, etc.
+Crash-related | Attributes of the crash, e.g., location, weather conditions, light conditions, number of parties, etc.
+Road-related | Attributes of the road, e.g., surface condition, grade, geometry, etc.
+
+Many models use a latent-variable approach, whereby the severity of the crash (observed) is linked to an underlying latent variable that is a function of the variables:
+$$
+y_{ik}^*=\sum_{l=1}\beta_lp_{ikl} + \sum_{m=1}\gamma_mc_{km} + \epsilon_{ik}
+$$
+
+The left-hand side of the expression above ($y_{ik}^*$) is a latent (unobservable) variable that is associated with the severity of crash $k$ ($k=1,\cdots,K$) for participant $i$ ($i = 1,\cdots,n$). The right-hand side of the expression is split in three parts. The first part collects $l=1,\cdots,L$ individual attributes $p$ for participant $i$ in crash $k$; these could relate to the person (e.g., age and gender) or be individual attributes of the traffic unit (e.g., maneuver or vehicle type). The second part collects $m=1,\cdots,M$ attributes $c$ related to the crash $k$, including crash-related and road-related data. The last part is a random term specific to participant $i$ in crash $k$.
+
+The latent variable is not observed directly, but it is possible to posit a probabilistic relationship with the outcome $y_{ik}$ (the severity of crash $k$ for participant $i$). Depending on the characteristics of the data and the assumptions made about the random component of the latent function different models can be obtained. For example, if crash severity is coded as a binary variable (e.g., non-fatal/fatal), we can relate the latent variable to the outcome as follows:
+$$
+y_{ik} = 
+\begin{cases}
+\text{fatal} & \text{if } y_{ik}^*>0\\
+\text{non-fatal} & \text{if } y_{ik}^*\leq0
+\end{cases}
+$$
+
+Due to the stochastic nature of the latent function, the outcome of the crash is not fully determined. However, we can make the following probability statement:
+$$
+P(y_i = \text{fatal}) = P(y_i^* > 0)
+$$
+In other words, the probability of a fatal accident equals the probability that the latent variable is greater than zero. This implies [see @Maddala1986limited, p. 22]:
+$$
+\begin{array}{rl}\
+P(y_i = \text{fatal}) &= P(\sum_{l=1}\beta_lp_{ikl} + \sum_{m=1}\gamma_mc_{km} + \epsilon_{ik} > 0)\\ 
+&=P(\epsilon_{ik} > -\sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km})
+\end{array}
+$$
+
+It the random terms $\epsilon_i$ are assumed to follow the logistic distribution, the the binary logit model is obtained; if they are assumed to follow the normal distribution, the binary probit model is obtained.
+
+Other times, the outcome is recorded using more categories, for example property damage only(PDO)/injury/fatality. A similar approach can be adopted, with a latent variable that relates to the outcome as follows:
+$$
+y_i = 
+\begin{cases}
+\text{fatality} & \text{if } y_i^*> k_2\\
+\text{injury} & \text{if } k_1< y_i^*<k_2\\
+\text{property damage only} & \text{if } y_i^*<k_1
+\end{cases}
+$$
+where $k_1$ and $k_2$ are estimable thresholds. In this case, the associated probability statements are as follows:
+$$
+\begin{array}{rl}\
+P(y_{ik} = \text{property damage only}) &= 1 - P(y_{ik} = \text{injury}) - P(y_{ik} = \text{fatality})\\ 
+P(y_{ik} = \text{injury}) &= P(k_1 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} < \epsilon_{ik} < k_2 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} )\\
+P(y_{ik} = \text{fatality}) &= P(\epsilon_{ik} < k_1 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} )
+\end{array}
+$$
+
+If the random terms are assumed to follow the logistic distribution, the ordered logit model is obtained; if the normal distribution, then the ordered probit model. Estimation methods for these models are very well-established [e.g., @Maddala1986limited; @Train2009discrete]
+
+There are numerous variations of the basic modelling framework above, including hierarchical models, bivariate models, multinomial models, and Bayesian models, among others [see @Savolainen2011statistical for a review of methods].
+
+
+
+Methods {#sec:methods}
 ===================
 
-Words go here.
+## Data considerations
 
-Illustrative application
+Words go here
+
+@Montella2013crash
+
+
+## Model specification
+
+More words go here
+
+Illustrative application {#sec:application}
 ============
 
+## Data for the application
+
 Words go here.
 
-Further considerations
+## Analysis and results
+
+Words go here
+
+Further considerations {#sec:further-considerations}
 ============
 
-Words go here.
+Here I plan to discuss the applicability of the modelling strategy to advanced modelling techniques (partial proportional odds, heterogeneity, hierarchical models, etc.)
 
-Concluding remarks
+Concluding remarks {#sec:concluding-remarks}
 ============
 
 Words go here.
