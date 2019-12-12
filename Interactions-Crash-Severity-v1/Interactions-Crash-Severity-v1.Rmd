@@ -1,0 +1,96 @@
+---
+title: Modelling participant interactions in crash severity analysis
+author:
+  - name: Author 1
+    email: a1@example.com
+    affiliation: Some University
+    footnote: Corresponding Author
+  - name: Author 2
+    email: a2@example.com
+    affiliation: Some Institute of Technology
+address:
+  - code: Some University
+    address: Department, Street, City, State, Zip
+  - code: Some Institute of Technology
+    address: Department, Street, City, State, Zip
+abstract: |
+  Road safety continues to impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road safety have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence an outcome where there are no injuries, or injuries, or fatalities. The objective of this paper is to describe an approach to model the interactions between participants in a crash, in the context of crashes involving two parties. Using data from Canada's National Collision Database we demonstrate the approach. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. The results suggest that there are important interactions between the various descriptors of the participants in the crash. More generally, the example shows how modelling the interactions between participants explicitly leads to richer insights into the covariates of crash severity, in addition to better model fits. The approach described in this paper is intuitive, simple to implement, and can be adapted to advanced modelling methods with ease.
+
+journal: "Some Journal"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+#linenumbers: true
+numbersections: true
+csl: elsevier-harvard.csl
+output: rticles::elsevier_article
+---
+
+<!-- 
+_Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author-schemas/latex-instructions#elsarticle](http://www.elsevier.com/author-schemas/latex-instructions#elsarticle)_
+
+This paper is an R markdown document that includes self-contained, reproducible analysis. To reproduce the paper the following files are needed:
+
+1. Interactions-Crash-Severity-v1.Rmd (this R markdown document)
+
+2. `paired_-_collisions_2017.RData`. For reference: this data file was created using R notebook `00-Data-Preprocessing.Rmd`. The initial analysis was done in R notebook `01-Data-Analysis.Rmd. Neither of these two notebooks are needed for this document. 
+
+3. For compiling into a pdf in the style of an Elsevier document: elsarticle.cls, elsevier-harvard.csl, elsevier-harvard-without-titles.csl, elsevier-vancouver.csl, elsevier-without-titles.cls, elsevier-with-titles.csl, elsevier-with-titles-alphabetical.csl, mybibfile.bib
+-->
+
+
+Introduction
+==========================
+
+Road safety continues to be a concern world-wide. According to a recent report from the World Health Organization [-@WHO2019global], road accidents are the 8th leading cause of death for all ages, and the number one cause of death for children and young people between the ages of 5 to 29. Of all leading causes of death, road accidents are the only non-external cause, unrelated to disease, disorder, or infection. Road accidents impose a heavy burden on individuals and society as a whole. Gobally, there has been an increasing trend in number of vehicles and road accident-related deaths, even if the rate of death per 100,000 population and 100,000 vehicles have both fallen [@WHO2019global, Figs. 1 and 2]. These gains, although they are to be celebrated, cannot distract from the crippling economic cost of premature death [e.g., @Symons2019reduced; @Wijnen2019analysis], not to mention the long-term consequences for survivors, measured in sometimes crushing emotional and physical pain [e.g., @Merlin2007stress; @Devlin2019road; @Pelissier2019medical]. 
+
+As the statistics suggest, the burden of road accidents is also not borne evenly. There are important disparities at the international level, where the odds of death due to a road crash are three times higher in low-income countries compared to high-income countries; in fact, no reductions in road accident-related fatalities were appreciated in low-income countries between 2013 and 2016 [@WHO2019global]. In the case of high-income countries, where substantial gains in road safety have been observed for years, said gains have been unevenly distributed; thus, while fatal crashes involving older adults in the United States and Great Britain declined between 1997 and 2010 (despite an increase in the number of older people), the trend remained stable or increased slightly in Australia in roughly the same period [@Thompson2018trends]. There are also systematic differences in the impact of road accidents. For example, in a study in the United States, Obeng [-@Obeng2011gender] reported that the impact of covariates of crash severity varied in magnitude by gender, and in some cases were not even the same. More recently, Regev et al. [-@Regev2018crash] used adjusted crash risk to find that the risk of crashes in Great Britain peaked for people 21 to 29 years of age; on the other hand, the risk of fatal injuries for older drivers was constant, irrespective of the seriousness of the crash - which highlights the perils of accidents at older ages. Other studies have concentrated on the consequences of road accidents on the young [e.g., @Peek-Asa2010teenage], the old [e.g., @Rakotonirainy2012older], as well as pedestrians and cyclists [e.g., @Hanson2013severity; @McArthur2014spatial].   
+
+Given the relevance and cost of the matter, as well as the important variations of the impacts among different population segments, numerous efforts efforts exist to better understand the factors that affect road safety - including the probable consequences of the crash. Consequently, a stream of research in the analysis of road accidents is concerned with the severity of crashes. In particular, multivariate analysis of crash severity is a useful way to clarify the way various factors can affect the outcome of an incident, to discriminate between various levels of injury, from no injury (i.e., property damage only), to different degrees of injury up to and including fatality. This is an active area of research [@Savolainen2011statistical], and one where methodological developments have aimed at improving the reliability, accuracy, and precision of models. 
+
+This paper aspires to contribute to the literature on crash severity by describing an approach to model the interactions between participants in a crash, in the context of incidents involving two parties. The importance of these interactions has been recognized in the existing literature [e.g., @Chiou2013modeling; @Lee2014analysis; @Li2017interplay], and in this paper we present a systematic approach to model the way participants in a crash interact to influence the severity of the accident for each party. By way of application, we demonstrate the approach through an empirical analysis of data drawn from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. The results suggest that there are important interactions between the various descriptors of the participants in the crash. More generally, the example shows how modelling the interactions between participants explicitly leads to richer insights into the covariates of crash severity, in addition to better model fits. The approach described in this paper is intuitive, simple to implement, and can be adapted to advanced modelling methods with ease.
+
+The rest of this paper is structure as follows. In Section \ref{sec:review-of-methods} we present a concise review of the methods used to analyze crash severity, with a particular focus on techniques that consider the interactions between participants in a crash.
+
+
+Methodological approaches in crash severity analysis {#sec:review-of-methods}
+============
+
+Methods:
+
+@Iranitalab2017comparison; @Khan2015exploring; @Chang2006analysis: machine learning
+@Quddus2010road: ordinal models
+@Kadilar2016effect: conditional logistic regression
+@Mooradian2013analysis: partial proportional odds models
+@Ma2008multivariate: counts
+
+
+Interplay between participants:
+
+@Chiou2013modeling
+
+@Lee2014analysis consider effect on crash severity of interactions between different types of vehicles. This they do by subsetting the dataset and estimating independent models for each subset of data. Since they consider three types of vehicles, namely cars (C), light trucks (L), and heavy trucks (H), they work with nine datasets, for each type of interactions (i.e., C-C, C-L, C-H, and so on). 
+
+@Li2017interplay
+
+Methods
+===================
+
+Words go here.
+
+Illustrative application
+============
+
+Words go here.
+
+Further considerations
+============
+
+Words go here.
+
+Concluding remarks
+============
+
+Words go here.
+
+References {#references .unnumbered}
+==========

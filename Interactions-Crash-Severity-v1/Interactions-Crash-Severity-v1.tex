@@ -1,0 +1,384 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{Some Journal} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{booktabs} % book-quality tables
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={Modelling participant interactions in crash severity analysis},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{5}
+% Pandoc toggle for numbering sections (defaults to be off)
+% Pandoc header
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{Modelling participant interactions in crash severity analysis}
+    \author[Some University]{Author 1\corref{c1}}
+   \ead{a1@example.com} 
+   \cortext[c1]{Corresponding Author}
+    \author[Some Institute of Technology]{Author 2}
+   \ead{a2@example.com} 
+  
+      \address[Some University]{Department, Street, City, State, Zip}
+    \address[Some Institute of Technology]{Department, Street, City, State, Zip}
+  
+  \begin{abstract}
+  Road safety continues to impose an important burden on health and the
+  economy. Numerous efforts to understand the factors that affect road
+  safety have been undertaken. One stream of research focus on modelling
+  the severity of crashes. Crash severity research is useful to clarify
+  the way different factors can influence an outcome where there are no
+  injuries, or injuries, or fatalities. The objective of this paper is to
+  describe an approach to model the interactions between participants in a
+  crash, in the context of crashes involving two parties. Using data from
+  Canada's National Collision Database we demonstrate the approach. Three
+  levels of crash severity (no injury/injury/fatality) are analyzed using
+  ordered logit models and covariates for the participants in the crash
+  and the conditions of the crash. The results suggest that there are
+  important interactions between the various descriptors of the
+  participants in the crash. More generally, the example shows how
+  modelling the interactions between participants explicitly leads to
+  richer insights into the covariates of crash severity, in addition to
+  better model fits. The approach described in this paper is intuitive,
+  simple to implement, and can be adapted to advanced modelling methods
+  with ease.
+  \end{abstract}
+  
+ \end{frontmatter}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Road safety continues to be a concern world-wide. According to a recent
+report from the World Health Organization (2019), road accidents are the
+8th leading cause of death for all ages, and the number one cause of
+death for children and young people between the ages of 5 to 29. Of all
+leading causes of death, road accidents are the only non-external cause,
+unrelated to disease, disorder, or infection. Road accidents impose a
+heavy burden on individuals and society as a whole. Gobally, there has
+been an increasing trend in number of vehicles and road accident-related
+deaths, even if the rate of death per 100,000 population and 100,000
+vehicles have both fallen (World Health Organization, 2019, Figs. 1 and
+2). These gains, although they are to be celebrated, cannot distract
+from the crippling economic cost of premature death (e.g., Symons et
+al., 2019; Wijnen et al., 2019), not to mention the long-term
+consequences for survivors, measured in sometimes crushing emotional and
+physical pain (e.g., Merlin et al., 2007; Devlin et al., 2019; Pelissier
+et al., n.d.).
+
+As the statistics suggest, the burden of road accidents is also not
+borne evenly. There are important disparities at the international
+level, where the odds of death due to a road crash are three times
+higher in low-income countries compared to high-income countries; in
+fact, no reductions in road accident-related fatalities were appreciated
+in low-income countries between 2013 and 2016 (World Health
+Organization, 2019). In the case of high-income countries, where
+substantial gains in road safety have been observed for years, said
+gains have been unevenly distributed; thus, while fatal crashes
+involving older adults in the United States and Great Britain declined
+between 1997 and 2010 (despite an increase in the number of older
+people), the trend remained stable or increased slightly in Australia in
+roughly the same period (Thompson et al., 2018). There are also
+systematic differences in the impact of road accidents. For example, in
+a study in the United States, Obeng (2011) reported that the impact of
+covariates of crash severity varied in magnitude by gender, and in some
+cases were not even the same. More recently, Regev et al.~(2018) used
+adjusted crash risk to find that the risk of crashes in Great Britain
+peaked for people 21 to 29 years of age; on the other hand, the risk of
+fatal injuries for older drivers was constant, irrespective of the
+seriousness of the crash - which highlights the perils of accidents at
+older ages. Other studies have concentrated on the consequences of road
+accidents on the young (e.g., Peek-Asa et al., 2010), the old (e.g.,
+Rakotonirainy et al., 2012), as well as pedestrians and cyclists (e.g.,
+Hanson et al., 2013; McArthur et al., 2014).
+
+Given the relevance and cost of the matter, as well as the important
+variations of the impacts among different population segments, numerous
+efforts efforts exist to better understand the factors that affect road
+safety - including the probable consequences of the crash. Consequently,
+a stream of research in the analysis of road accidents is concerned with
+the severity of crashes. In particular, multivariate analysis of crash
+severity is a useful way to clarify the way various factors can affect
+the outcome of an incident, to discriminate between various levels of
+injury, from no injury (i.e., property damage only), to different
+degrees of injury up to and including fatality. This is an active area
+of research (Savolainen et al., 2011), and one where methodological
+developments have aimed at improving the reliability, accuracy, and
+precision of models.
+
+This paper aspires to contribute to the literature on crash severity by
+describing an approach to model the interactions between participants in
+a crash, in the context of incidents involving two parties. The
+importance of these interactions has been recognized in the existing
+literature (e.g., Chiou et al., 2013; Lee and Li, 2014; Li et al.,
+2017), and in this paper we present a systematic approach to model the
+way participants in a crash interact to influence the severity of the
+accident for each party. By way of application, we demonstrate the
+approach through an empirical analysis of data drawn from Canada's
+National Collision Database. Three levels of crash severity (no
+injury/injury/fatality) are analyzed using ordered logit models and
+covariates for the participants in the crash and the conditions of the
+crash. The results suggest that there are important interactions between
+the various descriptors of the participants in the crash. More
+generally, the example shows how modelling the interactions between
+participants explicitly leads to richer insights into the covariates of
+crash severity, in addition to better model fits. The approach described
+in this paper is intuitive, simple to implement, and can be adapted to
+advanced modelling methods with ease.
+
+The rest of this paper is structure as follows. In Section
+\ref{sec:review-of-methods} we present a concise review of the methods
+used to analyze crash severity, with a particular focus on techniques
+that consider the interactions between participants in a crash.
+
+\hypertarget{sec:review-of-methods}{%
+\section{Methodological approaches in crash severity
+analysis}\label{sec:review-of-methods}}
+
+Methods:
+
+Iranitalab and Khattak (2017); Khan et al. (2015); Chang and Wang
+(2006): machine learning Quddus et al. (2010): ordinal models Kadilar
+(2016): conditional logistic regression Mooradian et al. (2013): partial
+proportional odds models Ma et al. (2008): counts
+
+Interplay between participants:
+
+Chiou et al. (2013)
+
+Lee and Li (2014) consider effect on crash severity of interactions
+between different types of vehicles. This they do by subsetting the
+dataset and estimating independent models for each subset of data. Since
+they consider three types of vehicles, namely cars (C), light trucks
+(L), and heavy trucks (H), they work with nine datasets, for each type
+of interactions (i.e., C-C, C-L, C-H, and so on).
+
+Li et al. (2017)
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+Words go here.
+
+\hypertarget{illustrative-application}{%
+\section{Illustrative application}\label{illustrative-application}}
+
+Words go here.
+
+\hypertarget{further-considerations}{%
+\section{Further considerations}\label{further-considerations}}
+
+Words go here.
+
+\hypertarget{concluding-remarks}{%
+\section{Concluding remarks}\label{concluding-remarks}}
+
+Words go here.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Chang2006analysis}{}%
+Chang, L.Y., Wang, H.W., 2006. Analysis of traffic injury severity: An
+application of non-parametric classification tree techniques. Accident
+Analysis and Prevention 38, 1019--1027.
+doi:\href{https://doi.org/10.1016/j.aap.2006.04.009}{10.1016/j.aap.2006.04.009}
+
+\leavevmode\hypertarget{ref-Chiou2013modeling}{}%
+Chiou, Y.C., Hwang, C.C., Chang, C.C., Fu, C., 2013. Modeling
+two-vehicle crash severity by a bivariate generalized ordered probit
+approach. Accident Analysis and Prevention 51, 175--184.
+doi:\href{https://doi.org/10.1016/j.aap.2012.11.008}{10.1016/j.aap.2012.11.008}
+
+\leavevmode\hypertarget{ref-Devlin2019road}{}%
+Devlin, A., Beck, B., Simpson, P.M., Ekegren, C.L., Giummarra, M.J.,
+Edwards, E.R., Cameron, P.A., Liew, S., Oppy, A., Richardson, M., Page,
+R., Gabbe, B.J., 2019. The road to recovery for vulnerable road users
+hospitalised for orthopaedic injury following an on-road crash. Accident
+Analysis and Prevention 132, 10.
+doi:\href{https://doi.org/10.1016/j.aap.2019.105279}{10.1016/j.aap.2019.105279}
+
+\leavevmode\hypertarget{ref-Hanson2013severity}{}%
+Hanson, C.S., Noland, R.B., Brown, C., 2013. The severity of pedestrian
+crashes: An analysis using google street view imagery. Journal of
+Transport Geography 33, 42--53.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2013.09.002}{10.1016/j.jtrangeo.2013.09.002}
+
+\leavevmode\hypertarget{ref-Iranitalab2017comparison}{}%
+Iranitalab, A., Khattak, A., 2017. Comparison of four statistical and
+machine learning methods for crash severity prediction. Accident
+Analysis and Prevention 108, 27--36.
+doi:\href{https://doi.org/10.1016/j.aap.2017.08.008}{10.1016/j.aap.2017.08.008}
+
+\leavevmode\hypertarget{ref-Kadilar2016effect}{}%
+Kadilar, G.O., 2016. Effect of driver, roadway, collision, and vehicle
+characteristics on crash severity: A conditional logistic regression
+approach. International Journal of Injury Control and Safety Promotion
+23, 135--144.
+doi:\href{https://doi.org/10.1080/17457300.2014.942323}{10.1080/17457300.2014.942323}
+
+\leavevmode\hypertarget{ref-Khan2015exploring}{}%
+Khan, G., Bill, A.R., Noyce, D.A., 2015. Exploring the feasibility of
+classification trees versus ordinal discrete choice models for analyzing
+crash severity. Transportation Research Part C-Emerging Technologies 50,
+86--96.
+doi:\href{https://doi.org/10.1016/j.trc.2014.10.003}{10.1016/j.trc.2014.10.003}
+
+\leavevmode\hypertarget{ref-Lee2014analysis}{}%
+Lee, C., Li, X.C., 2014. Analysis of injury severity of drivers involved
+in single- and two-vehicle crashes on highways in ontario. Accident
+Analysis and Prevention 71, 286--295.
+doi:\href{https://doi.org/10.1016/j.aap.2014.06.008}{10.1016/j.aap.2014.06.008}
+
+\leavevmode\hypertarget{ref-Li2017interplay}{}%
+Li, L., Hasnine, M.S., Habib, K.M.N., Persaud, B., Shalaby, A., 2017.
+Investigating the interplay between the attributes of at-fault and
+not-at-fault drivers and the associated impacts on crash injury
+occurrence and severity level. Journal of Transportation Safety \&
+Security 9, 439--456.
+doi:\href{https://doi.org/10.1080/19439962.2016.1237602}{10.1080/19439962.2016.1237602}
+
+\leavevmode\hypertarget{ref-Ma2008multivariate}{}%
+Ma, J.M., Kockelman, K.M., Damien, P., 2008. A multivariate
+poisson-lognormal regression model for prediction of crash counts by
+severity, using bayesian methods. Accident Analysis and Prevention 40,
+964--975.
+doi:\href{https://doi.org/10.1016/j.aap.2007.11.002}{10.1016/j.aap.2007.11.002}
+
+\leavevmode\hypertarget{ref-McArthur2014spatial}{}%
+McArthur, A., Savolainen, P.T., Gates, T.J., 2014. Spatial analysis of
+child pedestrian and bicycle crashes development of safety performance
+function for areas adjacent to schools. Transportation Research Record
+57--63. doi:\href{https://doi.org/10.3141/2465-08}{10.3141/2465-08}
+
+\leavevmode\hypertarget{ref-Merlin2007stress}{}%
+Merlin, E.P.R., Gonzalez-Forteza, C., Lira, L.R., Tapia, J.A.J., 2007.
+Post-traumatic stress disorder in patients with non intentional injuries
+caused by road traffic accidents. Salud Mental 30, 43--48.
+
+\leavevmode\hypertarget{ref-Mooradian2013analysis}{}%
+Mooradian, J., Ivan, J.N., Ravishanker, N., Hu, S., 2013. Analysis of
+driver and passenger crash injury severity using partial proportional
+odds models. Accident Analysis and Prevention 58, 53--58.
+doi:\href{https://doi.org/10.1016/j.aap.2013.04.022}{10.1016/j.aap.2013.04.022}
+
+\leavevmode\hypertarget{ref-Obeng2011gender}{}%
+Obeng, K., 2011. Gender differences in injury severity risks in crashes
+at signalized intersections. Accident Analysis and Prevention 43,
+1521--1531.
+doi:\href{https://doi.org/10.1016/j.aap.2011.03.004}{10.1016/j.aap.2011.03.004}
+
+\leavevmode\hypertarget{ref-Peek-Asa2010teenage}{}%
+Peek-Asa, C., Britton, C., Young, T., Pawlovich, M., Falb, S., 2010.
+Teenage driver crash incidence and factors influencing crash injury by
+rurality. Journal of Safety Research 41, 487--492.
+doi:\href{https://doi.org/10.1016/j.jsr.2010.10.002}{10.1016/j.jsr.2010.10.002}
+
+\leavevmode\hypertarget{ref-Pelissier2019medical}{}%
+Pelissier, C., Fort, E., Fontana, L., Hours, M., n.d. Medical and
+socio-occupational predictive factors of psychological distress 5 years
+after a road accident: A prospective study. Social Psychiatry and
+Psychiatric Epidemiology 13.
+doi:\href{https://doi.org/10.1007/s00127-019-01780-0}{10.1007/s00127-019-01780-0}
+
+\leavevmode\hypertarget{ref-Quddus2010road}{}%
+Quddus, M.A., Wang, C., Ison, S.G., 2010. Road traffic congestion and
+crash severity: Econometric analysis using ordered response models.
+Journal of Transportation Engineering-Asce 136, 424--435.
+doi:\href{https://doi.org/10.1061/(asce)te.1943-5436.0000044}{10.1061/(asce)te.1943-5436.0000044}
+
+\leavevmode\hypertarget{ref-Rakotonirainy2012older}{}%
+Rakotonirainy, A., Steinhardt, D., Delhomme, P., Darvell, M., Schramm,
+A., 2012. Older drivers' crashes in queensland, australia. Accident
+Analysis and Prevention 48, 423--429.
+doi:\href{https://doi.org/10.1016/j.aap.2012.02.016}{10.1016/j.aap.2012.02.016}
+
+\leavevmode\hypertarget{ref-Regev2018crash}{}%
+Regev, S., Rolison, J.J., Moutari, S., 2018. Crash risk by driver age,
+gender, and time of day using a new exposure methodology. Journal of
+Safety Research 66, 131--140.
+doi:\href{https://doi.org/10.1016/j.jsr.2018.07.002}{10.1016/j.jsr.2018.07.002}
+
+\leavevmode\hypertarget{ref-Savolainen2011statistical}{}%
+Savolainen, P.T., Mannering, F., Lord, D., Quddus, M.A., 2011. The
+statistical analysis of highway crash-injury severities: A review and
+assessment of methodological alternatives. Accident Analysis and
+Prevention 43, 1666--1676.
+doi:\href{https://doi.org/10.1016/j.aap.2011.03.025}{10.1016/j.aap.2011.03.025}
+
+\leavevmode\hypertarget{ref-Symons2019reduced}{}%
+Symons, J., Howard, E., Sweeny, K., Kumnick, M., Sheehan, P., 2019.
+Reduced road traffic injuries for young people: A preliminary investment
+analysis. Journal of Adolescent Health 65, S34--S43.
+doi:\href{https://doi.org/10.1016/j.jadohealth.2019.01.009}{10.1016/j.jadohealth.2019.01.009}
+
+\leavevmode\hypertarget{ref-Thompson2018trends}{}%
+Thompson, J.P., Baldock, M.R.J., Dutschke, J.K., 2018. Trends in the
+crash involvement of older drivers in australia. Accident Analysis and
+Prevention 117, 262--269.
+doi:\href{https://doi.org/10.1016/j.aap.2018.04.027}{10.1016/j.aap.2018.04.027}
+
+\leavevmode\hypertarget{ref-Wijnen2019analysis}{}%
+Wijnen, W., Weijermars, W., Schoeters, A., Berghe, W. van den, Bauer,
+R., Carnis, L., Elvik, R., Martensen, H., 2019. An analysis of official
+road crash cost estimates in european countries. Safety Science 113,
+318--327.
+doi:\href{https://doi.org/10.1016/j.ssci.2018.12.004}{10.1016/j.ssci.2018.12.004}
+
+\leavevmode\hypertarget{ref-WHO2019global}{}%
+World Health Organization, 2019. Global status report on road safety
+2018 (2018). Geneva.
+
+
+\end{document}
+
+
