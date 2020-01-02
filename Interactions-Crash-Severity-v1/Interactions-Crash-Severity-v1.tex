@@ -43,7 +43,7 @@
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
-            pdftitle={Modelling participant interactions in crash severity analysis},
+            pdftitle={An assessment of strategies to model opponent effects in crash severity analysis},
             colorlinks=false,
             urlcolor=blue,
             linkcolor=magenta,
@@ -53,13 +53,30 @@
 \setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
 % Pandoc header
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+\usepackage[margin=1in]{geometry}
 
 
 
 \begin{document}
 \begin{frontmatter}
 
-  \title{Modelling participant interactions in crash severity analysis}
+  \title{An assessment of strategies to model opponent effects in crash severity
+analysis}
     \author[Some University]{Author 1\corref{c1}}
    \ead{a1@example.com} 
    \cortext[c1]{Corresponding Author}
@@ -70,25 +87,26 @@
     \address[Some Institute of Technology]{Department, Street, City, State, Zip}
   
   \begin{abstract}
-  Road safety continues to impose an important burden on health and the
-  economy. Numerous efforts to understand the factors that affect road
-  safety have been undertaken. One stream of research focus on modelling
-  the severity of crashes. Crash severity research is useful to clarify
-  the way different factors can influence an outcome where there are no
-  injuries, or injuries, or fatalities. The objective of this paper is to
-  describe an approach to model the interactions between participants in a
-  crash, in the context of crashes involving two parties. Using data from
-  Canada's National Collision Database we demonstrate the approach. Three
+  Road accidents impose an important burden on health and the economy.
+  Numerous efforts to understand the factors that affect road collisions
+  have been undertaken. One stream of research focus on modelling the
+  severity of crashes. Crash severity research is useful to clarify the
+  way different factors can influence the outcome of the event. The
+  objective of this paper is to assess different strategies to model the
+  interactions between participants in a crash, in the context of crashes
+  involving two parties. Towards this objective, a series of models are
+  estimated using data from Canada's National Collision Database. Three
   levels of crash severity (no injury/injury/fatality) are analyzed using
   ordered logit models and covariates for the participants in the crash
-  and the conditions of the crash. The results suggest that there are
-  important interactions between the various descriptors of the
-  participants in the crash. More generally, the example shows how
-  modelling the interactions between participants explicitly leads to
-  richer insights into the covariates of crash severity, in addition to
-  better model fits. The approach described in this paper is intuitive,
-  simple to implement, and can be adapted to advanced modelling methods
-  with ease.
+  and the conditions of the crash. Modelling strategies include different
+  ways of introducing the covariates (e.g., in a single-level or
+  multi-level form), as well as by subsetting the dataset. The models are
+  assessed using predicted shares and outcomes, and the results highlight
+  the importance of considering opponent effects in crash severity
+  analysis. On the other hand, the study suggests that hierarchical (i.e.,
+  multi-level) specifications and subsetting do not perform necessarily
+  better than a relatively simple single-level model with opponent
+  effects.
   \end{abstract}
   
  \end{frontmatter}
@@ -100,101 +118,165 @@ Road safety continues to be a concern world-wide. According to a recent
 report from the World Health Organization (2019), road accidents are the
 8th leading cause of death for all ages, and the number one cause of
 death for children and young people between the ages of 5 to 29. Of all
-leading causes of death, road accidents are the only non-external cause,
+leading causes of death, road accidents are the only cause of death
 unrelated to disease, disorder, or infection. Road accidents impose a
-heavy burden on individuals and society as a whole. Gobally, there has
-been an increasing trend in number of vehicles and road accident-related
-deaths, even if the rate of death per 100,000 population and 100,000
-vehicles have both fallen (World Health Organization, 2019, Figs. 1 and
-2). These gains, although they are to be celebrated, cannot distract
-from the crippling economic cost of premature death (e.g., Symons et
-al., 2019; Wijnen et al., 2019), not to mention the long-term
-consequences for survivors, measured in sometimes crushing emotional and
-physical pain (e.g., Merlin et al., 2007; Devlin et al., 2019; Pelissier
-et al., n.d.).
+heavy burden on individuals and society as a whole. Gobally, the rate of
+road collision-related deaths per 100,000 population and 100,000
+vehicles have both fallen, even as the number of vehicles has grown
+(World Health Organization, 2019, Figs. 1 and 2). These gains, although
+they are to be celebrated, cannot distract from the crushing economic
+cost of premature death (e.g., Symons et al., 2019; Wijnen et al.,
+2019), not to mention the long-term consequences for survivors, measured
+in sometimes crippling emotional and physical pain (e.g., Merlin et al.,
+2007; Devlin et al., 2019; Pelissier et al., n.d.).
 
-As the statistics suggest, the burden of road accidents is also not
-borne evenly. There are important disparities at the international
-level, where the odds of death due to a road crash are three times
-higher in low-income countries compared to high-income countries; in
-fact, no reductions in road accident-related fatalities were appreciated
-in low-income countries between 2013 and 2016 (World Health
-Organization, 2019). In the case of high-income countries, where
+Evidence from across the world suggests that the burden of road
+accidents is not borne evenly. There are important disparities at the
+international level, where the odds of death due to road crashes are
+three times higher in low-income countries compared to high-income
+countries; in fact, no reductions in road accident-related fatalities
+were appreciated in low-income countries between 2013 and 2016 (World
+Health Organization, 2019). In the case of high-income countries, where
 substantial gains in road safety have been observed for years, said
-gains have been unevenly distributed; thus, while fatal crashes
+gains have also been unevenly distributed; thus, while fatal crashes
 involving older adults in the United States and Great Britain declined
-between 1997 and 2010 (despite an increase in the number of older
-people), the trend remained stable or increased slightly in Australia in
-roughly the same period (Thompson et al., 2018). There are also
-systematic differences in the impact of road accidents. For example, in
-a study in the United States, Obeng (2011) reported that the impact of
-covariates of crash severity varied in magnitude by gender, and in some
-cases were not even the same. More recently, Regev et al.~(2018) used
-adjusted crash risk to find that the risk of crashes in Great Britain
-peaked for people 21 to 29 years of age; on the other hand, the risk of
-fatal injuries for older drivers was constant, irrespective of the
-seriousness of the crash - which highlights the perils of accidents at
-older ages. Other studies have concentrated on the consequences of road
-accidents on the young (e.g., Peek-Asa et al., 2010), the old (e.g.,
-Rakotonirainy et al., 2012), as well as pedestrians and cyclists (e.g.,
-Hanson et al., 2013; McArthur et al., 2014).
+between 1997 and 2010 (despite the graying of the population), the trend
+remained stable or increased slightly in Australia in roughly the same
+period (Thompson et al., 2018). There are also systematic differences in
+the impact of road accidents. For example, in a study in the United
+States, Obeng (2011) reported that the impact of covariates of crash
+severity varied substantially in magnitude by gender. More recently,
+Regev et al.~(2018) used adjusted crash risk to find that the risk of
+crashes in Great Britain peaked for people 21 to 29 years of age; on the
+other hand, the risk of fatal injuries for older drivers was constant,
+irrespective of the seriousness of the crash - which highlights the
+perils of accidents at older ages. Other studies have concentrated on
+the consequences of road accidents for the young (e.g., Peek-Asa et al.,
+2010), the old (e.g., Rakotonirainy et al., 2012), as well as
+pedestrians and cyclists (e.g., Hanson et al., 2013; McArthur et al.,
+2014).
 
-Given the relevance and cost of the matter, as well as the important
+Given the relevance and cost of this matter, as well as the important
 variations of the impacts among different population segments, numerous
-efforts efforts exist to better understand the factors that affect road
-safety - including the probable consequences of the crash. Consequently,
-a stream of research in the analysis of road accidents is concerned with
-the severity of crashes. In particular, multivariate analysis of crash
-severity is a useful way to clarify the way various factors can affect
-the outcome of an incident, to discriminate between various levels of
-injury, from no injury (i.e., property damage only), to different
-degrees of injury up to and including fatality. This is an active area
-of research (Savolainen et al., 2011), and one where methodological
-developments have aimed at improving the reliability, accuracy, and
-precision of models.
+efforts efforts have been conducted to better understand the factors
+that affect road safety - including the probable consequences of
+crashes. Consequently, a stream of research in the analysis of road
+accidents is concerned with the severity of crashes. In particular,
+multivariate analysis of crash severity is a useful way to clarify the
+way various factors can affect the outcome of an incident, to
+discriminate between various levels of injury, from no injury (i.e.,
+property damage only), to different degrees of injury up to and
+including fatality. This is an active area of research (e.g., Savolainen
+et al., 2011), and one where methodological developments have aimed at
+improving the reliability, accuracy, and precision of models.
 
 This paper aspires to contribute to the literature on crash severity by
-describing an approach to model the interactions between participants in
-a crash, in the context of incidents involving two parties. The
-importance of these interactions has been recognized in the existing
-literature (e.g., Chiou et al., 2013; Lee and Li, 2014; Li et al.,
-2017), and in this paper we present a systematic approach to model the
-way participants in a crash interact to influence the severity of the
-accident for each party. By way of application, we demonstrate the
-approach through an empirical analysis of data drawn from Canada's
-National Collision Database. Three levels of crash severity (no
-injury/injury/fatality) are analyzed using ordered logit models and
-covariates for the participants in the crash and the conditions of the
-crash. The results suggest that there are important interactions between
-the various descriptors of the participants in the crash. More
-generally, the example shows how modelling the interactions between
-participants explicitly leads to richer insights into the covariates of
-crash severity, in addition to better model fits. The approach described
-in this paper is intuitive, simple to implement, and can be adapted to
-advanced modelling methods with ease.
+assessing different modelling strategies useful to incorporate opponent
+effects in crash analysis, in the context of incidents involving two
+parties. The importance of these interactions has been recognized in the
+existing literature (e.g., Chiou et al., 2013; Lee and Li, 2014; Li et
+al., 2017; Tarrao et al., 2014), and a number of different modelling
+strategies have been proposed. In this paper we present a systematic
+assessment of several relevant modelling strategies, ranging from the
+way variables are defined in single-level models, in multi-level models
+(i.e., hierarchical models), as well as using data subsetting
+approaches. For the assessment we use data from Canada's National
+Collision Database, a database that collects all police-reported
+collisions in the country. Using the most recent version of the dataset
+(2017), three levels of crash severity (no injury/injury/fatality) are
+analyzed using ordered logit models and covariates for the participants
+in the crash and the conditions of the crash. For model assessment, we
+conduct an in-sample prediction exercise using the estimation sample
+(i.e., \emph{nowcasting}), and also an out-of-sample prediction exercise
+using the dataset corresponding to 2016 (i.e., \emph{backcasting}). The
+models are assessed using predicted shares and predicted individual
+outcomes using an extensive array of verification statistics. The
+results highlight the importance of considering opponent effects in
+crash severity analysis to improve the goodness-of-fit and predictive
+performance o. On the other hand, the study suggests that hierarchical
+variable specifications and subsetting do not perform necessarily better
+than a relatively simple single-level model with opponent effects.
 
-The rest of this paper is structure as follows. In Section
+The rest of this paper is structured as follows. In Section
 \ref{sec:review-of-methods} we present a concise review of the methods
 used to analyze crash severity, with a particular focus on techniques
 that consider the interactions between participants in a crash. Section
-\ref{sec:methods} describes the data conditions, preprocessing, and
-approach for incorporating participant interactions in models of crash
-severity. An illustrative application of the modelling strategy
-described in this paper appears in \ref{sec:application}. We then
-present some additional thoughts about the applicability of this
-approach in Section \ref{sec:further-considerations} before offering
-some concluding remarks in Section \ref{sec:concluding-remarks}.
+\ref{sec:methods} describes the data requirements, data preprocessing,
+and the modelling strategy. Model estimation is presented in
+\ref{sec:application} and the assessment of models is in Section
+\ref{sec:assessment}. We then present some additional thoughts about the
+applicability of this approach in Section
+\ref{sec:further-considerations} before offering some concluding remarks
+in Section \ref{sec:concluding-remarks}.
 
 \hypertarget{sec:review-of-methods}{%
 \section{Methodological approaches in crash severity
 analysis}\label{sec:review-of-methods}}
 
-Methods:
+Modelling the outcomes of crashes in terms of the severity of injuries
+to participants has been a preoccupation of transportation researchers,
+planners, auto insurance companies, governments and the public for
+decades. One of the earliests studies to investigate the severity of
+injuries conditional on an accident having occurred was by White and
+Clayton (1972). Kim et al.~(1995) later stated that the ``linkages
+between severity of injury and driver characteristics and behaviors have
+not been thoroughly investigated'' (p.~470). Nowadays, there is a
+burgeoning literature on this subject, including methodological
+developments, case studies, and more niche research with a focus on
+particular situations (e.g., crashes at intersections, Mussone et al.,
+2017; crashes in rural roads, Gong and Fan, 2017) or special populations
+(e.g., crashes involving motorcyclists or active travelers; see Shaheed
+et al., 2013; Salon and McIntyre, 2018).
 
-Iranitalab and Khattak (2017); Khan et al. (2015); Chang and Wang
-(2006): machine learning Quddus et al. (2010): ordinal models Kadilar
-(2016): conditional logistic regression Mooradian et al. (2013): partial
-proportional odds models Ma et al. (2008): counts
+Crash severity is often modelled using models for discrete outcomes,
+including classification techniques from machine learning (e.g.,
+Iranitalab and Khattak, 2017; Chang and Wang, 2006; Effati et al., 2015;
+Khan et al., 2015), Poisson models for counts (e.g., Ma et al., 2008),
+unordered logit/probit models {[}{]}, as well as ordered logit/probit
+models (e.g., Rifaat and Chin, 2007), with numerous variants, such as
+random parameters/mixed logit (e.g., Aziz et al., 2013; Haleem and Gan,
+2013), partial proportional odds models (e.g., Mooradian et al., 2013;
+Sasidharan and Menendez, 2014), and the use of copulas (e.g., Wang et
+al., 2015). Recent reviews of methods include Savolainen et al.~(2011)
+and Shamsunnahar and Eluru (2013). Shamsunnahar and Eluru (2013) in
+particular conducted an extensive comparison of models for discrete
+outcomes and found that while the difference between the performance of
+unordered models and ordered models was so small as to make not
+difference, ordered models are usually more parsimonious since only one
+latent functions needs to be estimated for all outcomes, as opposed to
+one for each outcome in unordered modelling mechanisms.
+
+Irrespective of the modelling framework employed, models of crash
+severity often include variables in several categories, as shown with
+examples in Table \ref{tab:table-variable-categories} (also see Montella
+et al., 2013). Many crash databases (but not by any means all) also
+account for the multievent nature of many crashes. In this way, there
+are crashes that involve a single traffic unit (e.g., Kim et al., 2013;
+Gong and Fan, 2017), others that involve two traffic units (e.g., Tarrao
+et al., 2014; Wang et al., 2015), and more rarely there are
+multi-traffic unit crashes (e.g., Wu et al., 2014; Bogue et al., 2017).
+Likewise, each traffic unit can possibly involve more than one person
+(e.g., driver and passengers). Thus, depending on the incident, each
+record in a crash database may include unique identifier for the crash,
+as well as identifiers for the traffic units (or identifiers for dummy
+objects such as a light pole that was hit by a vehicle), and the people
+involved in the crash.
+
+\begin{table}
+
+\caption{\label{tab:table-variable-categories}\label{tab:table-variable-categories}Categories of variables used in the analysis of crash severity with examples}
+\centering
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{22em}}
+\toprule
+Category & Examples\\
+\midrule
+Person-related & Attributes of participants in the crash, e.g., injury status, age, gender, licensing status, professional driver status\\
+Traffic unit-related & Attributes of the traffic unit, e.g., type of traffic unit (car, motorcycle, etc.), maneouver, etc.\\
+Crash-related & Attributes of the crash, e.g., location, weather conditions, light conditions, number of parties, etc.\\
+Road-related & Attributes of the road, e.g., surface condition, grade, geometry, etc.\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Interplay between participants:
 
@@ -205,9 +287,98 @@ between different types of vehicles. This they do by subsetting the
 dataset and estimating independent models for each subset of data. Since
 they consider three types of vehicles, namely cars (C), light trucks
 (L), and heavy trucks (H), they work with nine datasets, for each type
-of interactions (i.e., C-C, C-L, C-H, and so on).
+of interactions (i.e., C-C, C-L, C-H, and so on). Tarrao et al. (2014)
+
+Mannering et al. (2016)
 
 Li et al. (2017)
+
+Salon and McIntyre (2018)
+
+Chen et al. (2019)
+
+Wu et al. (2014) two-vehicle crashes do not really consider the
+interactions.
+
+Many models use a latent-variable approach, whereby the severity of the
+crash (observed) is linked to an underlying latent variable that is a
+function of the variables: \[
+y_{ik}^*=\sum_{l=1}\beta_lp_{ikl} + \sum_{m=1}\gamma_mc_{km} + \epsilon_{ik}
+\]
+
+The left-hand side of the expression above (\(y_{ik}^*\)) is a latent
+(unobservable) variable that is associated with the severity of crash
+\(k\) (\(k=1,\cdots,K\)) for participant \(i\) (\(i = 1,\cdots,n\)). The
+right-hand side of the expression is split in three parts. The first
+part collects \(l=1,\cdots,L\) individual attributes \(p\) for
+participant \(i\) in crash \(k\); these could relate to the person
+(e.g., age and gender) or be individual attributes of the traffic unit
+(e.g., maneuver or vehicle type). The second part collects
+\(m=1,\cdots,M\) attributes \(c\) related to the crash \(k\), including
+crash-related and road-related data. The last part is a random term
+specific to participant \(i\) in crash \(k\).
+
+The latent variable is not observed directly, but it is possible to
+posit a probabilistic relationship with the outcome \(y_{ik}\) (the
+severity of crash \(k\) for participant \(i\)). Depending on the
+characteristics of the data and the assumptions made about the random
+component of the latent function different models can be obtained. For
+example, if crash severity is coded as a binary variable (e.g.,
+non-fatal/fatal), we can relate the latent variable to the outcome as
+follows: \[
+y_{ik} = 
+\begin{cases}
+\text{fatal} & \text{if } y_{ik}^*>0\\
+\text{non-fatal} & \text{if } y_{ik}^*\leq0
+\end{cases}
+\]
+
+Due to the stochastic nature of the latent function, the outcome of the
+crash is not fully determined. However, we can make the following
+probability statement: \[
+P(y_i = \text{fatal}) = P(y_i^* > 0)
+\] In other words, the probability of a fatal accident equals the
+probability that the latent variable is greater than zero. This implies
+(see Maddala, 1986, p. 22): \[
+\begin{array}{rl}\
+P(y_i = \text{fatal}) &= P(\sum_{l=1}\beta_lp_{ikl} + \sum_{m=1}\gamma_mc_{km} + \epsilon_{ik} > 0)\\ 
+&=P(\epsilon_{ik} > -\sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km})
+\end{array}
+\]
+
+It the random terms \(\epsilon_i\) are assumed to follow the logistic
+distribution, the the binary logit model is obtained; if they are
+assumed to follow the normal distribution, the binary probit model is
+obtained.
+
+More often, though, the outcome is recorded using more categories, for
+example property damage only (PDO)/injury/fatality. A similar approach
+can be adopted, with a latent variable that relates to the outcome as
+follows: \[
+y_i = 
+\begin{cases}
+\text{fatality} & \text{if } y_i^*> k_2\\
+\text{injury} & \text{if } k_1< y_i^*<k_2\\
+\text{PDO} & \text{if } y_i^*<k_1
+\end{cases}
+\] where \(k_1\) and \(k_2\) are estimable thresholds. In this case, the
+associated probability statements are as follows: \[
+\begin{array}{rcl}\
+P(y_{ik} = \text{PDO}) &=& 1 - P(y_{ik} = \text{injury}) - P(y_{ik} = \text{fatality})\\ 
+P(y_{ik} = \text{injury}) &=& P(k_1 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} < \epsilon_{ik} < k_2 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} )\\
+P(y_{ik} = \text{fatality}) &=& P(\epsilon_{ik} < k_1 - \sum_{l=1}\beta_lp_{ikl} - \sum_{m=1}\gamma_mc_{km} )
+\end{array}
+\]
+
+If the random terms are assumed to follow the logistic distribution, the
+ordered logit model is obtained; if the normal distribution, then the
+ordered probit model. Estimation methods for these models are very
+well-established (e.g., Maddala, 1986; Train, 2009)
+
+There are numerous variations of the basic modelling framework above,
+including hierarchical models, bivariate models, multinomial models, and
+Bayesian models, among others (see Savolainen et al., 2011 for a review
+of methods).
 
 \hypertarget{sec:methods}{%
 \section{Methods}\label{sec:methods}}
@@ -217,23 +388,439 @@ Li et al. (2017)
 
 Words go here
 
+Montella et al. (2013)
+
 \hypertarget{model-specification}{%
 \subsection{Model specification}\label{model-specification}}
 
 More words go here
 
 \hypertarget{sec:application}{%
-\section{Illustrative application}\label{sec:application}}
+\section{Application}\label{sec:application}}
+
+\begin{quote}
+\textbf{Note:} that this paper presents reproducible research. The
+source file is an R Markdown document. All code and data necessary to
+reproduce the analysis are available from the following anonymous Drive
+folder:
+\end{quote}
+
+\begin{quote}
+https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb\_XV
+\end{quote}
+
+\begin{quote}
+The source files, code, and data will be publicly available in a GitHub
+repository upon acceptance of the paper for publication
+\end{quote}
 
 \hypertarget{data-for-the-application}{%
 \subsection{Data for the application}\label{data-for-the-application}}
 
-Words go here.
+To assess the performance of the modelling strategies discussed in
+Section \ref{sec:methods}, we use data from Canada's National Collision
+Database (NCDB). This is database contains all motor vehicle collisions
+on public roads in Canada as reported by a police service. Data are
+collected by provinces and territories, and shared with the federal
+government, where data are combined, tracked, and analyzed for reporting
+of deaths, injuries, and collisions in Canada at the national level. The
+NCDB is provided by Transport Canada, the agency of the federal
+government of Canada in charge of transportation policies and programs,
+under the Open Government License - Canada version 2.0
+{[}https://open.canada.ca/en/open-government-licence-canada{]}.
 
-\hypertarget{analysis-and-results}{%
-\subsection{Analysis and results}\label{analysis-and-results}}
+The NCDB is available from 1999. For the purpose of this paper, we use
+the most recent year available as of this writing (2017). Furthermore,
+for assessment we also use the data corresponding to 2016. Similar to
+databases in other jurisdictions {[}see @{]}, the NCDB contains
+information pertaining to the collision, the traffic unit, and the
+person(s) involved.
+
+\begin{tabular}{ll}
+\toprule
+Variable & Details\\
+\midrule
+Age & Details\\
+\bottomrule
+\multicolumn{2}{l}{\textit{Note: }}\\
+\multicolumn{2}{l}{NCDB available from https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a}\\
+\end{tabular}
+
+\hypertarget{model-estimation}{%
+\subsection{Model estimation}\label{model-estimation}}
 
 Words go here
+
+Model specification. See Table:
+
+\begin{table}[H]
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{llllll}
+\toprule
+Variable & Notes & Model 1 & Model 2 & Model 3 & Model 4\\
+\midrule
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Individual-level variables}}\\
+\hspace{1em}Age & In decades & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Age Squared &  & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Sex & Reference: Female & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Use of Safety Devices & 7 levels; Reference: No Safety Device & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Traffic unit-level variables}}\\
+\hspace{1em}Passenger & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Pedestrian & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Motorcyclist & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Light Truck & Reference: Light Duty Vehicle & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Heavy Vehicle & Reference: Light Duty Vehicle & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Opponent variables)}}\\
+\hspace{1em}Age of Opponent & In decades &  & $\checkmark$ & $\checkmark$ & \\
+\hspace{1em}Age of Opponent Squared &  &  & $\checkmark$ & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Sex of Opponent & Reference: Female &  & $\checkmark$ & $\checkmark$ & \\
+\hspace{1em}Opponent: Light Duty Vehicle & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Opponent: Light Truck & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Opponent: Heavy Vehicle & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Hierarchical traffic unit variables)}}\\
+\hspace{1em}Age:Light Truck Driver &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Light Truck Driver &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Heavy Vehicle Driver &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Heavy Vehicle Driver &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Light Truck Passenger &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Light Truck Passenger &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Heavy Vehicle Passenger &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Heavy Vehicle Passenger &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Pedestrian &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Pedestrian &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Bicyclist &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Bicyclist &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Age:Motorcyclist &  &  &  & $\checkmark$ & \\
+\hspace{1em}Age Squared:Motorcyclist &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Hierarchical opponent variables)}}\\
+\hspace{1em}Age:Age of Opponent &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age:Age of Female Opponent &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Age:Age of Male Opponent Squared &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age:Age of Female Opponent Squared &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Age Squared:Age of Male Opponent &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age Squared:Age of Female Opponent &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Case-level variables)}}\\
+\hspace{1em}Crash Configuration & 19 levels; Reference: Hit a Moving Object & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Road Configuration & 12 levels; Reference: Non-Intersection & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Weather & 9 levels; Reference: Clear and Sunny & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Surface & 11 levels; Reference: Dry & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Road Alignment & 8 levels; Reference: Straight and Level & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Traffic Controls & 19 levels; Reference: Operational Traffic Signals & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Month & 12 levels; Reference: January & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Notice how there are zero cases of user: BYCICLIST - opponent: Heavy
+Vehicle.
+
+Re-estimate model after subsetting by USER Type of person 1. LDxLD:
+
+Summary of models. See Table \ref{tab:model-summary}.
+
+\begin{table}
+
+\caption{\label{tab:model-summary}\label{tab:model-summary}Summary of model estimation results}
+\centering
+\begin{tabular}[t]{lccc}
+\toprule
+Model & \makecell[l]{Number of\\observations} & \makecell[l]{Number of\\coefficients} & AIC\\
+\midrule
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Full sample models}}\\
+\hspace{1em}Model 1 & 164,511 & 100 & 195,215\\
+\hspace{1em}Model 2 & 164,511 & 106 & 178,943\\
+\rowcolor{gray!6}  \hspace{1em}Model 3 & 164,511 & 116 & 181,333\\
+\hspace{1em}Model 4 & 164,511 & 109 & 179,018\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Model 1 Ensemble (sample subsets by user type vs opponent)}}\\
+\hspace{1em}Light duty vehicle vs light duty vehicle & 114,841 & 95 & 145,396\\
+\hspace{1em}Light duty vehicle vs light truck & 3,237 & 95 & 3,979\\
+\rowcolor{gray!6}  \hspace{1em}Light duty vehicle vs heavy vehicle & 5,013 & 95 & 5,913\\
+\hspace{1em}Light truck vs light duty vehicle & 3,121 & 95 & 3,921\\
+\rowcolor{gray!6}  \hspace{1em}Light truck vs light truck & 809 & 95 & 1,230\\
+\hspace{1em}Light truck vs heavy vehicle & 198 & 95 & 354\\
+\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs light duty vehicle & 4,763 & 95 & 4,362\\
+\hspace{1em}Heavy vehicle vs light truck & 180 & 95 & 291\\
+\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs heavy vehicle & 779 & 95 & 1,193\\
+\hspace{1em}Pedestrian vs light duty vehicle & 7,176 & 94 & 2,842\\
+\rowcolor{gray!6}  \hspace{1em}Pedestrian vs light truck & 328 & 94 & 270\\
+\hspace{1em}Pedestrian vs heavy vehicle & 376 & 94 & 473\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist vs light duty vehicle & 3,521 & 94 & 686\\
+\hspace{1em}Bicyclist vs light truck & 148 & 94 & 192\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist vs heavy vehicle & NA & NA & \vphantom{1} NA\\
+\hspace{1em}Motorcyclist vs light duty vehicle & 2,298 & 94 & 1,403\\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist vs light truck & 127 & 94 & 233\\
+\hspace{1em}Motorcyclist vs heavy vehicle & 73 & 94 & 204\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Model 2 Ensemble (sample subsets by user type vs opponent)}}\\
+\hspace{1em}Light duty vehicle vs light duty vehicle & 114,841 & 98 & 143,909\\
+\hspace{1em}Light duty vehicle vs light truck & 3,237 & 98 & 3,963\\
+\rowcolor{gray!6}  \hspace{1em}Light duty vehicle vs heavy vehicle & 5,013 & 98 & 5,896\\
+\hspace{1em}Light truck vs light duty vehicle & 3,121 & 98 & 3,913\\
+\rowcolor{gray!6}  \hspace{1em}Light truck vs light truck & 809 & 98 & 1,216\\
+\hspace{1em}Light truck vs heavy vehicle & 198 & 98 & 347\\
+\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs light duty vehicle & 4,763 & 98 & 4,315\\
+\hspace{1em}Heavy vehicle vs light truck & 180 & 98 & 275\\
+\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs heavy vehicle & 779 & 98 & 1,182\\
+\hspace{1em}Pedestrian vs light duty vehicle & 7,176 & 98 & 2,839\\
+\rowcolor{gray!6}  \hspace{1em}Pedestrian vs light truck & 328 & 98 & 270\\
+\hspace{1em}Pedestrian vs heavy vehicle & 376 & 98 & 476\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist vs light duty vehicle & 3,521 & 98 & 693\\
+\hspace{1em}Bicyclist vs light truck & 148 & 98 & 200\\
+\rowcolor{gray!6}  Bicyclist vs heavy vehicle & NA & NA & \vphantom{1} NA\\
+\hspace{1em}Motorcyclist vs light duty vehicle & 2,298 & 98 & 1,411\\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist vs light truck & 127 & 98 & 235\\
+\hspace{1em}Motorcyclist vs heavy vehicle & 73 & 98 & 201\\
+\bottomrule
+\multicolumn{4}{l}{\textit{Note: }}\\
+\multicolumn{4}{l}{There are zero cases of BICYCLIST vs HV in the sample}\\
+\end{tabular}
+\end{table}
+
+\hypertarget{sec:assessment}{%
+\section{Model assessment}\label{sec:assessment}}
+
+\hypertarget{outcome-shares-based-on-probabilities}{%
+\subsection{Outcome shares based on
+probabilities}\label{outcome-shares-based-on-probabilities}}
+
+Words go here.
+
+The datasets are used to predict the probabilities of the outcomes:
+
+The results of calculating the Average Prediction Error appear in Table
+\ref{tab:ape-results}.
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:table-ape-results}\label{tab:ape-results}Predicted shares and average prediction errors (APE) by model (percentages)}
+\centering
+\begin{tabular}[t]{lrrrrrrrrrr}
+\toprule
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{No Injury} & \multicolumn{3}{c}{Injury} & \multicolumn{3}{c}{Fatality} & \multicolumn{1}{c}{} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-7} \cmidrule(l{3pt}r{3pt}){8-10}
+Model & Observed & Predicted & APE & Observed & Predicted & APE & Observed & Predicted & APE & WAPE\\
+\rowcolor{gray!15}
+\midrule
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{In-sample (nowcasting using 2017 dataset, i.e., estimation dataset)}}\\
+\hspace{1em}Model 1 & 78886 & 79029.00 & 0.18 & 84675 & 84533.74 & 0.17 & 950 & 948.26 & 0.18 & 0.17\\
+\rowcolor{gray!15}
+\hspace{1em}Model 1 Ensemble & 62449 & 62439.99 & 0.01 & 83606 & 83614.28 & 0.01 & 933 & 933.73 & 0.08 & 0.01\\
+\hspace{1em}Model 2 & 78886 & 78928.98 & 0.05 & 84675 & 84641.94 & 0.04 & 950 & 940.08 & 1.04 & 0.05\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 Ensemble & 62449 & 62438.99 & 0.02 & 83606 & 83615.22 & 0.01 & 933 & 933.80 & 0.09 & 0.01\\
+\hspace{1em}Model 3 & 78886 & 79027.29 & 0.18 & 84675 & 84512.50 & 0.19 & 950 & 971.21 & 2.23 & 0.20\\
+\rowcolor{gray!15}
+\hspace{1em}Model 4 & 78886 & 78939.18 & 0.07 & 84675 & 84622.54 & 0.06 & 950 & 949.28 & 0.08 & 0.06\\
+\rowcolor{gray!15}
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Out-of-sample (backcasting using 2016 dataset)}}\\
+\hspace{1em}Model 1 & 82812 & 82574.35 & 0.29 & 88586 & 88737.88 & 0.17 & 935 & 1020.77 & 9.17 & 0.28\\
+\rowcolor{gray!15}
+\hspace{1em}Model 1 Ensemble & 64469 & 64525.65 & 0.09 & 87476 & 87291.39 & 0.21 & 909 & 1036.96 & 14.08 & 0.24\\
+\hspace{1em}Model 2 & 82812 & 82900.86 & 0.11 & 88586 & 88432.82 & 0.17 & 935 & 999.32 & 6.88 & 0.18\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 Ensemble & 64469 & 64541.74 & 0.11 & 87476 & 87261.66 & 0.25 & 909 & 1050.60 & 15.58 & 0.28\\
+\hspace{1em}Model 3 & 82812 & 82948.83 & 0.17 & 88586 & 88340.07 & 0.28 & 935 & 1044.10 & 11.67 & 0.29\\
+\rowcolor{gray!15}
+\hspace{1em}Model 4 & 82812 & 82878.68 & 0.08 & 88586 & 88446.37 & 0.16 & 935 & 1007.94 & 7.80 & 0.16\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+\hypertarget{predicted-outcomes}{%
+\subsection{Predicted outcomes}\label{predicted-outcomes}}
+
+Words go here.
+
+Verification statistics used are summarized in Table
+\ref{tab:verification-statistics}.
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:table-verification-statistics}\label{tab:verification-statistics}Verification statistics}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{30em}>{\raggedright\arraybackslash}p{30em}}
+\toprule
+Statistic & Description & Notes\\
+\midrule
+\rowcolor{gray!6}  Percent Correct ($PC$) & Total hits and correct rejections divided by number of cases & Strongly influenced by most common category\\
+Percent Correct by Class ($PC_c$) & Same as Percent Correct but by category & Strongly influenced by most common category\\
+\rowcolor{gray!6}  Bias ($B$) & Total predicted by category, divided by total observed by category & $B>1$: class is overpredicted; $B<1$: class is underpredicted\\
+Critical Success Index ($CSI$) & Total hits divided by total hits + false alarms + misses & $CSI = 1$: perfect score; $CSI = 0$: no skill\\
+\rowcolor{gray!6}  Probability of False Detection ($F$) & Proportion of no events forecast as yes; sensitive to false alarms but ignores misses & $F = 0$: perfect score\\
+\addlinespace
+Probability of Detection ($POD$) & Total hits divided by total observed by class & $POD = 1$: perfect score\\
+\rowcolor{gray!6}  False Alarm Ratio ($FAR$) & Total false alarms divided by total forecast yes by class; measures fraction of predicted yes that did not occur & $FAR = 0$: perfect score\\
+Heidke Skill Score ($HSS$) & Fraction of correct predictions after removing predictions attributable to chance; measures fractional improvement over random; tends to reward conservative forecasts & $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better\\
+\rowcolor{gray!6}  Peirce Skill Score ($PSS$) & Combines $POD$ and $F$; measures ability to separate yes events from no events; tends to reward conservative forecasts & $PSS = 1$: perfect score; $PSS = 0$: no skill\\
+Gerrity Score ($GS$) & Measures accuracy of predicting the correct category, relative to random; tends to reward correct forecasts of less likely category & $GS = 1$: perfect score; $GS = 0$: no skill\\
+\bottomrule
+\end{tabular}}
+\end{table}
+\end{landscape}
+
+We next evaluate the outcomes of the nowcast using an array of
+verification statistics. See Table
+\ref{tab:nowcast-outcomes-assessment}.
+
+\begin{table}
+
+\caption{\label{tab:nowcast-outcomes-assessment}\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lrrrrrrrrrrrrr}
+\toprule
+\multicolumn{1}{c}{Observed} & \multicolumn{3}{c}{Predicted Outcome} & \multicolumn{10}{c}{Verification Statistics} \\
+\cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-14}
+Outcome & No Injury & Injury & Fatality & \makecell[l]{Percent\\Correct} & \makecell[l]{Percent\\Correct\\by Class} & Bias$^1$ & \makecell[l]{Critical\\Success\\Index$^2$} & \makecell[l]{Probability of\\False\\Detection$^3$} & \makecell[l]{Probability\\of\\Detection$^4$} & \makecell[l]{False\\Alarm\\Ratio$^5$} & \makecell[l]{Heidke\\Skill\\Score$^6$} & \makecell[l]{Peirce\\Skill\\Score$^7$} & \makecell[l]{Gerrity\\Score$^8$}\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1}}\\
+\hspace{1em}No Injury & 50652 & 22504 & 150 &  & 69.067 & 0.929 & 0.499 & 0.265 & 0.642 & 0.309 &  &  & \\
+
+\hspace{1em}Injury & 28232 & 62120 & 797 &  & 68.644 & 1.076 & 0.546 & 0.364 & 0.734 & 0.318 &  &  & \\
+
+Fatality & 2 & 51 & 3 & \multirow{-3}{*}{\raggedleft\arraybackslash 68.552} & 99.392 & 0.059 & 0.003 & 0.000 & 0.003 & 0.946 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.372} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.370} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.190}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1 Ensemble}}\\
+\hspace{1em}No Injury & 34711 & 16429 & 63 &  & 69.909 & 0.820 & 0.440 & 0.195 & 0.556 & 0.322 &  &  & \\
+
+\hspace{1em}Injury & 27738 & 67167 & 830 &  & 69.380 & 1.145 & 0.599 & 0.451 & 0.803 & 0.298 &  &  & \\
+
+Fatality & 0 & 10 & 40 & \multirow{-3}{*}{\raggedleft\arraybackslash 69.338} & 99.386 & 0.054 & 0.042 & 0.000 & 0.043 & 0.200 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.363} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.353} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.202}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2}}\\
+\hspace{1em}No Injury & 51530 & 17136 & 85 &  & 72.903 & 0.872 & 0.536 & 0.201 & 0.653 & 0.250 &  &  & \\
+
+\hspace{1em}Injury & 27356 & 67515 & 864 &  & 72.415 & 1.131 & 0.598 & 0.353 & 0.797 & 0.295 &  &  & \\
+
+Fatality & 0 & 24 & 1 & \multirow{-3}{*}{\raggedleft\arraybackslash 72.364} & 99.409 & 0.026 & 0.001 & 0.000 & 0.001 & 0.960 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.447} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.443} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.227}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2 Ensemble}}\\
+\hspace{1em}No Injury & 35473 & 16147 & 60 &  & 70.621 & 0.828 & 0.451 & 0.192 & 0.568 & 0.314 &  &  & \\
+
+\hspace{1em}Injury & 26976 & 67446 & 829 &  & 70.089 & 1.139 & 0.605 & 0.439 & 0.807 & 0.292 &  &  & \\
+
+Fatality & 0 & 13 & 44 & \multirow{-3}{*}{\raggedleft\arraybackslash 70.049} & 99.386 & 0.061 & 0.047 & 0.000 & 0.047 & 0.228 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.379} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.368} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.212}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3}}\\
+\hspace{1em}No Injury & 51102 & 17297 & 79 &  & 72.549 & 0.868 & 0.531 & 0.203 & 0.648 & 0.254 &  &  & \\
+
+\hspace{1em}Injury & 27784 & 67337 & 868 &  & 72.044 & 1.134 & 0.594 & 0.359 & 0.795 & 0.298 &  &  & \\
+
+Fatality & 0 & 41 & 3 & \multirow{-3}{*}{\raggedleft\arraybackslash 71.996} & 99.399 & 0.046 & 0.003 & 0.000 & 0.003 & 0.932 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.440} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.436} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.224}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4}}\\
+\hspace{1em}No Injury & 51574 & 17317 & 84 &  & 72.821 & 0.874 & 0.536 & 0.203 & 0.654 & 0.252 &  &  & \\
+
+\hspace{1em}Injury & 27312 & 67335 & 863 &  & 72.333 & 1.128 & 0.597 & 0.353 & 0.795 & 0.295 &  &  & \\
+
+Fatality & 0 & 23 & 3 & \multirow{-3}{*}{\raggedleft\arraybackslash 72.282} & 99.410 & 0.027 & 0.003 & 0.000 & 0.003 & 0.885 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.446} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.441} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.227}\\
+\bottomrule
+\multicolumn{14}{l}{\textit{Notes: }}\\
+\multicolumn{14}{l}{\textsuperscript{1} $B>1$: class is overpredicted; $B<1$: class is underpredicted; }\\
+\multicolumn{14}{l}{\textsuperscript{2} $CSI = 1$: perfect score; $CSI = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{3} $F = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{4} $POD = 1$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{5} $FAR = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{6} $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; }\\
+\multicolumn{14}{l}{\textsuperscript{7} $PSS = 1$: perfect score; $PSS = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{8} $GS = 1$: perfect score; $GS = 0$: no skill.}\\
+\end{tabular}}
+\end{table}
+
+We next evaluate the outcomes of the nowcast using an array of
+verification statistics. See Table
+\ref{tab:backcast-outcomes-assessment}.
+
+\begin{table}
+
+\caption{\label{tab:backcast-outcomes-assessment}\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lrrrrrrrrrrrrr}
+\toprule
+\multicolumn{1}{c}{Observed} & \multicolumn{3}{c}{Predicted Outcome} & \multicolumn{10}{c}{Verification Statistics} \\
+\cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-14}
+Outcome & No Injury & Injury & Fatality & \makecell[l]{Percent\\Correct} & \makecell[l]{Percent\\Correct\\by Class} & Bias$^1$ & \makecell[l]{Critical\\Success\\Index$^2$} & \makecell[l]{Probability of\\False\\Detection$^3$} & \makecell[l]{Probability\\of\\Detection$^4$} & \makecell[l]{False\\Alarm\\Ratio$^5$} & \makecell[l]{Heidke\\Skill\\Score$^6$} & \makecell[l]{Peirce\\Skill\\Score$^7$} & \makecell[l]{Gerrity\\Score$^8$}\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1}}\\
+\hspace{1em}No Injury & 53167 & 23097 & 145 &  & 69.311 & 0.923 & 0.501 & 0.260 & 0.642 & 0.304 &  &  & \\
+
+\hspace{1em}Injury & 29642 & 65455 & 788 &  & 68.920 & 1.082 & 0.550 & 0.363 & 0.739 & 0.317 &  &  & \\
+
+Fatality & 3 & 34 & 2 & \multirow{-3}{*}{\raggedleft\arraybackslash 68.834} & 99.437 & 0.042 & 0.002 & 0.000 & 0.002 & 0.949 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.378} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.375} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.192}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1 Ensemble}}\\
+\hspace{1em}No Injury & 35564 & 16930 & 71 &  & 69.967 & 0.815 & 0.437 & 0.192 & 0.552 & 0.323 &  &  & \\
+
+\hspace{1em}Injury & 28891 & 70451 & 822 &  & 69.423 & 1.145 & 0.601 & 0.454 & 0.805 & 0.297 &  &  & \\
+
+Fatality & 14 & 95 & 16 & \multirow{-3}{*}{\raggedleft\arraybackslash 69.368} & 99.344 & 0.138 & 0.016 & 0.001 & 0.018 & 0.872 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.362} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.351} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.188}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2}}\\
+\hspace{1em}No Injury & 54430 & 17615 & 81 &  & 73.262 & 0.871 & 0.542 & 0.198 & 0.657 & 0.245 &  &  & \\
+
+\hspace{1em}Injury & 28382 & 70954 & 850 &  & 72.806 & 1.131 & 0.602 & 0.349 & 0.801 & 0.292 &  &  & \\
+
+Fatality & 0 & 17 & 4 & \multirow{-3}{*}{\raggedleft\arraybackslash 72.759} & 99.450 & 0.022 & 0.004 & 0.000 & 0.004 & 0.810 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.455} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.451} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.232}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2 Ensemble}}\\
+\hspace{1em}No Injury & 36234 & 16840 & 73 &  & 70.463 & 0.824 & 0.445 & 0.191 & 0.562 & 0.318 &  &  & \\
+
+\hspace{1em}Injury & 28216 & 70527 & 819 &  & 69.916 & 1.138 & 0.605 & 0.444 & 0.806 & 0.292 &  &  & \\
+
+Fatality & 19 & 109 & 17 & \multirow{-3}{*}{\raggedleft\arraybackslash 69.856} & 99.333 & 0.160 & 0.016 & 0.001 & 0.019 & 0.883 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.373} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.362} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.194}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3}}\\
+\hspace{1em}No Injury & 53985 & 17731 & 83 &  & 72.936 & 0.867 & 0.536 & 0.199 & 0.652 & 0.248 &  &  & \\
+
+\hspace{1em}Injury & 28827 & 70819 & 849 &  & 72.470 & 1.134 & 0.599 & 0.354 & 0.799 & 0.295 &  &  & \\
+
+Fatality & 0 & 36 & 3 & \multirow{-3}{*}{\raggedleft\arraybackslash 72.422} & 99.438 & 0.042 & 0.003 & 0.000 & 0.003 & 0.923 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.448} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.444} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.228}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4}}\\
+\hspace{1em}No Injury & 54493 & 17843 & 79 &  & 73.168 & 0.874 & 0.541 & 0.200 & 0.658 & 0.247 &  &  & \\
+
+\hspace{1em}Injury & 28318 & 70725 & 852 &  & 72.709 & 1.128 & 0.601 & 0.348 & 0.798 & 0.292 &  &  & \\
+
+Fatality & 1 & 18 & 4 & \multirow{-3}{*}{\raggedleft\arraybackslash 72.663} & 99.449 & 0.025 & 0.004 & 0.000 & 0.004 & 0.826 & \multirow{-3}{*}{\raggedleft\arraybackslash 0.453} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.449} & \multirow{-3}{*}{\raggedleft\arraybackslash 0.231}\\
+\bottomrule
+\multicolumn{14}{l}{\textit{Notes: }}\\
+\multicolumn{14}{l}{\textsuperscript{1} $B>1$: class is overpredicted; $B<1$: class is underpredicted; }\\
+\multicolumn{14}{l}{\textsuperscript{2} $CSI = 1$: perfect score; $CSI = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{3} $F = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{4} $POD = 1$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{5} $FAR = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{6} $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; }\\
+\multicolumn{14}{l}{\textsuperscript{7} $PSS = 1$: perfect score; $PSS = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{8} $GS = 1$: perfect score; $GS = 0$: no skill.}\\
+\end{tabular}}
+\end{table}
 
 \hypertarget{sec:further-considerations}{%
 \section{Further considerations}\label{sec:further-considerations}}
@@ -252,11 +839,30 @@ Words go here.
 \addcontentsline{toc}{section}{References}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Aziz2013exploring}{}%
+Aziz, H.M.A., Ukkusuri, S.V., Hasan, S., 2013. Exploring the
+determinants of pedestrian-vehicle crash severity in new york city.
+Accident Analysis and Prevention 50, 1298--1309.
+doi:\href{https://doi.org/10.1016/j.aap.2012.09.034}{10.1016/j.aap.2012.09.034}
+
+\leavevmode\hypertarget{ref-Bogue2017modified}{}%
+Bogue, S., Paleti, R., Balan, L., 2017. A modified rank ordered logit
+model to analyze injury severity of occupants in multivehicle crashes.
+Analytic Methods in Accident Research 14, 22--40.
+doi:\href{https://doi.org/10.1016/j.amar.2017.03.001}{10.1016/j.amar.2017.03.001}
+
 \leavevmode\hypertarget{ref-Chang2006analysis}{}%
 Chang, L.Y., Wang, H.W., 2006. Analysis of traffic injury severity: An
 application of non-parametric classification tree techniques. Accident
 Analysis and Prevention 38, 1019--1027.
 doi:\href{https://doi.org/10.1016/j.aap.2006.04.009}{10.1016/j.aap.2006.04.009}
+
+\leavevmode\hypertarget{ref-Chen2019investigation}{}%
+Chen, F., Song, M.T., Ma, X.X., 2019. Investigation on the injury
+severity of drivers in rear-end collisions between cars using a random
+parameters bivariate ordered probit model. International Journal of
+Environmental Research and Public Health 16.
+doi:\href{https://doi.org/10.3390/ijerph16142632}{10.3390/ijerph16142632}
 
 \leavevmode\hypertarget{ref-Chiou2013modeling}{}%
 Chiou, Y.C., Hwang, C.C., Chang, C.C., Fu, C., 2013. Modeling
@@ -272,6 +878,25 @@ hospitalised for orthopaedic injury following an on-road crash. Accident
 Analysis and Prevention 132, 10.
 doi:\href{https://doi.org/10.1016/j.aap.2019.105279}{10.1016/j.aap.2019.105279}
 
+\leavevmode\hypertarget{ref-Effati2015geospatial}{}%
+Effati, M., Thill, J.C., Shabani, S., 2015. Geospatial and machine
+learning techniques for wicked social science problems: Analysis of
+crash severity on a regional highway corridor. Journal of Geographical
+Systems 17, 107--135.
+doi:\href{https://doi.org/10.1007/s10109-015-0210-x}{10.1007/s10109-015-0210-x}
+
+\leavevmode\hypertarget{ref-Gong2017modeling}{}%
+Gong, L.F., Fan, W.D., 2017. Modeling single-vehicle run-off-road crash
+severity in rural areas: Accounting for unobserved heterogeneity and age
+difference. Accident Analysis and Prevention 101, 124--134.
+doi:\href{https://doi.org/10.1016/j.aap.2017.02.014}{10.1016/j.aap.2017.02.014}
+
+\leavevmode\hypertarget{ref-Haleem2013effect}{}%
+Haleem, K., Gan, A., 2013. Effect of driver's age and side of impact on
+crash severity along urban freeways: A mixed logit approach. Journal of
+Safety Research 46, 67--76.
+doi:\href{https://doi.org/10.1016/j.jsr.2013.04.002}{10.1016/j.jsr.2013.04.002}
+
 \leavevmode\hypertarget{ref-Hanson2013severity}{}%
 Hanson, C.S., Noland, R.B., Brown, C., 2013. The severity of pedestrian
 crashes: An analysis using google street view imagery. Journal of
@@ -284,19 +909,25 @@ machine learning methods for crash severity prediction. Accident
 Analysis and Prevention 108, 27--36.
 doi:\href{https://doi.org/10.1016/j.aap.2017.08.008}{10.1016/j.aap.2017.08.008}
 
-\leavevmode\hypertarget{ref-Kadilar2016effect}{}%
-Kadilar, G.O., 2016. Effect of driver, roadway, collision, and vehicle
-characteristics on crash severity: A conditional logistic regression
-approach. International Journal of Injury Control and Safety Promotion
-23, 135--144.
-doi:\href{https://doi.org/10.1080/17457300.2014.942323}{10.1080/17457300.2014.942323}
-
 \leavevmode\hypertarget{ref-Khan2015exploring}{}%
 Khan, G., Bill, A.R., Noyce, D.A., 2015. Exploring the feasibility of
 classification trees versus ordinal discrete choice models for analyzing
 crash severity. Transportation Research Part C-Emerging Technologies 50,
 86--96.
 doi:\href{https://doi.org/10.1016/j.trc.2014.10.003}{10.1016/j.trc.2014.10.003}
+
+\leavevmode\hypertarget{ref-Kim2013driver}{}%
+Kim, J.K., Ulfarsson, G.F., Kim, S., Shankar, V.N., 2013. Driver-injury
+severity in single-vehicle crashes in california: A mixed logit analysis
+of heterogeneity due to age and gender. Accident Analysis and Prevention
+50, 1073--1081.
+doi:\href{https://doi.org/10.1016/j.aap.2012.08.011}{10.1016/j.aap.2012.08.011}
+
+\leavevmode\hypertarget{ref-Kim1995personal}{}%
+Kim, K., Nitz, L., Richardson, J., Li, L., 1995. PERSONAL and behavioral
+predictors of automobile crash and injury severity. Accident Analysis
+and Prevention 27, 469--481.
+doi:\href{https://doi.org/10.1016/0001-4575(95)00001-g}{10.1016/0001-4575(95)00001-g}
 
 \leavevmode\hypertarget{ref-Lee2014analysis}{}%
 Lee, C., Li, X.C., 2014. Analysis of injury severity of drivers involved
@@ -319,6 +950,16 @@ severity, using bayesian methods. Accident Analysis and Prevention 40,
 964--975.
 doi:\href{https://doi.org/10.1016/j.aap.2007.11.002}{10.1016/j.aap.2007.11.002}
 
+\leavevmode\hypertarget{ref-Maddala1986limited}{}%
+Maddala, G.S., 1986. Limited-dependent and qualitative variables in
+econometrics. Cambridge university press.
+
+\leavevmode\hypertarget{ref-Mannering2016unobserved}{}%
+Mannering, F., Shankar, V., Bhat, C.R., 2016. Unobserved heterogeneity
+and the statistical analysis of highway accident data. Analytic Methods
+in Accident Research 11, 1--16.
+doi:\href{https://doi.org/10.1016/j.amar.2016.04.001}{10.1016/j.amar.2016.04.001}
+
 \leavevmode\hypertarget{ref-McArthur2014spatial}{}%
 McArthur, A., Savolainen, P.T., Gates, T.J., 2014. Spatial analysis of
 child pedestrian and bicycle crashes development of safety performance
@@ -330,11 +971,24 @@ Merlin, E.P.R., Gonzalez-Forteza, C., Lira, L.R., Tapia, J.A.J., 2007.
 Post-traumatic stress disorder in patients with non intentional injuries
 caused by road traffic accidents. Salud Mental 30, 43--48.
 
+\leavevmode\hypertarget{ref-Montella2013crash}{}%
+Montella, A., Andreassen, D., Tarko, A.P., Turner, S., Mauriello, F.,
+Imbriani, L.L., Romero, M.A., 2013. Crash databases in australasia, the
+european union, and the united states review and prospects for
+improvement. Transportation Research Record 128--136.
+doi:\href{https://doi.org/10.3141/2386-15}{10.3141/2386-15}
+
 \leavevmode\hypertarget{ref-Mooradian2013analysis}{}%
 Mooradian, J., Ivan, J.N., Ravishanker, N., Hu, S., 2013. Analysis of
 driver and passenger crash injury severity using partial proportional
 odds models. Accident Analysis and Prevention 58, 53--58.
 doi:\href{https://doi.org/10.1016/j.aap.2013.04.022}{10.1016/j.aap.2013.04.022}
+
+\leavevmode\hypertarget{ref-Mussone2017analysis}{}%
+Mussone, L., Bassani, M., Masci, P., 2017. Analysis of factors affecting
+the severity of crashes in urban road intersections. Accident Analysis
+and Prevention 103, 112--122.
+doi:\href{https://doi.org/10.1016/j.aap.2017.04.007}{10.1016/j.aap.2017.04.007}
 
 \leavevmode\hypertarget{ref-Obeng2011gender}{}%
 Obeng, K., 2011. Gender differences in injury severity risks in crashes
@@ -355,12 +1009,6 @@ after a road accident: A prospective study. Social Psychiatry and
 Psychiatric Epidemiology 13.
 doi:\href{https://doi.org/10.1007/s00127-019-01780-0}{10.1007/s00127-019-01780-0}
 
-\leavevmode\hypertarget{ref-Quddus2010road}{}%
-Quddus, M.A., Wang, C., Ison, S.G., 2010. Road traffic congestion and
-crash severity: Econometric analysis using ordered response models.
-Journal of Transportation Engineering-Asce 136, 424--435.
-doi:\href{https://doi.org/10.1061/(asce)te.1943-5436.0000044}{10.1061/(asce)te.1943-5436.0000044}
-
 \leavevmode\hypertarget{ref-Rakotonirainy2012older}{}%
 Rakotonirainy, A., Steinhardt, D., Delhomme, P., Darvell, M., Schramm,
 A., 2012. Older drivers' crashes in queensland, australia. Accident
@@ -373,6 +1021,23 @@ gender, and time of day using a new exposure methodology. Journal of
 Safety Research 66, 131--140.
 doi:\href{https://doi.org/10.1016/j.jsr.2018.07.002}{10.1016/j.jsr.2018.07.002}
 
+\leavevmode\hypertarget{ref-Rifaat2007accident}{}%
+Rifaat, S.M., Chin, H.C., 2007. Accident severity analysis using ordered
+probit model. Journal of Advanced Transportation 41, 91--114.
+doi:\href{https://doi.org/10.1002/atr.5670410107}{10.1002/atr.5670410107}
+
+\leavevmode\hypertarget{ref-Salon2018determinants}{}%
+Salon, D., McIntyre, A., 2018. Determinants of pedestrian and bicyclist
+crash severity by party at fault in san francisco, ca. Accident Analysis
+and Prevention 110, 149--160.
+doi:\href{https://doi.org/10.1016/j.aap.2017.11.007}{10.1016/j.aap.2017.11.007}
+
+\leavevmode\hypertarget{ref-Sasidharan2014partial}{}%
+Sasidharan, L., Menendez, M., 2014. Partial proportional odds model-an
+alternate choice for analyzing pedestrian crash injury severities.
+Accident Analysis and Prevention 72, 330--340.
+doi:\href{https://doi.org/10.1016/j.aap.2014.07.025}{10.1016/j.aap.2014.07.025}
+
 \leavevmode\hypertarget{ref-Savolainen2011statistical}{}%
 Savolainen, P.T., Mannering, F., Lord, D., Quddus, M.A., 2011. The
 statistical analysis of highway crash-injury severities: A review and
@@ -380,17 +1045,44 @@ assessment of methodological alternatives. Accident Analysis and
 Prevention 43, 1666--1676.
 doi:\href{https://doi.org/10.1016/j.aap.2011.03.025}{10.1016/j.aap.2011.03.025}
 
+\leavevmode\hypertarget{ref-Shaheed2013mixed}{}%
+Shaheed, M.S.B., Gkritza, K., Zhang, W., Hans, Z., 2013. A mixed logit
+analysis of two-vehicle crash seventies involving a motorcycle. Accident
+Analysis and Prevention 61, 119--128.
+doi:\href{https://doi.org/10.1016/j.aap.2013.05.028}{10.1016/j.aap.2013.05.028}
+
 \leavevmode\hypertarget{ref-Symons2019reduced}{}%
 Symons, J., Howard, E., Sweeny, K., Kumnick, M., Sheehan, P., 2019.
 Reduced road traffic injuries for young people: A preliminary investment
 analysis. Journal of Adolescent Health 65, S34--S43.
 doi:\href{https://doi.org/10.1016/j.jadohealth.2019.01.009}{10.1016/j.jadohealth.2019.01.009}
 
+\leavevmode\hypertarget{ref-Tarrao2014modeling}{}%
+Tarrao, G.A., Coelho, M.C., Rouphail, N.M., 2014. Modeling the impact of
+subject and opponent vehicles on crash severity in two-vehicle
+collisions. Transportation Research Record 53--64.
+doi:\href{https://doi.org/10.3141/2432-07}{10.3141/2432-07}
+
 \leavevmode\hypertarget{ref-Thompson2018trends}{}%
 Thompson, J.P., Baldock, M.R.J., Dutschke, J.K., 2018. Trends in the
 crash involvement of older drivers in australia. Accident Analysis and
 Prevention 117, 262--269.
 doi:\href{https://doi.org/10.1016/j.aap.2018.04.027}{10.1016/j.aap.2018.04.027}
+
+\leavevmode\hypertarget{ref-Train2009discrete}{}%
+Train, K., 2009. Discrete choice methods with simulation, 2nd Edition.
+ed. Cambridge University Press, Cambridge.
+
+\leavevmode\hypertarget{ref-Wang2015copula}{}%
+Wang, K., Yasmin, S., Konduri, K.C., Eluru, N., Ivan, J.N., 2015.
+Copula-based joint model of injury severity and vehicle damage in
+two-vehicle crashes. Transportation Research Record 158--166.
+doi:\href{https://doi.org/10.3141/2514-17}{10.3141/2514-17}
+
+\leavevmode\hypertarget{ref-White1972effects}{}%
+White, S., Clayton, S., 1972. Some effects of alcohol, age of driver,
+and estimated speed on the likelihood of driver injury. Accident
+Analysis \& Prevention 4.
 
 \leavevmode\hypertarget{ref-Wijnen2019analysis}{}%
 Wijnen, W., Weijermars, W., Schoeters, A., Berghe, W. van den, Bauer,
@@ -402,6 +1094,19 @@ doi:\href{https://doi.org/10.1016/j.ssci.2018.12.004}{10.1016/j.ssci.2018.12.004
 \leavevmode\hypertarget{ref-WHO2019global}{}%
 World Health Organization, 2019. Global status report on road safety
 2018 (2018). Geneva.
+
+\leavevmode\hypertarget{ref-Wu2014mixed}{}%
+Wu, Q., Chen, F., Zhang, G.H., Liu, X.Y.C., Wang, H., Bogus, S.M., 2014.
+Mixed logit model-based driver injury severity investigations in single-
+and multi-vehicle crashes on rural two-lane highways. Accident Analysis
+and Prevention 72, 105--115.
+doi:\href{https://doi.org/10.1016/j.aap.2014.06.014}{10.1016/j.aap.2014.06.014}
+
+\leavevmode\hypertarget{ref-Shamsunnahar2013evaluating}{}%
+Yasmin, S., Eluru, N., 2013. Evaluating alternate discrete outcome
+frameworks for modeling crash injury severity. Accident Analysis \&
+Prevention 59, 506--521.
+doi:\href{https://doi.org/https://doi.org/10.1016/j.aap.2013.06.040}{https://doi.org/10.1016/j.aap.2013.06.040}
 
 
 \end{document}
