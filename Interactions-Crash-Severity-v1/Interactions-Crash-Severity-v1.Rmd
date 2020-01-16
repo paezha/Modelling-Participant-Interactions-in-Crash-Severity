@@ -4598,7 +4598,7 @@ The likelihood function of the model, and therefore the value of the AIC, depend
 
 These results give some preliminary ideas about the relative performance of the different modelling strategies. In the next section we delve more deeply into this question.
 
-```{r save-models-and-data, echo=FALSE}
+```{r save-models-and-data, eval=FALSE, echo=FALSE}
 # This is a shortcut to avoid having to re-estimate the models while working on the paper
 save.image(file = "Models-and-Data.RData")
 ```
