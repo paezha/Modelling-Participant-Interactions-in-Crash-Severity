@@ -56,6 +56,8 @@
 
 % Pandoc header
 \usepackage[margin=1in]{geometry}
+\usepackage{lineno}
+\linenumbers
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -119,7 +121,7 @@ Louisiana, USA 70803}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Road safety continues to be a concern world-wide. According to a recent
+Road safety continues to be a world-wide concern. According to a recent
 report from the World Health Organization (2019), road accidents are the
 8th leading cause of death for all ages, and the number one cause of
 death for children and young people between the ages of 5 to 29. Of all
@@ -1044,30 +1046,60 @@ Variable & Notes & Model 1 & Model 2 & Model 3 & Model 4\\
 \end{tabular}}
 \end{table}
 
-Table \ref{tab:model-summary} collects some key summary statistics of
+Tables \ref{tab:model-full-sample-summary} and
+\ref{tab:model-subsample-summary} collect some key summary statistics of
 the estimated models. Of interest is the goodness of fit of the models,
 which in the case is measured with Akaike's Information Criterion (AIC).
 This criterion is calculated using the estimated likelihood of the
-model, penalized by the number of coefficients in the model, so that
+model, penalized by the number of coefficients in the model, so that,
 other things being equal, it gives preference to more parsimonious
-models. Since smaller values of AIC are better fits, it is possible to
-see that, compared to the base model without opponent variables (Model
-1), there are large and significant improvements in fit to be gained by
-introducing opponent effects. However, the gains are not as large when
-hierarchical specifications are used, even when the number of additional
-coefficients that need to be estimated is not substantially larger
-(recall that the penalty per parameter in AIC is 2).
+models. The objective is to minimize the AIC, and therefore smaller
+values of this criterion represent better model fits. Turning our
+attention to the models estimated using the full sample (Table
+\ref{tab:model-full-sample-summary}), it is possible to see that,
+compared to the base (single level) model without opponent variables
+(Model 1), there are large and significant improvements in fit to be
+gained by introducing opponent effects. However, the gains are not as
+large when hierarchical specifications are used, even when the number of
+additional coefficients that need to be estimated is not substantially
+larger (recall that the penalty per parameter in AIC is 2). The best
+model according to this measure of goodness of fit is Model 2
+(single-level with opponent effects), followed by Model 4 (hierarchical
+opponent variables), Model 3 (hierarchical traffic unit variables with
+opponent effects), and finally Model 1 (single level without opponent
+effects).
 
-The likelihood function of the model, and therefore the value of the
-AIC, depend on the size of the sample, which is why AIC is not
-comparable across models estimated with different sample sizes. For this
-reason, the full sample models cannot be compared directly to the models
-estimated with subsets of data. The models in the ensembles, however,
-can be compared, and there we find that introducing opponent variables
-leads to a better fit in most, but not all cases. One model for
-pedestrians (when the opponent is a heavy vehicle), the two models for
-bicyclists, and the three models for motorcyclists are better fits when
-opponent variables are not used.
+It is important to note that the likelihood function of the model, and
+therefore the value of the AIC, both depend on the size of the sample,
+which is why AIC is not comparable across models estimated with
+different sample sizes. For this reason, the full sample models cannot
+be compared directly to the models estimated with subsets of data. The
+models in the ensembles, however, can be compared to each other (Table
+\ref{tab:model-subsample-summary}). As seen in the table, introducing
+opponent variables leads to a better fit in the case of most, but not
+all models. The simplest model (single level without opponent effects)
+is clearly the best fitting candidate in the case of bicycle vs light
+truck collisions, bicycle vs heavy vehicle collisions, motorcyclist vs
+light duty vehicle collisions, and motorcyclist vs heavy vehicle
+collisions. Model 1 is a statistical toss for best performance with
+other model(s) in the case of pedestrian vs heavy vehicle collisions.
+The relative likelihood of Model 1 compared to Models 2 and 3 in this
+case is 0.56, which means that either of these two competing models are
+0.56 times as probable as Model 1 to minimize the information loss.
+
+Model 2 is the best fit in the case of light truck vs heavy vehicle
+collisions. This model is also tied for best fit with Model 2 in the
+case of pedestrian vs light duty vehicle and pedestrian vs light truck
+collisions, and is a statistical toss with Model 4 in the case of heavy
+vehicle vs heavy vehicle collisions (relative likelihood is 0.592).
+Model 3 is the best fit in the case of light duty vehicle vs light duty
+vehicle collisions and heavy vehicle vs light duty vehicle. Model 4 is
+the best fit in the case of light duty vehicle vs light truck
+collisions, light duty vehicle vs heavy vehicle collisions, light truck
+vs light duty vehicle collisions, heavy vehicle vs light truck
+collisions, and motorcycle vs light truck collisions. This model is a
+statistical toss with Model 2 in the case of light truck vs light truck
+collisions, with a relative likelihood of 0.791.
 
 These results give some preliminary ideas about the relative performance
 of the different modelling strategies. In the next section we delve more
@@ -1075,64 +1107,60 @@ deeply into this question.
 
 \begin{table}
 
-\caption{\label{tab:model-summary}\label{tab:model-summary}Summary of model estimation results}
+\caption{\label{tab:model-full-sample-summary}\label{tab:model-full-sample-summary}Summary of model estimation results: Full sample models}
 \centering
 \fontsize{7}{9}\selectfont
 \begin{tabular}[t]{lccc}
 \toprule
 Model & \makecell[l]{Number of\\observations} & \makecell[l]{Number of\\coefficients} & AIC\\
 \midrule
-\rowcolor{gray!6}  \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Full sample models}}\\
-\hspace{1em}Model 1 & 164,511 & 104 & 195,215\\
-\hspace{1em}Model 2 & 164,511 & 110 & 178,943\\
-\rowcolor{gray!6}  \hspace{1em}Model 3 & 164,511 & 120 & 181,333\\
-\hspace{1em}Model 4 & 164,511 & 113 & 179,018\\
-\rowcolor{gray!6}  \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Model 1 Ensemble (sample subsets by user type vs opponent)}}\\
-\hspace{1em}Light duty vehicle vs light duty vehicle & 114,841 & 96 & 145,390\\
-\hspace{1em}Light duty vehicle vs light truck & 3,237 & 81 & 3,943\\
-\rowcolor{gray!6}  \hspace{1em}Light duty vehicle vs heavy vehicle & 5,013 & 90 & 5,895\\
-\hspace{1em}Light truck vs light duty vehicle & 3,121 & 81 & 3,885\\
-\rowcolor{gray!6}  \hspace{1em}Light truck vs light truck & 809 & 69 & 1,170\\
-\hspace{1em}Light truck vs heavy vehicle & 198 & 66 & 288\\
-\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs light duty vehicle & 4,726 & 81 & 4,326\\
-\hspace{1em}Heavy vehicle vs light truck & 180 & 66 & 225\\
-\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs heavy vehicle & 779 & 76 & 1,147\\
-\hspace{1em}Pedestrian vs light duty vehicle & 7,176 & 90 & 2,826\\
-\rowcolor{gray!6}  \hspace{1em}Pedestrian vs light truck & 328 & 64 & 202\\
-\hspace{1em}Pedestrian vs heavy vehicle & 376 & 66 & 409\\
-\rowcolor{gray!6}  \hspace{1em}Bicyclist vs light duty vehicle & 3,521 & 82 & 654\\
-\hspace{1em}Bicyclist vs light truck & 116 & 44 & 84\\
-\rowcolor{gray!6}  \hspace{1em}Bicyclist vs heavy vehicle & NA & NA & \vphantom{1} NA\\
-\hspace{1em}Motorcyclist vs light duty vehicle & 2,298 & 80 & 1,367\\
-\rowcolor{gray!6}  \hspace{1em}Motorcyclist vs light truck & 127 & 58 & 153\\
-\hspace{1em}Motorcyclist vs heavy vehicle & 62 & 45 & 88\\
-\rowcolor{gray!6}  \addlinespace[0.3em]
-\multicolumn{4}{l}{\textbf{Model 2 Ensemble (sample subsets by user type vs opponent)}}\\
-\hspace{1em}Light duty vehicle vs light duty vehicle & 114,841 & 99 & 143,903\\
-\hspace{1em}Light duty vehicle vs light truck & 3,237 & 84 & 3,927\\
-\rowcolor{gray!6}  \hspace{1em}Light duty vehicle vs heavy vehicle & 5,013 & 93 & 5,878\\
-\hspace{1em}Light truck vs light duty vehicle & 3,121 & 84 & 3,877\\
-\rowcolor{gray!6}  \hspace{1em}Light truck vs light truck & 809 & 72 & 1,156\\
-\hspace{1em}Light truck vs heavy vehicle & 198 & 69 & 281\\
-\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs light duty vehicle & 4,732 & 86 & 4,283\\
-\hspace{1em}Heavy vehicle vs light truck & 179 & 67 & 205\\
-\rowcolor{gray!6}  \hspace{1em}Heavy vehicle vs heavy vehicle & 779 & 79 & 1,136\\
-\hspace{1em}Pedestrian vs light duty vehicle & 7,176 & 93 & 2,821\\
-\rowcolor{gray!6}  \hspace{1em}Pedestrian vs light truck & 328 & 67 & 200\\
-\hspace{1em}Pedestrian vs heavy vehicle & 376 & 69 & 410\\
-\rowcolor{gray!6}  \hspace{1em}Bicyclist vs light duty vehicle & 3,521 & 85 & 659\\
-\hspace{1em}Bicyclist vs light truck & 145 & 59 & 114\\
-\rowcolor{gray!6}  Bicyclist vs heavy vehicle & NA & NA & \vphantom{1} NA\\
-\hspace{1em}Motorcyclist vs light duty vehicle & 2,298 & 83 & 1,373\\
-\rowcolor{gray!6}  \hspace{1em}Motorcyclist vs light truck & 127 & 61 & 153\\
-\hspace{1em}Motorcyclist vs heavy vehicle & 63 & 45 & 90\\
+\rowcolor{gray!6}  Model 1 & 164,511 & 102 & 195,215\\
+Model 2 & 164,511 & 108 & 178,943\\
+\rowcolor{gray!6}  Model 3 & 164,511 & 118 & 181,333\\
+Model 4 & 164,511 & 111 & 179,018\\
 \bottomrule
-\multicolumn{4}{l}{\textit{Note: }}\\
-\multicolumn{4}{l}{There are zero cases of Bicyclist vs heavy vehicle in the sample}\\
 \end{tabular}
 \end{table}
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:model-subsample-summary}\label{tab:model-summary}Summary of model estimation results: Subsample Models}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lccccccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{Model 1} & \multicolumn{2}{c}{Model 2} & \multicolumn{2}{c}{Model 3} & \multicolumn{2}{c}{Model 4} \\
+\cmidrule(l{3pt}r{3pt}){3-4} \cmidrule(l{3pt}r{3pt}){5-6} \cmidrule(l{3pt}r{3pt}){7-8} \cmidrule(l{3pt}r{3pt}){9-10}
+Model & \makecell[l]{Number of\\observations} & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC\\
+\midrule
+\rowcolor{gray!6}  Light duty vehicle vs light duty vehicle & 114,841 & 94 & 145,390 & 97 & 143,903 & 100 & 143,896 & 100 & 144,004\\
+Light duty vehicle vs light truck & 3,237 & 79 & 3,943 & 82 & 3,927 & 85 & 3,937 & 85 & 3,922\\
+\rowcolor{gray!6}  Light duty vehicle vs heavy vehicle & 5,013 & 88 & 5,895 & 91 & 5,878 & 94 & 5,888 & 94 & 5,864\\
+Light truck vs light duty vehicle & 3,121 & 79 & 3,885 & 82 & 3,877 & 85 & 3,881 & 85 & 3,875\\
+\rowcolor{gray!6}  Light truck vs light truck & 809 & 67 & 1,170 & 70 & 1,156 & 73 & 1,162 & 73 & 1,155\\
+\addlinespace
+Light truck vs heavy vehicle & 198 & 64 & 288 & 67 & 281 & 70 & 287 & 70 & 286\\
+\rowcolor{gray!6}  Heavy vehicle vs light duty vehicle & 4,726 & 79 & 4,326 & 84 & 4,283 & 86 & 4,268 & 87 & 4,287\\
+Heavy vehicle vs light truck & 180 & 64 & 225 & 65 & 205 & 67 & 207 & 66 & 187\\
+\rowcolor{gray!6}  Heavy vehicle vs heavy vehicle & 779 & 74 & 1,147 & 77 & 1,136 & 80 & 1,141 & 80 & 1,137\\
+Pedestrian vs light duty vehicle & 7,176 & 88 & 2,826 & 91 & 2,821 & 91 & 2,821 & 93 & 2,827\\
+\addlinespace
+\rowcolor{gray!6}  Pedestrian vs light truck & 328 & 62 & 202 & 65 & 200 & 65 & 200 & 68 & 206\\
+Pedestrian vs heavy vehicle & 376 & 64 & 409 & 67 & 410 & 67 & 410 & 70 & 417\\
+\rowcolor{gray!6}  Bicyclist vs light duty vehicle & 3,521 & 80 & 654 & 83 & 659 & 83 & 659 & 85 & 657\\
+Bicyclist vs light truck & 116 & 42 & 84 & 57 & 114 & 57 & 114 & 54 & 108\\
+\rowcolor{gray!6}  Bicyclist vs heavy vehicle & - & - & - & - & - & - & - & - & -\\
+\addlinespace
+Motorcyclist vs light duty vehicle & 2,298 & 78 & 1,367 & 81 & 1,373 & 81 & 1,373 & 84 & 1,373\\
+\rowcolor{gray!6}  Motorcyclist vs light truck & 127 & 56 & 153 & 59 & 153 & 59 & 153 & 47 & 94\\
+Motorcyclist vs heavy vehicle & 62 & 43 & 88 & 45 & 90 & 46 & 92 & 51 & 102\\
+\bottomrule
+\multicolumn{10}{l}{\textit{Note: }}\\
+\multicolumn{10}{l}{There are zero cases of Bicyclist vs heavy vehicle in the sample}\\
+\end{tabular}}
+\end{table}
+\end{landscape}
 
 \hypertarget{sec:assessment}{%
 \section{Model assessment}\label{sec:assessment}}
@@ -1148,9 +1176,9 @@ ways: first, we compute the estimated shares of each outcome based on
 the predicted probabilities; and secondly, we evaluate the predicted
 outcomes.
 
-\hypertarget{outcome-shares-based-on-estimated-probabilities}{%
-\subsection{Outcome shares based on estimated
-probabilities}\label{outcome-shares-based-on-estimated-probabilities}}
+\hypertarget{outcome-shares-based-on-predicted-probabilities}{%
+\subsection{Outcome shares based on predicted
+probabilities}\label{outcome-shares-based-on-predicted-probabilities}}
 
 The shares of each outcome are calculated as the sum of the estimated
 probabilities for each observation:
@@ -1250,8 +1278,9 @@ Model 4 Ensemble & 77461 & 76766.08 & 0.90 & 100029 & 100630.21 & 0.60 & 1070 & 
 \end{table}
 \end{landscape}
 
-\hypertarget{predicted-outcomes}{%
-\subsection{Predicted outcomes}\label{predicted-outcomes}}
+\hypertarget{outcome-frequency-based-on-predicted-classes}{%
+\subsection{Outcome frequency based on predicted
+classes}\label{outcome-frequency-based-on-predicted-classes}}
 
 Words go here.
 
@@ -1466,11 +1495,6 @@ Fatality & 25 & 107 & 17 & \multirow{-3}{*}{\raggedleft\arraybackslash 69.0748} 
 \multicolumn{14}{l}{\textsuperscript{8} $GS = 1$: perfect score; $GS = 0$: no skill.}\\
 \end{tabular}}}
 \end{table}
-
-\hypertarget{sec:insights}{%
-\section{Best model: insights}\label{sec:insights}}
-
-Create a table with the results of Model 2.
 
 \hypertarget{sec:further-considerations}{%
 \section{Further considerations}\label{sec:further-considerations}}

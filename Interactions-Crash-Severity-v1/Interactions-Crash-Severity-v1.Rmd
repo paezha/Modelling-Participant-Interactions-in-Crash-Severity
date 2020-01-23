@@ -20,7 +20,7 @@ address:
   - code: Louisiana State University
     address: Department of Civil and Environmental Engineering, Baton Rouge, Louisiana, USA 70803
 abstract: |
-  Road accidents impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road collisions have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence the outcome of the event. The objective of this paper is to assess different strategies to model the interactions between participants in a crash, in the context of crashes involving two parties. Towards this objective, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. Modelling strategies include different ways of introducing the covariates (e.g., in a single-level or multi-level form), as well as by subsetting the dataset. The models are assessed using predicted shares and outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. On the other hand, the study suggests that hierarchical (i.e., multi-level) specifications and subsetting do not perform necessarily better than a relatively simple single-level model with opponent effects.
+ Road accidents impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road collisions have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence the outcome of the event. The objective of this paper is to assess different strategies to model the interactions between participants in a crash, in the context of crashes involving two parties. Towards this objective, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. Modelling strategies include different ways of introducing the covariates (e.g., in a single-level or multi-level form), as well as by subsetting the dataset. The models are assessed using predicted shares and outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. On the other hand, the study suggests that hierarchical (i.e., multi-level) specifications and subsetting do not perform necessarily better than a relatively simple single-level model with opponent effects.
 
 journal: "Some Journal"
 date: "`r Sys.Date()`"
@@ -32,21 +32,27 @@ output: rticles::elsevier_article
 
 header-includes:
    - \usepackage[margin=1in]{geometry}
+   - \usepackage{lineno}
+   - \linenumbers
 ---
 
-<!-- 
+<!--- 
 _Text based on elsarticle sample manuscript, see [http://www.elsevier.com/author-schemas/latex-instructions#elsarticle](http://www.elsevier.com/author-schemas/latex-instructions#elsarticle)_
 
 This paper is an R markdown document that includes self-contained, reproducible analysis. To reproduce the paper the following files are needed:
 
 1. Interactions-Crash-Severity-v1.Rmd (this R markdown document)
 
-2. `paired_collisions_2017.RData`. For reference: this data file was created using R notebook `00-Data-Preprocessing-2017.Rmd`. Initial model estimation was done in R notebook `01-Data-Analysis.Rmd. Neither of these two notebooks are needed for this document. 
+2. Two data files: NCDB_2016.csv and NCDB_2017.csv. These datasets correspond to the 2016 and 2017 releases of Canada's National Crash Database. These data are released by Transport Canada under the Open Government License - Canada version 2.0 [https://open.canada.ca/en/open-government-licence-canada]. The datasets can be obtained here:
 
-3. `paired_collisions_2016.RData`. For reference: this data file was created using R notebook `00-Data-Preprocessing-2016.Rmd`. Initial model assessment was done in R notebook `02-Model-Assessment.Rmd. Neither of these two notebooks are needed for this document. 
+https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a
+
+Or from the following anonymous Drive folder:
+
+https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV
 
 3. For compiling into a pdf in the style of an Elsevier document: elsarticle.cls, elsevier-harvard.csl, elsevier-harvard-without-titles.csl, elsevier-vancouver.csl, elsevier-without-titles.cls, elsevier-with-titles.csl, elsevier-with-titles-alphabetical.csl, mybibfile.bib
--->
+--->
 
 ```{r load-packages, include=FALSE}
 # Load the packages used in this notebook:
@@ -980,7 +986,7 @@ ncdb_2016 <- ncdb_2016 %>%
 Introduction
 ==========================
 
-Road safety continues to be a concern world-wide. According to a recent report from the World Health Organization [-@WHO2019global], road accidents are the 8th leading cause of death for all ages, and the number one cause of death for children and young people between the ages of 5 to 29. Of all leading causes of death, road accidents are the only cause of death unrelated to disease, disorder, or infection. Road accidents impose a heavy burden on individuals and society as a whole. Gobally, the rate of road collision-related deaths per 100,000 population and 100,000 vehicles have both fallen, even as the number of vehicles has grown [@WHO2019global, Figs. 1 and 2]. These gains, although they are to be celebrated, cannot distract from the crushing economic cost of premature death [e.g., @Symons2019reduced; @Wijnen2019analysis], not to mention the long-term consequences for survivors, measured in sometimes crippling emotional and physical pain [e.g., @Merlin2007stress; @Devlin2019road; @Pelissier2019medical]. 
+Road safety continues to be a world-wide concern. According to a recent report from the World Health Organization [-@WHO2019global], road accidents are the 8th leading cause of death for all ages, and the number one cause of death for children and young people between the ages of 5 to 29. Of all leading causes of death, road accidents are the only cause of death unrelated to disease, disorder, or infection. Road accidents impose a heavy burden on individuals and society as a whole. Gobally, the rate of road collision-related deaths per 100,000 population and 100,000 vehicles have both fallen, even as the number of vehicles has grown [@WHO2019global, Figs. 1 and 2]. These gains, although they are to be celebrated, cannot distract from the crushing economic cost of premature death [e.g., @Symons2019reduced; @Wijnen2019analysis], not to mention the long-term consequences for survivors, measured in sometimes crippling emotional and physical pain [e.g., @Merlin2007stress; @Devlin2019road; @Pelissier2019medical]. 
 
 Evidence from across the world suggests that the burden of road accidents is not borne evenly. There are important disparities at the international level, where the odds of death due to road crashes are three times higher in low-income countries compared to high-income countries; in fact, no reductions in road accident-related fatalities were appreciated in low-income countries between 2013 and 2016 [@WHO2019global]. In the case of high-income countries, where substantial gains in road safety have been observed for years, said gains have also been unevenly distributed; thus, while fatal crashes involving older adults in the United States and Great Britain declined between 1997 and 2010 (despite the graying of the population), the trend remained stable or increased slightly in Australia in roughly the same period [@Thompson2018trends]. There are also systematic differences in the impact of road accidents. For example, in a study in the United States, Obeng [-@Obeng2011gender] reported that the impact of covariates of crash severity varied substantially in magnitude by gender. More recently, Regev et al. [-@Regev2018crash] used adjusted crash risk to find that the risk of crashes in Great Britain peaked for people 21 to 29 years of age; on the other hand, the risk of fatal injuries for older drivers was constant, irrespective of the seriousness of the crash - which highlights the perils of accidents at older ages. Other studies have concentrated on the consequences of road accidents for the young [e.g., @Peek-Asa2010teenage], the old [e.g., @Rakotonirainy2012older], as well as pedestrians and cyclists [e.g., @Hanson2013severity; @McArthur2014spatial].   
 
@@ -1281,7 +1287,7 @@ data.frame(Variable = c("C_CASE",
   kable_styling(font_size = 7, latex_options = c("striped", "repeat_header")) %>%
   column_spec(3, width = "32em") %>%
   footnote(general = c("Source NCDB available from https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a",
-                       "Preprocessed data for analysis available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV"))
+                       "Source data files for analysis also available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV"))
 ```
 
 ```{r ncdb-descriptives-vehicle, echo=FALSE, cache=TRUE}
@@ -1300,7 +1306,7 @@ data.frame(Variable = c("V_ID",
   kable_styling(font_size = 7, latex_options = c("striped", "repeat_header")) %>%
   column_spec(3, width = "32em") %>%
   footnote(general = c("Source NCDB available from https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a",
-                       "Preprocessed data for analysis available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV"))
+                       "Source data files for analysis also available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV"))
 ```
 
 ```{r ncdb-descriptives-person, echo=FALSE, cache=TRUE}
@@ -4592,9 +4598,11 @@ mod4_MOTORCYCLISTxHV <- polr(P_ISEV ~
                              control = list(maxit = 8000))
 ```
 
-Table \ref{tab:model-summary} collects some key summary statistics of the estimated models. Of interest is the goodness of fit of the models, which in the case is measured with Akaike's Information Criterion (AIC). This criterion is calculated using the estimated likelihood of the model, penalized by the number of coefficients in the model, so that other things being equal, it gives preference to more parsimonious models. Since smaller values of AIC are better fits, it is possible to see that, compared to the base model without opponent variables (Model 1), there are large and significant improvements in fit to be gained by introducing opponent effects. However, the gains are not as large when hierarchical specifications are used, even when the number of additional coefficients that need to be estimated is not substantially larger (recall that the penalty per parameter in AIC is 2). 
+Tables \ref{tab:model-full-sample-summary} and \ref{tab:model-subsample-summary} collect some key summary statistics of the estimated models. Of interest is the goodness of fit of the models, which in the case is measured with Akaike's Information Criterion (AIC). This criterion is calculated using the estimated likelihood of the model, penalized by the number of coefficients in the model, so that, other things being equal, it gives preference to more parsimonious models. The objective is to minimize the AIC, and therefore smaller values of this criterion represent better model fits. Turning our attention to the models estimated using the full sample (Table \ref{tab:model-full-sample-summary}), it is possible to see that, compared to the base (single-level) model without opponent variables (Model 1), there are large and significant improvements in fit to be gained by introducing opponent effects. However, the gains are not as large when hierarchical specifications are used, even when the number of additional coefficients that need to be estimated is not substantially larger (recall that the penalty per parameter in AIC is 2). The best model according to this measure of goodness of fit is Model 2 (single-level with opponent effects), followed by Model 4 (hierarchical opponent variables), Model 3 (hierarchical traffic unit variables with opponent effects), and finally Model 1 (single-level without opponent effects). 
 
-The likelihood function of the model, and therefore the value of the AIC, depend on the size of the sample, which is why AIC is not comparable across models estimated with different sample sizes. For this reason, the full sample models cannot be compared directly to the models estimated with subsets of data. The models in the ensembles, however, can be compared, and there we find that introducing opponent variables leads to a better fit in most, but not all cases. One model for pedestrians (when the opponent is a heavy vehicle), the two models for bicyclists, and the three models for motorcyclists are better fits when opponent variables are not used.
+It is important to note that the likelihood function of the model, and therefore the value of the AIC, both depend on the size of the sample, which is why AIC is not comparable across models estimated with different sample sizes. For this reason, the full sample models cannot be compared directly to the models estimated with subsets of data. The models in the ensembles, however, can be compared to each other (Table \ref{tab:model-subsample-summary}). As seen in the table, introducing opponent variables leads to a better fit in the case of most, but not all models. The simplest model (single-level without opponent effects) is clearly the best fitting candidate in the case of bicycle vs light truck collisions, bicycle vs heavy vehicle collisions, motorcyclist vs light duty vehicle collisions, and motorcyclist vs heavy vehicle collisions. Model 1 is a statistical toss for best performance with other model(s) in the case of pedestrian vs heavy vehicle collisions. The relative likelihood of Model 1 compared to Models 2 and 3 in this case is `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)`, which means that either of these two competing models are `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)` times as probable as Model 1 to minimize the information loss. 
+
+Model 2 is the best fit in the case of light truck vs heavy vehicle collisions. This model is also tied for best fit with Model 2 in the case of pedestrian vs light duty vehicle and pedestrian vs light truck collisions, and is a statistical toss with Model 4 in the case of heavy vehicle vs heavy vehicle collisions (relative likelihood is `r format(exp((AIC(mod2_HVxHV) - AIC(mod4_HVxHV))/2), digits = 3)`). Model 3 is the best fit in the case of light duty vehicle vs light duty vehicle collisions and heavy vehicle vs light duty vehicle. Model 4 is the best fit in the case of light duty vehicle vs light truck collisions, light duty vehicle vs heavy vehicle collisions, light truck vs light duty vehicle collisions, heavy vehicle vs light truck collisions, and motorcycle vs light truck collisions. This model is a statistical toss with Model 2 in the case of light truck vs light truck collisions, with a relative likelihood of `r format(exp((AIC(mod4_LTxLT) - AIC(mod2_LTxLT))/2), digits = 3)`.
 
 These results give some preliminary ideas about the relative performance of the different modelling strategies. In the next section we delve more deeply into this question.
 
@@ -4608,30 +4616,36 @@ save.image(file = "Models-and-Data.RData")
 load("Models-and-Data.RData")
 ```
 
-```{r model-summary, echo=FALSE, cache=TRUE}
+```{r model-full-sample-summary, echo=FALSE, cache=TRUE}
 data.frame(Model = c("Model 1", 
                      "Model 2",
                      "Model 3",
-                     "Model 4",
-                     "Light duty vehicle vs light duty vehicle",
-                     "Light duty vehicle vs light truck",
-                     "Light duty vehicle vs heavy vehicle",
-                     "Light truck vs light duty vehicle",
-                     "Light truck vs light truck",
-                     "Light truck vs heavy vehicle",
-                     "Heavy vehicle vs light duty vehicle",
-                     "Heavy vehicle vs light truck",
-                     "Heavy vehicle vs heavy vehicle",
-                     "Pedestrian vs light duty vehicle",
-                     "Pedestrian vs light truck",
-                     "Pedestrian vs heavy vehicle",
-                     "Bicyclist vs light duty vehicle",
-                     "Bicyclist vs light truck",
-                     "Bicyclist vs heavy vehicle",
-                     "Motorcyclist vs light duty vehicle",
-                     "Motorcyclist vs light truck",
-                     "Motorcyclist vs heavy vehicle",
-                     "Light duty vehicle vs light duty vehicle",
+                     "Model 4"),
+           n = c(mod1$nobs,
+                 mod2$nobs,
+                 mod3$nobs,
+                 mod4$nobs),
+           k = c(length(mod1$coefficients) + length(mod1$zeta),
+                 length(mod2$coefficients) + length(mod2$zeta),
+                 length(mod3$coefficients) + length(mod3$zeta),
+                 length(mod4$coefficients) + length(mod4$zeta)),
+           AIC = c(AIC(mod1),
+                   AIC(mod2),
+                   AIC(mod3),
+                   AIC(mod4))) %>%
+  mutate(n = format(n, digits = 2, big.mark = ","),
+         AIC = format(AIC, digits = 2, big.mark = ",")) %>%
+  kable(digits = 2,
+        booktabs = TRUE,
+        escape = FALSE,
+        align = c("l", "c", "c", "c"),
+        col.names = linebreak(c("Model", "Number of\nobservations", "Number of\ncoefficients", "AIC")),
+        caption = "\\label{tab:model-full-sample-summary}Summary of model estimation results: Full sample models") %>%
+  kable_styling(font_size = 7, latex_options = c("striped"))
+```
+
+```{r model-subsample-summary, echo=FALSE, cache=TRUE}
+data.frame(Model = c("Light duty vehicle vs light duty vehicle",
                      "Light duty vehicle vs light truck",
                      "Light duty vehicle vs heavy vehicle",
                      "Light truck vs light duty vehicle",
@@ -4649,138 +4663,195 @@ data.frame(Model = c("Model 1",
                      "Motorcyclist vs light duty vehicle",
                      "Motorcyclist vs light truck",
                      "Motorcyclist vs heavy vehicle"),
-           n = c(mod1$nobs,
-                 mod2$nobs,
-                 mod3$nobs,
-                 mod4$nobs,
-                 mod1_LDxLD$nobs,
-                 mod1_LDxLT$nobs,
-                 mod1_LDxHV$nobs,
-                 mod1_LTxLD$nobs,
-                 mod1_LTxLT$nobs,
-                 mod1_LTxHV$nobs,
-                 mod1_HVxLD$nobs,
-                 mod1_HVxLT$nobs,
-                 mod1_HVxHV$nobs,
-                 mod1_PEDESTRIANxLD$nobs,
-                 mod1_PEDESTRIANxLT$nobs,
-                 mod1_PEDESTRIANxHV$nobs,
-                 mod1_BICYCLISTxLD$nobs,
-                 mod1_BICYCLISTxLT$nobs,
-                 NA, 
-                 mod1_MOTORCYCLISTxLD$nobs,
-                 mod1_MOTORCYCLISTxLT$nobs,
-                 mod1_MOTORCYCLISTxHV$nobs,
-                 mod2_LDxLD$nobs,
-                 mod2_LDxLT$nobs,
-                 mod2_LDxHV$nobs,
-                 mod2_LTxLD$nobs,
-                 mod2_LTxLT$nobs,
-                 mod2_LTxHV$nobs,
-                 mod2_HVxLD$nobs,
-                 mod2_HVxLT$nobs,
-                 mod2_HVxHV$nobs,
-                 mod2_PEDESTRIANxLD$nobs,
-                 mod2_PEDESTRIANxLT$nobs,
-                 mod2_PEDESTRIANxHV$nobs,
-                 mod2_BICYCLISTxLD$nobs,
-                 mod2_BICYCLISTxLT$nobs,
-                 NA, 
-                 mod2_MOTORCYCLISTxLD$nobs,
-                 mod2_MOTORCYCLISTxLT$nobs,
-                 mod2_MOTORCYCLISTxHV$nobs),
-           k = c(length(mod1$coefficients) + length(mod1$zeta),
-                 length(mod2$coefficients) + length(mod2$zeta),
-                 length(mod3$coefficients) + length(mod3$zeta),
-                 length(mod4$coefficients) + length(mod4$zeta),
-                 length(mod1_LDxLD$coefficients) + length(mod1_LDxLD$zeta),
-                 length(mod1_LDxLT$coefficients) + length(mod1_LDxLT$zeta),
-                 length(mod1_LDxHV$coefficients) + length(mod1_LDxHV$zeta),
-                 length(mod1_LTxLD$coefficients) + length(mod1_LTxLD$zeta),
-                 length(mod1_LTxLT$coefficients) + length(mod1_LTxLT$zeta),
-                 length(mod1_LTxHV$coefficients) + length(mod1_LTxHV$zeta),
-                 length(mod1_HVxLD$coefficients) + length(mod1_HVxLD$zeta),
-                 length(mod1_HVxLT$coefficients) + length(mod1_HVxLT$zeta),
-                 length(mod1_HVxHV$coefficients) + length(mod1_HVxHV$zeta),
-                 length(mod1_PEDESTRIANxLD$coefficients) + length(mod1_PEDESTRIANxLD$zeta),
-                 length(mod1_PEDESTRIANxLT$coefficients) + length(mod1_PEDESTRIANxLT$zeta),
-                 length(mod1_PEDESTRIANxHV$coefficients) + length(mod1_PEDESTRIANxHV$zeta),
-                 length(mod1_BICYCLISTxLD$coefficients) + length(mod1_BICYCLISTxLD$zeta),
-                 length(mod1_BICYCLISTxLT$coefficients) + length(mod1_BICYCLISTxLT$zeta),
-                 NA, 
-                 length(mod1_MOTORCYCLISTxLD$coefficients) + length(mod1_MOTORCYCLISTxLD$zeta),
-                 length(mod1_MOTORCYCLISTxLT$coefficients) + length(mod1_MOTORCYCLISTxLT$zeta),
-                 length(mod1_MOTORCYCLISTxHV$coefficients) + length(mod1_MOTORCYCLISTxHV$zeta),
-                 length(mod2_LDxLD$coefficients) + length(mod2_LDxLD$zeta),
-                 length(mod2_LDxLT$coefficients) + length(mod2_LDxLT$zeta),
-                 length(mod2_LDxHV$coefficients) + length(mod2_LDxHV$zeta),
-                 length(mod2_LTxLD$coefficients) + length(mod2_LTxLD$zeta),
-                 length(mod2_LTxLT$coefficients) + length(mod2_LTxLT$zeta),
-                 length(mod2_LTxHV$coefficients) + length(mod2_LTxHV$zeta),
-                 length(mod2_HVxLD$coefficients) + length(mod2_HVxLD$zeta),
-                 length(mod2_HVxLT$coefficients) + length(mod2_HVxLT$zeta),
-                 length(mod2_HVxHV$coefficients) + length(mod2_HVxHV$zeta),
-                 length(mod2_PEDESTRIANxLD$coefficients) + length(mod2_PEDESTRIANxLD$zeta),
-                 length(mod2_PEDESTRIANxLT$coefficients) + length(mod2_PEDESTRIANxLT$zeta),
-                 length(mod2_PEDESTRIANxHV$coefficients) + length(mod2_PEDESTRIANxHV$zeta),
-                 length(mod2_BICYCLISTxLD$coefficients) + length(mod2_BICYCLISTxLD$zeta),
-                 length(mod2_BICYCLISTxLT$coefficients) + length(mod2_BICYCLISTxLT$zeta),
-                 NA, 
-                 length(mod2_MOTORCYCLISTxLD$coefficients) + length(mod2_MOTORCYCLISTxLD$zeta),
-                 length(mod2_MOTORCYCLISTxLT$coefficients) + length(mod2_MOTORCYCLISTxLT$zeta),
-                 length(mod2_MOTORCYCLISTxHV$coefficients)) + length(mod2_MOTORCYCLISTxHV$zeta),
-           AIC = c(AIC(mod1),
-                   AIC(mod2),
-                   AIC(mod3),
-                   AIC(mod4),
-                   AIC(mod1_LDxLD),
-                   AIC(mod1_LDxLT),
-                   AIC(mod1_LDxHV),
-                   AIC(mod1_LTxLD),
-                   AIC(mod1_LTxLT),
-                   AIC(mod1_LTxHV),
-                   AIC(mod1_HVxLD),
-                   AIC(mod1_HVxLT),
-                   AIC(mod1_HVxHV),
-                   AIC(mod1_PEDESTRIANxLD),
-                   AIC(mod1_PEDESTRIANxLT),
-                   AIC(mod1_PEDESTRIANxHV),
-                   AIC(mod1_BICYCLISTxLD),
-                   AIC(mod1_BICYCLISTxLT),
-                   NA, 
-                   AIC(mod1_MOTORCYCLISTxLD),
-                   AIC(mod1_MOTORCYCLISTxLT),
-                   AIC(mod1_MOTORCYCLISTxHV),
-                   AIC(mod2_LDxLD),
-                   AIC(mod2_LDxLT),
-                   AIC(mod2_LDxHV),
-                   AIC(mod2_LTxLD),
-                   AIC(mod2_LTxLT),
-                   AIC(mod2_LTxHV),
-                   AIC(mod2_HVxLD),
-                   AIC(mod2_HVxLT),
-                   AIC(mod2_HVxHV),
-                   AIC(mod2_PEDESTRIANxLD),
-                   AIC(mod2_PEDESTRIANxLT),
-                   AIC(mod2_PEDESTRIANxHV),
-                   AIC(mod2_BICYCLISTxLD),
-                   AIC(mod2_BICYCLISTxLT),
-                   NA, 
-                   AIC(mod2_MOTORCYCLISTxLD),
-                   AIC(mod2_MOTORCYCLISTxLT),
-                   AIC(mod2_MOTORCYCLISTxHV))) %>%
-  mutate(n = format(n, digits = 2, big.mark = ","),
-         AIC = format(AIC, digits = 2, big.mark = ",")) %>%
+           n1 = c(mod1_LDxLD$nobs,
+                  mod1_LDxLT$nobs,
+                  mod1_LDxHV$nobs,
+                  mod1_LTxLD$nobs,
+                  mod1_LTxLT$nobs,
+                  mod1_LTxHV$nobs,
+                  mod1_HVxLD$nobs,
+                  mod1_HVxLT$nobs,
+                  mod1_HVxHV$nobs,
+                  mod1_PEDESTRIANxLD$nobs,
+                  mod1_PEDESTRIANxLT$nobs,
+                  mod1_PEDESTRIANxHV$nobs,
+                  mod1_BICYCLISTxLD$nobs,
+                  mod1_BICYCLISTxLT$nobs,
+                  NA, 
+                  mod1_MOTORCYCLISTxLD$nobs,
+                  mod1_MOTORCYCLISTxLT$nobs,
+                  mod1_MOTORCYCLISTxHV$nobs),
+           k1 = c(length(mod1_LDxLD$coefficients) + length(mod1_LDxLD$zeta),
+                  length(mod1_LDxLT$coefficients) + length(mod1_LDxLT$zeta),
+                  length(mod1_LDxHV$coefficients) + length(mod1_LDxHV$zeta),
+                  length(mod1_LTxLD$coefficients) + length(mod1_LTxLD$zeta),
+                  length(mod1_LTxLT$coefficients) + length(mod1_LTxLT$zeta),
+                  length(mod1_LTxHV$coefficients) + length(mod1_LTxHV$zeta),
+                  length(mod1_HVxLD$coefficients) + length(mod1_HVxLD$zeta),
+                  length(mod1_HVxLT$coefficients) + length(mod1_HVxLT$zeta),
+                  length(mod1_HVxHV$coefficients) + length(mod1_HVxHV$zeta),
+                  length(mod1_PEDESTRIANxLD$coefficients) + length(mod1_PEDESTRIANxLD$zeta),
+                  length(mod1_PEDESTRIANxLT$coefficients) + length(mod1_PEDESTRIANxLT$zeta),
+                  length(mod1_PEDESTRIANxHV$coefficients) + length(mod1_PEDESTRIANxHV$zeta),
+                  length(mod1_BICYCLISTxLD$coefficients) + length(mod1_BICYCLISTxLD$zeta),
+                  length(mod1_BICYCLISTxLT$coefficients) + length(mod1_BICYCLISTxLT$zeta),
+                  NA, 
+                  length(mod1_MOTORCYCLISTxLD$coefficients) + length(mod1_MOTORCYCLISTxLD$zeta),
+                  length(mod1_MOTORCYCLISTxLT$coefficients) + length(mod1_MOTORCYCLISTxLT$zeta),
+                  length(mod1_MOTORCYCLISTxHV$coefficients) + length(mod1_MOTORCYCLISTxHV$zeta)),
+           AIC1 = c(AIC(mod1_LDxLD),
+                    AIC(mod1_LDxLT),
+                    AIC(mod1_LDxHV),
+                    AIC(mod1_LTxLD),
+                    AIC(mod1_LTxLT),
+                    AIC(mod1_LTxHV),
+                    AIC(mod1_HVxLD),
+                    AIC(mod1_HVxLT),
+                    AIC(mod1_HVxHV),
+                    AIC(mod1_PEDESTRIANxLD),
+                    AIC(mod1_PEDESTRIANxLT),
+                    AIC(mod1_PEDESTRIANxHV),
+                    AIC(mod1_BICYCLISTxLD),
+                    AIC(mod1_BICYCLISTxLT),
+                    NA, 
+                    AIC(mod1_MOTORCYCLISTxLD),
+                    AIC(mod1_MOTORCYCLISTxLT),
+                    AIC(mod1_MOTORCYCLISTxHV)),
+           k2 = c(length(mod2_LDxLD$coefficients) + length(mod2_LDxLD$zeta),
+                  length(mod2_LDxLT$coefficients) + length(mod2_LDxLT$zeta),
+                  length(mod2_LDxHV$coefficients) + length(mod2_LDxHV$zeta),
+                  length(mod2_LTxLD$coefficients) + length(mod2_LTxLD$zeta),
+                  length(mod2_LTxLT$coefficients) + length(mod2_LTxLT$zeta),
+                  length(mod2_LTxHV$coefficients) + length(mod2_LTxHV$zeta),
+                  length(mod2_HVxLD$coefficients) + length(mod2_HVxLD$zeta),
+                  length(mod2_HVxLT$coefficients) + length(mod2_HVxLT$zeta),
+                  length(mod2_HVxHV$coefficients) + length(mod2_HVxHV$zeta),
+                  length(mod2_PEDESTRIANxLD$coefficients) + length(mod2_PEDESTRIANxLD$zeta),
+                  length(mod2_PEDESTRIANxLT$coefficients) + length(mod2_PEDESTRIANxLT$zeta),
+                  length(mod2_PEDESTRIANxHV$coefficients) + length(mod2_PEDESTRIANxHV$zeta),
+                  length(mod2_BICYCLISTxLD$coefficients) + length(mod2_BICYCLISTxLD$zeta),
+                  length(mod2_BICYCLISTxLT$coefficients) + length(mod2_BICYCLISTxLT$zeta),
+                  NA, 
+                  length(mod2_MOTORCYCLISTxLD$coefficients) + length(mod2_MOTORCYCLISTxLD$zeta),
+                  length(mod2_MOTORCYCLISTxLT$coefficients) + length(mod2_MOTORCYCLISTxLT$zeta),
+                  length(mod2_MOTORCYCLISTxHV$coefficients) + length(mod2_MOTORCYCLISTxHV$zeta)),
+           AIC2 = c(AIC(mod2_LDxLD),
+                    AIC(mod2_LDxLT),
+                    AIC(mod2_LDxHV),
+                    AIC(mod2_LTxLD),
+                    AIC(mod2_LTxLT),
+                    AIC(mod2_LTxHV),
+                    AIC(mod2_HVxLD),
+                    AIC(mod2_HVxLT),
+                    AIC(mod2_HVxHV),
+                    AIC(mod2_PEDESTRIANxLD),
+                    AIC(mod2_PEDESTRIANxLT),
+                    AIC(mod2_PEDESTRIANxHV),
+                    AIC(mod2_BICYCLISTxLD),
+                    AIC(mod2_BICYCLISTxLT),
+                    NA, 
+                    AIC(mod2_MOTORCYCLISTxLD),
+                    AIC(mod2_MOTORCYCLISTxLT),
+                    AIC(mod2_MOTORCYCLISTxHV)),
+           k3 = c(length(mod3_LDxLD$coefficients) + length(mod3_LDxLD$zeta),
+                  length(mod3_LDxLT$coefficients) + length(mod3_LDxLT$zeta),
+                  length(mod3_LDxHV$coefficients) + length(mod3_LDxHV$zeta),
+                  length(mod3_LTxLD$coefficients) + length(mod3_LTxLD$zeta),
+                  length(mod3_LTxLT$coefficients) + length(mod3_LTxLT$zeta),
+                  length(mod3_LTxHV$coefficients) + length(mod3_LTxHV$zeta),
+                  length(mod3_HVxLD$coefficients) + length(mod3_HVxLD$zeta),
+                  length(mod3_HVxLT$coefficients) + length(mod3_HVxLT$zeta),
+                  length(mod3_HVxHV$coefficients) + length(mod3_HVxHV$zeta),
+                  length(mod3_PEDESTRIANxLD$coefficients) + length(mod3_PEDESTRIANxLD$zeta),
+                  length(mod3_PEDESTRIANxLT$coefficients) + length(mod3_PEDESTRIANxLT$zeta),
+                  length(mod3_PEDESTRIANxHV$coefficients) + length(mod3_PEDESTRIANxHV$zeta),
+                  length(mod3_BICYCLISTxLD$coefficients) + length(mod3_BICYCLISTxLD$zeta),
+                  length(mod3_BICYCLISTxLT$coefficients) + length(mod3_BICYCLISTxLT$zeta),
+                  NA, 
+                  length(mod3_MOTORCYCLISTxLD$coefficients) + length(mod3_MOTORCYCLISTxLD$zeta),
+                  length(mod3_MOTORCYCLISTxLT$coefficients) + length(mod3_MOTORCYCLISTxLT$zeta),
+                  length(mod3_MOTORCYCLISTxHV$coefficients) + length(mod3_MOTORCYCLISTxHV$zeta)),
+           AIC3 = c(AIC(mod3_LDxLD),
+                    AIC(mod3_LDxLT),
+                    AIC(mod3_LDxHV),
+                    AIC(mod3_LTxLD),
+                    AIC(mod3_LTxLT),
+                    AIC(mod3_LTxHV),
+                    AIC(mod3_HVxLD),
+                    AIC(mod3_HVxLT),
+                    AIC(mod3_HVxHV),
+                    AIC(mod3_PEDESTRIANxLD),
+                    AIC(mod3_PEDESTRIANxLT),
+                    AIC(mod3_PEDESTRIANxHV),
+                    AIC(mod3_BICYCLISTxLD),
+                    AIC(mod3_BICYCLISTxLT),
+                    NA, 
+                    AIC(mod3_MOTORCYCLISTxLD),
+                    AIC(mod3_MOTORCYCLISTxLT),
+                    AIC(mod3_MOTORCYCLISTxHV)),
+           k4 = c(length(mod4_LDxLD$coefficients) + length(mod4_LDxLD$zeta),
+                  length(mod4_LDxLT$coefficients) + length(mod4_LDxLT$zeta),
+                  length(mod4_LDxHV$coefficients) + length(mod4_LDxHV$zeta),
+                  length(mod4_LTxLD$coefficients) + length(mod4_LTxLD$zeta),
+                  length(mod4_LTxLT$coefficients) + length(mod4_LTxLT$zeta),
+                  length(mod4_LTxHV$coefficients) + length(mod4_LTxHV$zeta),
+                  length(mod4_HVxLD$coefficients) + length(mod4_HVxLD$zeta),
+                  length(mod4_HVxLT$coefficients) + length(mod4_HVxLT$zeta),
+                  length(mod4_HVxHV$coefficients) + length(mod4_HVxHV$zeta),
+                  length(mod4_PEDESTRIANxLD$coefficients) + length(mod4_PEDESTRIANxLD$zeta),
+                  length(mod4_PEDESTRIANxLT$coefficients) + length(mod4_PEDESTRIANxLT$zeta),
+                  length(mod4_PEDESTRIANxHV$coefficients) + length(mod4_PEDESTRIANxHV$zeta),
+                  length(mod4_BICYCLISTxLD$coefficients) + length(mod4_BICYCLISTxLD$zeta),
+                  length(mod4_BICYCLISTxLT$coefficients) + length(mod4_BICYCLISTxLT$zeta),
+                  NA, 
+                  length(mod4_MOTORCYCLISTxLD$coefficients) + length(mod4_MOTORCYCLISTxLD$zeta),
+                  length(mod4_MOTORCYCLISTxLT$coefficients) + length(mod4_MOTORCYCLISTxLT$zeta),
+                  length(mod4_MOTORCYCLISTxHV$coefficients) + length(mod4_MOTORCYCLISTxHV$zeta)),
+           AIC4 = c(AIC(mod4_LDxLD),
+                    AIC(mod4_LDxLT),
+                    AIC(mod4_LDxHV),
+                    AIC(mod4_LTxLD),
+                    AIC(mod4_LTxLT),
+                    AIC(mod4_LTxHV),
+                    AIC(mod4_HVxLD),
+                    AIC(mod4_HVxLT),
+                    AIC(mod4_HVxHV),
+                    AIC(mod4_PEDESTRIANxLD),
+                    AIC(mod4_PEDESTRIANxLT),
+                    AIC(mod4_PEDESTRIANxHV),
+                    AIC(mod4_BICYCLISTxLD),
+                    AIC(mod4_BICYCLISTxLT),
+                    NA, 
+                    AIC(mod4_MOTORCYCLISTxLD),
+                    AIC(mod4_MOTORCYCLISTxLT),
+                    AIC(mod4_MOTORCYCLISTxHV))) %>%
+  mutate(n1 = format(n1, digits = 2, big.mark = ","),
+         AIC1 = format(AIC1, digits = 2, big.mark = ","),
+         AIC2 = format(AIC2, digits = 2, big.mark = ","),
+         AIC3 = format(AIC3, digits = 2, big.mark = ","),
+         AIC4 = format(AIC4, digits = 2, big.mark = ","),
+         n1 = replace(n1, n1 == "     NA", "-"),
+         k1 = replace(k1, is.na(k1), "-"),
+         k2 = replace(k2, is.na(k2), "-"),
+         k3 = replace(k3, is.na(k3), "-"),
+         k4 = replace(k4, is.na(k4), "-"),
+         AIC1 = replace(AIC1, AIC1 == "     NA", "-"),
+         AIC2 = replace(AIC2, AIC2 == "     NA", "-"),
+         AIC3 = replace(AIC3, AIC3 == "     NA", "-"),
+         AIC4 = replace(AIC4, AIC4 == "     NA", "-")) %>%
   kable(digits = 2,
         booktabs = TRUE,
         escape = FALSE,
-        align = c("l", "c", "c", "c"),
-        col.names = linebreak(c("Model", "Number of\nobservations", "Number of\ncoefficients", "AIC")),
-        caption = "\\label{tab:model-summary}Summary of model estimation results") %>%
-  kable_styling(font_size = 7, latex_options = c("striped")) %>%
-  pack_rows("Full sample models", 1, 4) %>% 
-  pack_rows("Model 1 Ensemble (sample subsets by user type vs opponent)", 5, 22) %>% 
-  pack_rows("Model 2 Ensemble (sample subsets by user type vs opponent)", 23, 40) %>%
+        align = c("l", "c", "c", "c", "c", "c", "c", "c", "c", "c"),
+        col.names = linebreak(c("Model", "Number of\nobservations", 
+                                "Number of\ncoefficients", "AIC",
+                                "Number of\ncoefficients", "AIC", 
+                                "Number of\ncoefficients", "AIC", 
+                                "Number of\ncoefficients", "AIC")),
+        caption = "\\label{tab:model-summary}Summary of model estimation results: Subsample Models") %>%
+  kable_styling(font_size = 7, latex_options = c("striped", "scale_down")) %>%
+  add_header_above(c(" " = 1, " " = 1, "Model 1" = 2, "Model 2" = 2, "Model 3" = 2, "Model 4" = 2)) %>%
+  landscape() %>%
   footnote(general = "There are zero cases of Bicyclist vs heavy vehicle in the sample")
 ```
 
@@ -4789,7 +4860,7 @@ Model assessment {#sec:assessment}
 
 In this section we report an in-depth examination of the performance of the models. To this end, we use the models to conduct in-sample predictions (i.e., nowcasting), using the same sample that was used to estimate the models. In addition, we also conduct out-of-sample predictions, using the dataset corresponding to the year 2016, processed in identical way as the estimation sample (i.e., the 2017 dataset). This is an example of backcasting. Broadly, we evaluate the models in two ways: first, we compute the estimated shares of each outcome based on the predicted probabilities; and secondly, we evaluate the predicted outcomes.
 
-## Outcome shares based on estimated probabilities
+## Outcome shares based on predicted probabilities
 
 The shares of each outcome are calculated as the sum of the estimated probabilities for each observation:
 
@@ -7151,7 +7222,7 @@ rbind(nowcast_ape %>% rename(No.Injury.obs = No.Injury.2017, Injury.obs = Injury
   landscape()
 ```
 
-## Predicted outcomes
+## Outcome frequency based on predicted classes
 
 Words go here.
 
@@ -8386,325 +8457,325 @@ P_ISEV_mod3 <- data.frame(P_ISEV_mod = predict(mod3, newdata = backcast_data.df,
 
 ```{r backcast-classes-model-3-ensemble, include=FALSE, cache=TRUE}
 P_ISEV_mod <- c(predict(mod3_LDxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LDxLD == 1), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_LDxLT, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LDxLT == 1,
-                                               C_CONF != "Hit a stationary object",
-                                               C_RSUR != "Sand/Gravel/Dirt",
-                                               C_RALN != "Other",
-                                               C_TRAF != "Railway crossing with signals, or signals and gates"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_LDxHV, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LDxHV == 1,
-                                               C_CONF != "Rollover on roadway",
-                                               C_RSUR != "Oil",
-                                               C_TRAF != "School crossing",
-                                               C_TRAF != "Railway crossing with signals, or signals and gates",
-                                               C_TRAF != "Railway crossing with signs only"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_LTxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LTxLD == 1,
-                                               P1_SAFE != "Helmet",
-                                               C_CONF != "Hit a stationary object",
-                                               C_RSUR != "Sand/Gravel/Dirt",
-                                               C_RALN != "Other",
-                                               C_TRAF != "Railway crossing with signals, or signals and gates"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_LTxLT, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LTxLT == 1,
-                                               C_WTHR != "Unknown",
-                                               C_RALN != "Unknown"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_LTxHV, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(LTxHV == 1,
-                                               C_CONF != "Hit a parked motor vehicle",
-                                               C_RSUR != "Other",
-                                               C_TRAF != "School bus stopped with school bus signal lights flashing"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_HVxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(HVxLD == 1,
-                                               C_RCFG != "Traffic circle",
-                                               C_RCFG != "Freeway Express Lane",
-                                               C_WTHR != "Other",
-                                               C_RSUR != "Sand/Gravel/Dirt",
-                                               C_RSUR != "Oil",
-                                               C_TRAF != "No passing zone sign",
-                                               C_TRAF != "Markings on the road",
-                                               C_TRAF != "Warning sign",
-                                               C_TRAF != "School crossing",
-                                               C_TRAF != "Railway crossing with signals, or signals and gates",
-                                               C_TRAF != "Railway crossing with signs only",
-                                               C_TRAF != "Control device not specified") %>% 
-                                        droplevels(), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_HVxLT, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(HVxLT == 1,
-                                               C_CONF != "Other Single Vehicle",
-                                               C_CONF != "Ran off right shoulder",
-                                               C_CONF != "Hit a parked motor vehicle",
-                                               C_RCFG != "Bridge/Overpass/Viaduct",
-                                               C_RSUR != "Other",
-                                               C_TRAF != "School bus stopped with school bus signal lights flashing"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_HVxHV, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(HVxHV == 1,
-                                               C_CONF != "Ran off right shoulder",
-                                               C_CONF != "Any other two vehicle - same direction of travel configuration",
-                                               C_WTHR != "Other",
-                                               C_TRAF != "Flashing Traffic"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_PEDESTRIANxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(PEDESTRIANxLD == 1,
-                                               C_RCFG != "Tunnel/Underpass"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_PEDESTRIANxLT, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(PEDESTRIANxLT == 1,
-                                               P1_SAFE != "Safety Device",
-                                               C_CONF != "Side swipe",
-                                               C_WTHR != "Strong wind",
-                                               C_RALN != "Top of hill or gradient",
-                                               C_TRAF != "Flashing Traffic"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_PEDESTRIANxHV, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(PEDESTRIANxHV == 1,
-                                               C_CONF != "One vehicle passing to the right of the other, or right turn conflict",
-                                               C_CONF != "Right turn, including turning conflicts",
-                                               C_CONF != "Any other two-vehicle - different direction of travel configuration",
-                                               C_TRAF != "School bus stopped with school bus signal lights flashing",
-                                               C_TRAF != "Control device not specified"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_BICYCLISTxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(BICYCLISTxLD == 1,
-                                               C_CONF != "Ran off left shoulder",
-                                               C_TRAF != "No passing zone sign",
-                                               C_TRAF != "Control device not specified"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_BICYCLISTxLT, 
-                                      newdata = backcast_data.df %>% filter(BICYCLISTxLT == 1,
-                                                                            P1_SAFE != "Other",
-                                                                            P1_SAFE != "Safety Device",
-                                                                            C_CONF != "Other Single Vehicle",
-                                                                            C_CONF != "Hit a parked motor vehicle",
-                                                                            C_WTHR != "Unknown",
-                                                                            C_RALN != "Curved and level") %>% 
-                                        droplevels(), 
-                                      type = "class"),
-                              #**********************************#
-                              #predict(mod3_BICYCLISTxHV, newdata = backcast_data.df %>% filter(BICYCLISTxHV == 1), type = "class"),
-                              #**********************************#
-                              predict(mod3_MOTORCYCLISTxLD, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(MOTORCYCLISTxLD == 1,
-                                               C_WTHR != "Snowing, not including drifting snow",
-                                               C_WTHR != "Freezing rain, sleet, hail",
-                                               C_WTHR != "Strong wind"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_MOTORCYCLISTxLT, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(MOTORCYCLISTxLT == 1,
-                                               C_CONF != "Any other two vehicle - same direction of travel configuration",
-                                               C_WTHR != "Snowing, not including drifting snow",
-                                               C_MNTH != "December"), 
-                                      type = "class"),
-                              #**********************************#
-                              predict(mod3_MOTORCYCLISTxHV, 
-                                      newdata = backcast_data.df %>% 
-                                        filter(MOTORCYCLISTxHV == 1,
-                                               P1_SAFE != "Safety Device",
-                                               C_CONF != "Approaching side-swipe",
-                                               C_CONF != "Right turn, including turning conflicts",
-                                               C_RCFG != "Bridge/Overpass/Viaduct",
-                                               C_RCFG != "Intersection with Entrance",
-                                               C_RCFG != "Other",
-                                               C_RALN != "Top of hill or gradient",
-                                               C_TRAF != "School guard",
-                                               C_TRAF != "Markings on the road",
-                                               C_WTHR != "Strong wind",
-                                               C_RSUR != "Sand/Gravel/Dirt",
-                                               C_MNTH != "November") %>% 
-                                        droplevels(), 
-                                      type = "class"))
-  #********************************#
+                        newdata = backcast_data.df %>% 
+                          filter(LDxLD == 1), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_LDxLT, 
+                        newdata = backcast_data.df %>% 
+                          filter(LDxLT == 1,
+                                 C_CONF != "Hit a stationary object",
+                                 C_RSUR != "Sand/Gravel/Dirt",
+                                 C_RALN != "Other",
+                                 C_TRAF != "Railway crossing with signals, or signals and gates"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_LDxHV, 
+                        newdata = backcast_data.df %>% 
+                          filter(LDxHV == 1,
+                                 C_CONF != "Rollover on roadway",
+                                 C_RSUR != "Oil",
+                                 C_TRAF != "School crossing",
+                                 C_TRAF != "Railway crossing with signals, or signals and gates",
+                                 C_TRAF != "Railway crossing with signs only"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_LTxLD, 
+                        newdata = backcast_data.df %>% 
+                          filter(LTxLD == 1,
+                                 P1_SAFE != "Helmet",
+                                 C_CONF != "Hit a stationary object",
+                                 C_RSUR != "Sand/Gravel/Dirt",
+                                 C_RALN != "Other",
+                                 C_TRAF != "Railway crossing with signals, or signals and gates"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_LTxLT, 
+                        newdata = backcast_data.df %>% 
+                          filter(LTxLT == 1,
+                                 C_WTHR != "Unknown",
+                                 C_RALN != "Unknown"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_LTxHV, 
+                        newdata = backcast_data.df %>% 
+                          filter(LTxHV == 1,
+                                 C_CONF != "Hit a parked motor vehicle",
+                                 C_RSUR != "Other",
+                                 C_TRAF != "School bus stopped with school bus signal lights flashing"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_HVxLD, 
+                        newdata = backcast_data.df %>% 
+                          filter(HVxLD == 1,
+                                 C_RCFG != "Traffic circle",
+                                 C_RCFG != "Freeway Express Lane",
+                                 C_WTHR != "Other",
+                                 C_RSUR != "Sand/Gravel/Dirt",
+                                 C_RSUR != "Oil",
+                                 C_TRAF != "No passing zone sign",
+                                 C_TRAF != "Markings on the road",
+                                 C_TRAF != "Warning sign",
+                                 C_TRAF != "School crossing",
+                                 C_TRAF != "Railway crossing with signals, or signals and gates",
+                                 C_TRAF != "Railway crossing with signs only",
+                                 C_TRAF != "Control device not specified") %>% 
+                          droplevels(), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_HVxLT, 
+                        newdata = backcast_data.df %>% 
+                          filter(HVxLT == 1,
+                                 C_CONF != "Other Single Vehicle",
+                                 C_CONF != "Ran off right shoulder",
+                                 C_CONF != "Hit a parked motor vehicle",
+                                 C_RCFG != "Bridge/Overpass/Viaduct",
+                                 C_RSUR != "Other",
+                                 C_TRAF != "School bus stopped with school bus signal lights flashing"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_HVxHV, 
+                        newdata = backcast_data.df %>% 
+                          filter(HVxHV == 1,
+                                 C_CONF != "Ran off right shoulder",
+                                 C_CONF != "Any other two vehicle - same direction of travel configuration",
+                                 C_WTHR != "Other",
+                                 C_TRAF != "Flashing Traffic"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_PEDESTRIANxLD, 
+                        newdata = backcast_data.df %>% 
+                          filter(PEDESTRIANxLD == 1,
+                                 C_RCFG != "Tunnel/Underpass"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_PEDESTRIANxLT, 
+                        newdata = backcast_data.df %>% 
+                          filter(PEDESTRIANxLT == 1,
+                                 P1_SAFE != "Safety Device",
+                                 C_CONF != "Side swipe",
+                                 C_WTHR != "Strong wind",
+                                 C_RALN != "Top of hill or gradient",
+                                 C_TRAF != "Flashing Traffic"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_PEDESTRIANxHV, 
+                        newdata = backcast_data.df %>% 
+                          filter(PEDESTRIANxHV == 1,
+                                 C_CONF != "One vehicle passing to the right of the other, or right turn conflict",
+                                 C_CONF != "Right turn, including turning conflicts",
+                                 C_CONF != "Any other two-vehicle - different direction of travel configuration",
+                                 C_TRAF != "School bus stopped with school bus signal lights flashing",
+                                 C_TRAF != "Control device not specified"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_BICYCLISTxLD, 
+                        newdata = backcast_data.df %>% 
+                          filter(BICYCLISTxLD == 1,
+                                 C_CONF != "Ran off left shoulder",
+                                 C_TRAF != "No passing zone sign",
+                                 C_TRAF != "Control device not specified"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_BICYCLISTxLT, 
+                        newdata = backcast_data.df %>% filter(BICYCLISTxLT == 1,
+                                                              P1_SAFE != "Other",
+                                                              P1_SAFE != "Safety Device",
+                                                              C_CONF != "Other Single Vehicle",
+                                                              C_CONF != "Hit a parked motor vehicle",
+                                                              C_WTHR != "Unknown",
+                                                              C_RALN != "Curved and level") %>% 
+                          droplevels(), 
+                        type = "class"),
+                #**********************************#
+                #predict(mod3_BICYCLISTxHV, newdata = backcast_data.df %>% filter(BICYCLISTxHV == 1), type = "class"),
+                #**********************************#
+                predict(mod3_MOTORCYCLISTxLD, 
+                        newdata = backcast_data.df %>% 
+                          filter(MOTORCYCLISTxLD == 1,
+                                 C_WTHR != "Snowing, not including drifting snow",
+                                 C_WTHR != "Freezing rain, sleet, hail",
+                                 C_WTHR != "Strong wind"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_MOTORCYCLISTxLT, 
+                        newdata = backcast_data.df %>% 
+                          filter(MOTORCYCLISTxLT == 1,
+                                 C_CONF != "Any other two vehicle - same direction of travel configuration",
+                                 C_WTHR != "Snowing, not including drifting snow",
+                                 C_MNTH != "December"), 
+                        type = "class"),
+                #**********************************#
+                predict(mod3_MOTORCYCLISTxHV, 
+                        newdata = backcast_data.df %>% 
+                          filter(MOTORCYCLISTxHV == 1,
+                                 P1_SAFE != "Safety Device",
+                                 C_CONF != "Approaching side-swipe",
+                                 C_CONF != "Right turn, including turning conflicts",
+                                 C_RCFG != "Bridge/Overpass/Viaduct",
+                                 C_RCFG != "Intersection with Entrance",
+                                 C_RCFG != "Other",
+                                 C_RALN != "Top of hill or gradient",
+                                 C_TRAF != "School guard",
+                                 C_TRAF != "Markings on the road",
+                                 C_WTHR != "Strong wind",
+                                 C_RSUR != "Sand/Gravel/Dirt",
+                                 C_MNTH != "November") %>% 
+                          droplevels(), 
+                        type = "class"))
+#********************************#
 P_ISEV_mod3_ensemble <- data.frame(P_ISEV_mod,
                                    rbind(backcast_data.df %>% 
-                     filter(LDxLD == 1) %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(LDxLT == 1,
-                            C_CONF != "Hit a stationary object",
-                            C_RSUR != "Sand/Gravel/Dirt",
-                            C_RALN != "Other",
-                            C_TRAF != "Railway crossing with signals, or signals and gates") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(LDxHV == 1,
-                            C_CONF != "Rollover on roadway",
-                            C_RSUR != "Oil",
-                            C_TRAF != "School crossing",
-                            C_TRAF != "Railway crossing with signals, or signals and gates",
-                            C_TRAF != "Railway crossing with signs only") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(LTxLD == 1,
-                            P1_SAFE != "Helmet",
-                            C_CONF != "Hit a stationary object",
-                            C_RSUR != "Sand/Gravel/Dirt",
-                            C_RALN != "Other",
-                            C_TRAF != "Railway crossing with signals, or signals and gates") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(LTxLT == 1,
-                            C_WTHR != "Unknown",
-                            C_RALN != "Unknown") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(LTxHV == 1,
-                            C_CONF != "Hit a parked motor vehicle",
-                            C_RSUR != "Other",
-                            C_TRAF != "School bus stopped with school bus signal lights flashing") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(HVxLD == 1,
-                            C_RCFG != "Traffic circle",
-                            C_RCFG != "Freeway Express Lane",
-                            C_WTHR != "Other",
-                            C_RSUR != "Sand/Gravel/Dirt",
-                            C_RSUR != "Oil",
-                            C_TRAF != "No passing zone sign",
-                            C_TRAF != "Markings on the road",
-                            C_TRAF != "Warning sign",
-                            C_TRAF != "School crossing",
-                            C_TRAF != "Railway crossing with signals, or signals and gates",
-                            C_TRAF != "Railway crossing with signs only",
-                            C_TRAF != "Control device not specified") %>% 
-                     droplevels() %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(HVxLT == 1,
-                            C_CONF != "Other Single Vehicle",
-                            C_CONF != "Ran off right shoulder",
-                            C_CONF != "Hit a parked motor vehicle",
-                            C_RCFG != "Bridge/Overpass/Viaduct",
-                            C_RSUR != "Other",
-                            C_TRAF != "School bus stopped with school bus signal lights flashing") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(HVxHV == 1,
-                            C_CONF != "Ran off right shoulder",
-                            C_CONF != "Any other two vehicle - same direction of travel configuration",
-                            C_WTHR != "Other",
-                            C_TRAF != "Flashing Traffic") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(PEDESTRIANxLD == 1,
-                            C_RCFG != "Tunnel/Underpass") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(PEDESTRIANxLT == 1,
-                            P1_SAFE != "Safety Device",
-                            C_CONF != "Side swipe",
-                            C_WTHR != "Strong wind",
-                            C_RALN != "Top of hill or gradient",
-                            C_TRAF != "Flashing Traffic") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(PEDESTRIANxHV == 1,
-                            C_CONF != "One vehicle passing to the right of the other, or right turn conflict",
-                            C_CONF != "Right turn, including turning conflicts",
-                            C_CONF != "Any other two-vehicle - different direction of travel configuration",
-                            C_TRAF != "School bus stopped with school bus signal lights flashing",
-                            C_TRAF != "Control device not specified") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(BICYCLISTxLD == 1,
-                            C_CONF != "Ran off left shoulder",
-                            C_TRAF != "No passing zone sign",
-                            C_TRAF != "Control device not specified") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% filter(BICYCLISTxLT == 1,
-                                               P1_SAFE != "Other",
-                                               P1_SAFE != "Safety Device",
-                                               C_CONF != "Other Single Vehicle",
-                                               C_CONF != "Hit a parked motor vehicle",
-                                               C_WTHR != "Unknown",
-                                               C_RALN != "Curved and level") %>% 
-                     droplevels() %>%
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   #backcast_data.df %>% filter(BICYCLISTxHV == 1) %>% dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(MOTORCYCLISTxLD == 1,
-                            C_WTHR != "Snowing, not including drifting snow",
-                            C_WTHR != "Freezing rain, sleet, hail",
-                            C_WTHR != "Strong wind") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(MOTORCYCLISTxLT == 1,
-                            C_CONF != "Any other two vehicle - same direction of travel configuration",
-                            C_WTHR != "Snowing, not including drifting snow",
-                            C_MNTH != "December") %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
-                   #********************************#
-                   backcast_data.df %>% 
-                     filter(MOTORCYCLISTxHV == 1,
-                            P1_SAFE != "Safety Device",
-                            C_CONF != "Approaching side-swipe",
-                            C_CONF != "Right turn, including turning conflicts",
-                            C_RCFG != "Bridge/Overpass/Viaduct",
-                            C_RCFG != "Intersection with Entrance",
-                            C_RCFG != "Other",
-                            C_RALN != "Top of hill or gradient",
-                            C_TRAF != "School guard",
-                            C_TRAF != "Markings on the road",
-                            C_WTHR != "Strong wind",
-                            C_RSUR != "Sand/Gravel/Dirt",
-                            C_MNTH != "November") %>% 
-                     droplevels() %>% 
-                     dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV)),
-             Model = "Model 3 Ensemble") %>%
+                                           filter(LDxLD == 1) %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(LDxLT == 1,
+                                                  C_CONF != "Hit a stationary object",
+                                                  C_RSUR != "Sand/Gravel/Dirt",
+                                                  C_RALN != "Other",
+                                                  C_TRAF != "Railway crossing with signals, or signals and gates") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(LDxHV == 1,
+                                                  C_CONF != "Rollover on roadway",
+                                                  C_RSUR != "Oil",
+                                                  C_TRAF != "School crossing",
+                                                  C_TRAF != "Railway crossing with signals, or signals and gates",
+                                                  C_TRAF != "Railway crossing with signs only") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(LTxLD == 1,
+                                                  P1_SAFE != "Helmet",
+                                                  C_CONF != "Hit a stationary object",
+                                                  C_RSUR != "Sand/Gravel/Dirt",
+                                                  C_RALN != "Other",
+                                                  C_TRAF != "Railway crossing with signals, or signals and gates") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(LTxLT == 1,
+                                                  C_WTHR != "Unknown",
+                                                  C_RALN != "Unknown") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(LTxHV == 1,
+                                                  C_CONF != "Hit a parked motor vehicle",
+                                                  C_RSUR != "Other",
+                                                  C_TRAF != "School bus stopped with school bus signal lights flashing") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(HVxLD == 1,
+                                                  C_RCFG != "Traffic circle",
+                                                  C_RCFG != "Freeway Express Lane",
+                                                  C_WTHR != "Other",
+                                                  C_RSUR != "Sand/Gravel/Dirt",
+                                                  C_RSUR != "Oil",
+                                                  C_TRAF != "No passing zone sign",
+                                                  C_TRAF != "Markings on the road",
+                                                  C_TRAF != "Warning sign",
+                                                  C_TRAF != "School crossing",
+                                                  C_TRAF != "Railway crossing with signals, or signals and gates",
+                                                  C_TRAF != "Railway crossing with signs only",
+                                                  C_TRAF != "Control device not specified") %>% 
+                                           droplevels() %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(HVxLT == 1,
+                                                  C_CONF != "Other Single Vehicle",
+                                                  C_CONF != "Ran off right shoulder",
+                                                  C_CONF != "Hit a parked motor vehicle",
+                                                  C_RCFG != "Bridge/Overpass/Viaduct",
+                                                  C_RSUR != "Other",
+                                                  C_TRAF != "School bus stopped with school bus signal lights flashing") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(HVxHV == 1,
+                                                  C_CONF != "Ran off right shoulder",
+                                                  C_CONF != "Any other two vehicle - same direction of travel configuration",
+                                                  C_WTHR != "Other",
+                                                  C_TRAF != "Flashing Traffic") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(PEDESTRIANxLD == 1,
+                                                  C_RCFG != "Tunnel/Underpass") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(PEDESTRIANxLT == 1,
+                                                  P1_SAFE != "Safety Device",
+                                                  C_CONF != "Side swipe",
+                                                  C_WTHR != "Strong wind",
+                                                  C_RALN != "Top of hill or gradient",
+                                                  C_TRAF != "Flashing Traffic") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(PEDESTRIANxHV == 1,
+                                                  C_CONF != "One vehicle passing to the right of the other, or right turn conflict",
+                                                  C_CONF != "Right turn, including turning conflicts",
+                                                  C_CONF != "Any other two-vehicle - different direction of travel configuration",
+                                                  C_TRAF != "School bus stopped with school bus signal lights flashing",
+                                                  C_TRAF != "Control device not specified") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(BICYCLISTxLD == 1,
+                                                  C_CONF != "Ran off left shoulder",
+                                                  C_TRAF != "No passing zone sign",
+                                                  C_TRAF != "Control device not specified") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% filter(BICYCLISTxLT == 1,
+                                                                     P1_SAFE != "Other",
+                                                                     P1_SAFE != "Safety Device",
+                                                                     C_CONF != "Other Single Vehicle",
+                                                                     C_CONF != "Hit a parked motor vehicle",
+                                                                     C_WTHR != "Unknown",
+                                                                     C_RALN != "Curved and level") %>% 
+                                           droplevels() %>%
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         #backcast_data.df %>% filter(BICYCLISTxHV == 1) %>% dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(MOTORCYCLISTxLD == 1,
+                                                  C_WTHR != "Snowing, not including drifting snow",
+                                                  C_WTHR != "Freezing rain, sleet, hail",
+                                                  C_WTHR != "Strong wind") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(MOTORCYCLISTxLT == 1,
+                                                  C_CONF != "Any other two vehicle - same direction of travel configuration",
+                                                  C_WTHR != "Snowing, not including drifting snow",
+                                                  C_MNTH != "December") %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV),
+                                         #********************************#
+                                         backcast_data.df %>% 
+                                           filter(MOTORCYCLISTxHV == 1,
+                                                  P1_SAFE != "Safety Device",
+                                                  C_CONF != "Approaching side-swipe",
+                                                  C_CONF != "Right turn, including turning conflicts",
+                                                  C_RCFG != "Bridge/Overpass/Viaduct",
+                                                  C_RCFG != "Intersection with Entrance",
+                                                  C_RCFG != "Other",
+                                                  C_RALN != "Top of hill or gradient",
+                                                  C_TRAF != "School guard",
+                                                  C_TRAF != "Markings on the road",
+                                                  C_WTHR != "Strong wind",
+                                                  C_RSUR != "Sand/Gravel/Dirt",
+                                                  C_MNTH != "November") %>% 
+                                           droplevels() %>% 
+                                           dplyr::select(P_ISEV, P1_USER, xLD, xLT, xHV)),
+                                   Model = "Model 3 Ensemble") %>%
   mutate(P_ISEV_mod = factor(P_ISEV_mod,
                              levels = c("1", "2", "3"),
                              labels = c("No Injury", "Injury", "Fatality"),
@@ -9355,7 +9426,8 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Mo
            escape = FALSE)
 ```
 
-Best model: insights {#sec:insights}
+<!---
+Best model {#sec:insights}
 ============
 
 Create a table with the results of Model 2.
@@ -9491,6 +9563,8 @@ data.frame(coef(summary(mod2)),
   pack_rows("Collision-level variables: Traffic controls (ref:Operational traffic signals)", 53, 59) %>%
   pack_rows("Thresholds", 60, 61)
 ```
+
+--->
 
 Further considerations {#sec:further-considerations}
 ============
