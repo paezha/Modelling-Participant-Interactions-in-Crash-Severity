@@ -3,7 +3,7 @@ title: An empirical assessment of strategies to model opponent effects in crash 
 author:
   - name: Antonio Paez
     email: paezha@mcmaster.ca
-    affiliation: 
+    affiliation: McMaster University
     footnote: Corresponding Author
   - name: Hany Hassan
     email: hassan1@lsu.edu
@@ -20,7 +20,7 @@ address:
   - code: Louisiana State University
     address: Department of Civil and Environmental Engineering, Baton Rouge, Louisiana, USA 70803
 abstract: |
- Road accidents impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road collisions have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence the outcome of the event. The objective of this paper is to assess different strategies to model the interactions between participants in a crash, in the context of crashes involving two parties. Towards this objective, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. Modelling strategies include different ways of introducing the covariates (e.g., in a single-level or multi-level form), as well as by subsetting the dataset. The models are assessed using predicted shares and outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. On the other hand, the study suggests that hierarchical (i.e., multi-level) specifications and subsetting do not perform necessarily better than a relatively simple single-level model with opponent effects.
+ Road accidents impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road collisions have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence the outcome of an event. The objective of this paper is to assess different strategies to model the interactions between participants in a crash in the context of crashes involving two parties. Towards this objective, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. Modelling strategies include different ways of introducing the covariates (e.g., in a single-level or multi-level form), as well as by subsetting the dataset. The models are assessed using predicted shares and classes of outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. The study also suggests that hierarchical (i.e., multi-level) specifications and subsetting do not necessarily perform better than a relatively simple single-level model with opponent effects. The results of this study provide insights regarding the performace of different modelling strategies, and should be informative to researchers working with crash severity models.
 
 journal: "Some Journal"
 date: "`r Sys.Date()`"
@@ -986,30 +986,30 @@ ncdb_2016 <- ncdb_2016 %>%
 Introduction
 ==========================
 
-Road safety continues to be a world-wide concern. According to a recent report from the World Health Organization [-@WHO2019global], road accidents are the 8th leading cause of death for all ages, and the number one cause of death for children and young people between the ages of 5 to 29. Of all leading causes of death, road accidents are the only cause of death unrelated to disease, disorder, or infection. Road accidents impose a heavy burden on individuals and society as a whole. Gobally, the rate of road collision-related deaths per 100,000 population and 100,000 vehicles have both fallen, even as the number of vehicles has grown [@WHO2019global, Figs. 1 and 2]. These gains, although they are to be celebrated, cannot distract from the crushing economic cost of premature death [e.g., @Symons2019reduced; @Wijnen2019analysis], not to mention the long-term consequences for survivors, measured in sometimes crippling emotional and physical pain [e.g., @Merlin2007stress; @Devlin2019road; @Pelissier2019medical]. 
+Road safety continues to be a world-wide concern. According to a recent report from the World Health Organization [-@WHO2019global], road accidents are the 8th leading cause of death for all ages, and the number one cause of death for children and young people between the ages of 5 to 29. Of all leading causes of death, road accidents are the only cause of death unrelated to disease, health disorder, or infection. For this reason, road accidents impose a heavy burden on individuals and society as a whole. Gobally, the rate of road collision-related deaths per 100,000 population and 100,000 vehicles have both fallen, even as the number of vehicles has grown [@WHO2019global, Figs. 1 and 2]. These gains, although they are to be celebrated, cannot distract from the crushing economic cost of premature death [e.g., @Symons2019reduced; @Wijnen2019analysis], not to mention the long-term consequences for survivors, measured in sometimes crippling emotional and physical pain [e.g., @Merlin2007stress; @Devlin2019road; @Pelissier2019medical]. 
 
 Evidence from across the world suggests that the burden of road accidents is not borne evenly. There are important disparities at the international level, where the odds of death due to road crashes are three times higher in low-income countries compared to high-income countries; in fact, no reductions in road accident-related fatalities were appreciated in low-income countries between 2013 and 2016 [@WHO2019global]. In the case of high-income countries, where substantial gains in road safety have been observed for years, said gains have also been unevenly distributed; thus, while fatal crashes involving older adults in the United States and Great Britain declined between 1997 and 2010 (despite the graying of the population), the trend remained stable or increased slightly in Australia in roughly the same period [@Thompson2018trends]. There are also systematic differences in the impact of road accidents. For example, in a study in the United States, Obeng [-@Obeng2011gender] reported that the impact of covariates of crash severity varied substantially in magnitude by gender. More recently, Regev et al. [-@Regev2018crash] used adjusted crash risk to find that the risk of crashes in Great Britain peaked for people 21 to 29 years of age; on the other hand, the risk of fatal injuries for older drivers was constant, irrespective of the seriousness of the crash - which highlights the perils of accidents at older ages. Other studies have concentrated on the consequences of road accidents for the young [e.g., @Peek-Asa2010teenage], the old [e.g., @Rakotonirainy2012older], as well as pedestrians and cyclists [e.g., @Hanson2013severity; @McArthur2014spatial].   
 
-Given the relevance and cost of this matter, as well as the important variations of the impacts among different population segments, numerous efforts efforts have been conducted to better understand the factors that affect road safety - including the probable consequences of crashes. Consequently, a stream of research in the analysis of road accidents is concerned with the severity of crashes. In particular, multivariate analysis of crash severity is a useful way to clarify the way various factors can affect the outcome of an incident, to discriminate between various levels of injury, from no injury (i.e., property damage only), to different degrees of injury up to and including fatality. This is an active area of research [e.g., @Savolainen2011statistical], and one where methodological developments have aimed at improving the reliability, accuracy, and precision of models. 
+Given the relevance and cost of this matter, as well as the important variations of the impacts among different population segments, numerous efforts have been conducted to better understand the factors that affect road safety - including the probable consequences of crashes. Along these lines, a stream of research in the analysis of road accidents is concerned with the severity of crashes. In particular, multivariate analysis of crash severity is a useful way to clarify the way various factors can affect the outcome of an incident, and to discriminate between various levels of injury, from no injury (i.e., property damage only), to different degrees of injury up to and including death. This is an active area of research, and one where methodological developments have aimed at improving the reliability, accuracy, and precision of models [e.g., @Savolainen2011statistical; @Shamsunnahar2013evaluating; @Bogue2017modified]. 
 
-This paper aspires to contribute to the literature on crash severity by assessing different modelling strategies useful to incorporate opponent effects in crash analysis, in the context of incidents involving two parties. The importance of these interactions has been recognized in the existing literature [e.g., @Chiou2013modeling; @Lee2014analysis; @Tarrao2014modeling; @Li2017interplay], and a number of different modelling strategies have been proposed. In this paper we present a systematic assessment of several relevant modelling strategies, ranging from the way variables are defined in single-level models, in multi-level models (i.e., hierarchical models), as well as using data subsetting approaches. For the assessment we use data from Canada's National Collision Database, a database that collects all police-reported collisions in the country. Using the most recent version of the dataset (2017), three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. For model assessment, we conduct an in-sample prediction exercise using the estimation sample (i.e., _nowcasting_), and also an out-of-sample prediction exercise using the dataset corresponding to 2016 (i.e., _backcasting_). The models are assessed using predicted shares and predicted individual outcomes using an extensive array of verification statistics. The results highlight the importance of considering opponent effects in crash severity analysis to improve the goodness-of-fit and predictive performance o. On the other hand, the study suggests that hierarchical variable specifications and subsetting do not perform necessarily better than a relatively simple single-level model with opponent effects.
+This paper aspires to contribute to the literature on crash severity by assessing different modelling strategies useful to incorporate opponent effects in crash analysis, in the context of incidents involving two parties. The importance of these interactions has been recognized in the existing literature [e.g., @Chiou2013modeling; @Lee2014analysis; @Tarrao2014modeling; @Li2017interplay], and a number of different modelling strategies have been proposed. In this paper we present a systematic assessment of several relevant modelling strategies, ranging from the way variables are defined in single-level models, in multi-level models (i.e., hierarchical models), as well as using data subsetting approaches. For the assessment we use data from Canada's National Collision Database, a database that collects all police-reported collisions in the country. Using the most recent version of the dataset (2017), three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. For model assessment, we conduct an in-sample prediction exercise using the estimation sample (i.e., _nowcasting_), and also an out-of-sample prediction exercise using the dataset corresponding to 2016 (i.e., _backcasting_). The models are assessed using predicted shares and predicted classes of outcomes at the individual level, using an extensive array of verification statistics. The results highlight the importance of considering opponent effects in crash severity analysis to improve the goodness-of-fit and predictive performance o. On the other hand, the study suggests that hierarchical variable specifications and subsetting do not perform necessarily better than a relatively simple single-level model with opponent effects.
 
-The rest of this paper is structured as follows. In Section \ref{sec:review-of-methods} we present a concise review of the methods used to analyze crash severity, with a particular focus on techniques that consider the interactions between participants in a crash. Section \ref{sec:application} describes the data requirements, data preprocessing, and the modelling strategy, along with the results of model estimation. The results of assessing the models and the discussion of these results is found in Section \ref{sec:assessment}. We then present some additional thoughts about the applicability of this approach in Section \ref{sec:further-considerations} before offering some concluding remarks in Section \ref{sec:concluding-remarks}.
+The rest of this paper is structured as follows. In Section \ref{sec:review-of-methods} we present a concise review of the methods used to analyze crash severity, with a particular focus on techniques that consider the effect of opponents in a crash. Section \ref{sec:application} describes the data requirements, data preprocessing, and the modelling strategies, along with the results of model estimation. The results of assessing the models and the discussion of these results is found in Section \ref{sec:assessment}. We then present some additional thoughts about the applicability of this approach in Section \ref{sec:further-considerations} before offering some concluding remarks in Section \ref{sec:concluding-remarks}.
 
 Methodological approaches in crash severity analysis {#sec:review-of-methods}
 ============
 
 ## General considerations
 
-Modelling the outcomes of crashes in terms of the severity of injuries to participants has been a preoccupation of transportation researchers, planners, auto insurance companies, governments and the public for decades. One of the earliests studies to investigate the severity of injuries conditional on an accident having occurred was by White and Clayton [-@White1972effects]. Kim et al. [-@Kim1995personal] later stated that the "linkages between severity of injury and driver characteristics and behaviors have not been thoroughly investigated" (p. 470). Nowadays, there is a burgeoning literature on this subject, including methodological developments, case studies, and more niche research with a focus on particular situations [e.g., crashes at intersections, @Mussone2017analysis; crashes in rural roads, @Gong2017modeling] or special populations [e.g., crashes involving motorcyclists or active travelers; see @Shaheed2013mixed; @Salon2018determinants].
+Modelling the outcomes of crashes in terms of the severity of injuries to participants has been a preoccupation of transportation researchers, planners, auto insurance companies, governments, and the general public for decades. One of the earliests studies to investigate the severity of injuries conditional on an accident having occurred was by White and Clayton [-@White1972effects]. Kim et al. [-@Kim1995personal] later stated that the "linkages between severity of injury and driver characteristics and behaviors have not been thoroughly investigated" (p. 470). Nowadays, there is a burgeoning literature on this subject, including methodological developments, case studies, and more niche research with a focus on particular situations [e.g., crashes at intersections, @Mussone2017analysis; crashes in rural roads, @Gong2017modeling], and crashes involving special population groups [e.g., crashes involving motorcyclists or active travelers; see @Shaheed2013mixed; @Salon2018determinants].
 
-Crash severity is often modelled using models for discrete outcomes, including classification techniques from machine learning [e.g., @Iranitalab2017comparison; @Khan2015exploring; @Chang2006analysis; @Effati2015geospatial], Poisson models for counts [e.g., @Ma2008multivariate], unordered logit/probit models [e.g., @Tay2011multinomial], as well as ordered logit/probit models [e.g., @Rifaat2007accident], with numerous variants, such as random parameters/mixed logit [e.g., @Aziz2013exploring; @Haleem2013effect], partial proportional odds models [e.g., @Mooradian2013analysis; @Sasidharan2014partial], and the use of copulas [e.g., @Wang2015copula]. Recent reviews of methods include Savolainen et al. [-@Savolainen2011statistical] and Shamsunnahar and Eluru [-@Shamsunnahar2013evaluating].
+Crash severity is often modelled using models for discrete outcomes. An analyst interested in crash severity has at their disposal an ample menu of models to choose from, including classification techniques from machine learning [e.g., @Iranitalab2017comparison; @Khan2015exploring; @Chang2006analysis; @Effati2015geospatial], Poisson models for counts [e.g., @Ma2008multivariate], unordered logit/probit models [e.g., @Tay2011multinomial], as well as ordered logit/probit models [e.g., @Rifaat2007accident], with numerous variants, such as random parameters/mixed logit [e.g., @Aziz2013exploring; @Haleem2013effect], partial proportional odds models [e.g., @Mooradian2013analysis; @Sasidharan2014partial], and the use of copulas [e.g., @Wang2015copula]. Recent reviews of methods include Savolainen et al. [-@Savolainen2011statistical], Shamsunnahar and Eluru [-@Shamsunnahar2013evaluating], and Mannering et al. [-@Mannering2016unobserved].
 
-Irrespective of the modelling framework employed, models of crash severity often include variables in several categories, as shown with examples in Table \ref{tab:variable-categories} [also see @Montella2013crash]. Many crash databases and analyses also account for the multievent nature of many crashes. Participants may have had different roles in a crash depending on their context, with some acting as operators of a vehicle (i.e., drivers, bicyclists), while others were passengers. They also may differ depending on what type of traffic unit they were, for example occupants of a light duty vehicle or a truck, motorcyclists, or pedestrians. The multiplicity of roles makes for complicated modelling choices when trying to understand the severity of injuries; for example, what is the unit of analysis, the person, the traffic unit, or the collision? Not surprisingly, it is possible to find examples of studies that adopt different perspectives. A common simplifying strategy to specify a model is to consider only _drivers_ and/or only _single-vehicle_ crashes [e.g., @Kim2013driver; @Lee2014analysis; @Gong2017modeling; @Osman2018injury]. This strategy reduces the dimensions of the event, and it becomes possible, for example, to equate the traffic unit to the person for modelling purposes. 
+Irrespective of the modelling framework employed, models of crash severity often include variables in several categories, as shown with examples in Table \ref{tab:variable-categories} [also see @Montella2013crash]. Many crash databases and analyses also account for the multievent nature of many crashes. Participants may have had different roles in a crash depending on their context, with some acting as operators of a vehicle (i.e., drivers, bicyclists), while others were passengers. They also may differ depending on what type of traffic unit they were, for example occupants of a light duty vehicle or a truck, motorcyclists, or pedestrians. The multiplicity of roles makes for complicated modelling decisions when trying to understand the severity of injuries; for example, what is the unit of analysis, the person, the traffic unit, or the collision? Not surprisingly, it is possible to find examples of studies that adopt different perspectives. A common simplifying strategy in model specification is to consider only _drivers_ and/or only _single-vehicle_ crashes [e.g., @Kim2013driver; @Lee2014analysis; @Gong2017modeling; @Osman2018injury]. This strategy reduces the dimensions of the event, and it becomes possible, for example, to equate the traffic unit to the person for modelling purposes. 
 
 The situation becomes more complex when dealing with events that involve two traffic units [e.g., @Tarrao2014modeling; @Wang2015copula] and multi-traffic unit crashes [e.g., @Wu2014mixed; @Bogue2017modified]. Different strategies have been developed to study these, more complex cases. A number of studies advocate the estimation of separate models for different participants and/or situations. In this way, Wang and Kockelman [-@Wang2005use] estimated models for single-vehicle and two-vehicle crashes, while Savolainen and Mannering [-@Savolainen2007probabilistic] estimated models for single-vehicle and multi-vehicle crashes. More recently, Duddu et al. [-@Duddu2018modeling] and Penmetsa et al. [-@Penmetsa2017examining] presented research that estimated separate models for at-fault and not-at-fault drivers. The strategy of estimating separate models also relies on subsetting the dataset, although it is possible to link the relevant models more tightly by means of a common covariance structure, as is the case of bivariate models [e.g., @Chiou2013modeling; @Chen2019investigation] or models with copulas [e.g., @Rana2010copula; @Shamsunnahar2014examining; @Wang2015copula].
 
-A related strategy to specify a crash severity model is to organize the data in such a way that it is possible to model the influence of the attributes of the opponent in a crash. There are numerous examples of studies that consider at least some characteristics of the oponents in two- or multi-vehicle crashes. For example, Wang and Kockelman [-@Wang2005use] considered the type of the opposing vehicle in their model for two-vehicle collisions. Similarly, Tarrao et al. [-@Tarrao2014modeling] included in their analysis the age, wheelbase, weight, and engine size of the opposing vehicle while Bogue et al. [-@Bogue2017modified] used the body type of the opposing vehicle. Penmetsa et al. [-@Penmetsa2017examining] and Duddu et al. [-@Duddu2018modeling] are two of the most comprehensive examples of using opponent's information, with the physical condition, sex, age, and vehicle type of the opponent. The twin strategies of subsetting the sample and using the attributes of the opponent are not mutually exclusive, but neither are they consistently used together, as a scan of the literature reveals.
+A related strategy to specify a crash severity model is to organize the data in such a way that it is possible to model the influence of the attributes of the opponent in a crash. There are numerous examples of studies that consider at least some characteristics of the oponents in two- or multi-vehicle crashes. For example, Wang and Kockelman [-@Wang2005use] considered the type of the opposing vehicle in their model for two-vehicle collisions. Similarly, Tarrao et al. [-@Tarrao2014modeling] included in their analysis the age, wheelbase, weight, and engine size of the opposing vehicle, while Bogue et al. [-@Bogue2017modified] used the body type of the opposing vehicle. Penmetsa et al. [-@Penmetsa2017examining] and Duddu et al. [-@Duddu2018modeling] are two of the most comprehensive examples of using opponent's information, as they used individual attributes of opponents (their physical condition, sex, and age), as well as characteristics of the opposing traffic unit (the vehicle type of the opponent). The twin strategies of subsetting the sample and using the attributes of the opponent are not mutually exclusive, but neither are they used consistently together, as a scan of the literature reveals.
 
 ```{r table-variable-categories, echo=FALSE}
 data.frame(Category = c("Person-related",
@@ -1057,7 +1057,7 @@ For conciseness, in what follows we will abbreviate the function as follows:
 y_{itk}^*=\sum_{z=1}^Z\theta_zx_{itkz} + \epsilon_{itk}
 \end{equation}
 
-The latent variable is not observed directly, but it is possible to posit a probabilistic relationship with the outcome $y_{ik}$ (the severity of crash $k$ for participant $i$). Depending on the characteristics of the data and the assumptions made about the random component of the latent function different models can be obtained. For example, if crash severity is coded as a binary variable (e.g., non-fatal/fatal), we can relate the latent variable to the outcome as follows:
+The latent variable is not observed directly, but it is possible to posit a probabilistic relationship with the outcome $y_{itk}$ (the severity of crash $k$ for participant $i$ in traffic unit $t$). Depending on the characteristics of the data and the assumptions made about the random component of the latent function different models can be obtained. For example, if crash severity is coded as a binary variable (e.g., non-fatal/fatal), we can relate the latent variable to the outcome as follows:
 
 \begin{equation}
 \label{eq:latent-function-2-outcomes}
@@ -1075,7 +1075,7 @@ Due to the stochastic nature of the latent function, the outcome of the crash is
 P(y_{itk} = \text{fatal}) = P(y_{itk}^* > 0)
 \end{equation}
 
-In other words, the probability that individual $i$ in traffic unit $k$ and crash $k$ was a fatality equals the probability that the latent variable is greater than zero. This implies [see @Maddala1986limited, p. 22]:
+In other words, the probability that individual $i$ in traffic unit $t$ and crash $k$ was a fatality equals the probability that the latent variable is greater than zero. This implies [see @Maddala1986limited, p. 22]:
 
 \begin{equation}
 \label{eq:probability-2-outcomes-2}
@@ -1085,7 +1085,7 @@ P(y_{itk} = \text{fatal}) &= P(\sum_{z=1}\theta_zp_{itkz} + \epsilon_{itk} > 0)\
 \end{array}
 \end{equation}
 
-If the random terms $\epsilon_{itk}$ are assumed to follow the logistic distribution, the the binary logit model is obtained; if they are assumed to follow the normal distribution, the binary probit model is obtained. More often, though, the outcome is recorded using more categories, for example property damage only (PDO)/injury/fatality. A similar approach can be adopted, with a latent variable that relates to the outcome as follows:
+If the random terms $\epsilon_{itk}$ are assumed to follow the logistic distribution, then the binary logit model is obtained; if they are assumed to follow the normal distribution, the binary probit model is obtained. More often, though, the outcome is recorded using more categories, for example property damage only (PDO)/injury/fatality. A similar approach can be adopted, with a latent variable that relates to the outcome as follows:
 
 \begin{equation}
 \label{eq:latent-function-ordered-outcomes}
@@ -1108,9 +1108,7 @@ P(y_{itk} = \text{fatality}) &=& P(\epsilon_{itk} < \mu_1 - \sum_{z=1}\theta_zp_
 \end{array}
 \end{equation}
 
-If the random terms are assumed to follow the logistic distribution, the ordered logit model is obtained; if the normal distribution, then the ordered probit model. Estimation methods for these models are very well-established [e.g., @Maddala1986limited; @Train2009discrete]
-
-There are numerous variations of the basic modelling framework above, including hierarchical models, bivariate models, multinomial models, and Bayesian models, among others [see @Savolainen2011statistical for a review of methods].
+If the random terms are assumed to follow the logistic distribution, the ordered logit model is obtained; if the normal distribution, then the ordered probit model. Estimation methods for these models are very well-established [e.g., @Maddala1986limited; @Train2009discrete]. There are numerous variations of the basic modelling framework above, including hierarchical models, bivariate models, multinomial models, and Bayesian models, among others [see @Savolainen2011statistical for a review of methods].
 
 ## Model specification strategies
 
@@ -1120,9 +1118,9 @@ In this paper we consider three general model specification strategies, as follo
 - Strategy 2. Single-level model and multi-level (hierarchical) model specifications
 - Strategy 3. Full sample and sample subsetting
 
-Introduction of opponent related-variables was explained in the preceding subsection.  In this way, a base model is given by Equation \ref{eq:latent-function}, whereas Strategy 1 (inclusion of opponent-related variables) is Equation \ref{eq:latent-function-with-opponent-variables}. These two equations are also examples of single-level model. Next we describe Strategies 2 and 3.
+Introduction of opponent related-variables was explained in the preceding subsection.  In this way, a base model that ignores opponent effects is given by Equation \ref{eq:latent-function}. Strategy 1, in contrast, is Equation \ref{eq:latent-function-with-opponent-variables}, which includes opponent-related variables. These two equations are also examples of single-level models. Next we describe Strategies 2 and 3.
 
-### Hierarchical model specification
+### Strategy 2: hierarchical model specification
 
 We can choose to conceptualize the event leading to the outcome as a hierarchical process. There are a few different ways of doing this. For example, the hierarchy could be based on individuals in traffic units. In this case, we can rewrite the latent function as follows:
 
@@ -1148,7 +1146,7 @@ Therefore, the corresponding term in the latent function becomes (assuming that 
 \end{array}
 \end{equation}
 
-As an alternative, the nesting unit could be the interaction person-opponent, in which case the opponent-level attributes are nested 
+As an alternative, the nesting unit could be the interaction person-opponent, in which case the opponent-level attributes are nested in the following fashion: 
 
 \begin{equation}
 \label{eq:latent-function-with-opponent-variables}
@@ -1172,11 +1170,11 @@ y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}
 \end{array} 
 \end{equation}
 
-Alterted readers will identify this model specification strategy as Casetti's expansion method [@Casetti1972generating]. This is a deterministic strategy for modelling contextual effects which, when augmented with random components, becomes the well-known multi-level modelling method [@Hedeker1994random, more on this in Section \ref{sec:further-considerations}]. It is worthwhile to note that higher-order hierarchical effects are possible; for instance, individual attributes nested within traffic units, which in turn are nested within collisions. We do not explore this further in the current paper.
+Alterted readers will identify this model specification strategy as Casetti's expansion method [@Casetti1972generating; @Roorda2010trip]. This is a deterministic strategy for modelling contextual effects which, when augmented with random components, becomes the well-known multi-level modelling method [@Hedeker1994random, more on this in Section \ref{sec:further-considerations}]. It is worthwhile to note that higher-order hierarchical effects are possible; for instance, individual attributes nested within traffic units, which in turn are nested within collisions. We do not explore higher-level hierarchies further in the current paper.
 
-### Sample subsetting
+### Strategy 3: sample subsetting
 
-The third model specification strategy that we will consider is subsetting the sample. This is applicable in conjunction with any of the other strategies discussed above. In essence, we define the latent function with restrictions as follows. Consider a continuous variable, e.g., age of person, and we wish to concentrate the analysis on older adults [e.g., @Dissanayake2002factors]. The latent function is defined as desired (see above), however, the following restriction might be applied to the sample
+The third model specification strategy that we will consider is subsetting the sample. This is applicable in conjunction with any of the other strategies discussed above. In essence, we define the latent function with restrictions as follows. Consider a continuous variable, e.g., age of person, and imagine that we wish to concentrate the analysis on older adults [e.g., @Dissanayake2002factors]. The latent function is defined as desired (see above), however, the following restriction is applied to the sample:
 
 \begin{equation}
 \label{eq:sampling-age}
@@ -1235,9 +1233,9 @@ In this section we present the setting for the empirical assessment of the model
 
 ## Data for empirical assessment
 
-To assess the performance of the various modelling strategies we use data from Canada's National Collision Database (NCDB). This is database contains all motor vehicle collisions on public roads in Canada as reported by a police service. Data are collected by provinces and territories, and shared with the federal government, where data are combined, tracked, and analyzed for reporting of deaths, injuries, and collisions in Canada at the national level. The NCDB is provided by Transport Canada, the agency of the federal government of Canada in charge of transportation policies and programs, under the Open Government License - Canada version 2.0 [https://open.canada.ca/en/open-government-licence-canada]. 
+To assess the performance of the various modelling strategies we use data from Canada's National Collision Database (NCDB). This database contains all police-reported motor vehicle collisions on public roads in Canada. Data are originally collected by provinces and territories, and shared with the federal government, that proceeds to combine, track, and analyze them for reporting deaths, injuries, and collisions in Canada at the national level. The NCDB is provided by Transport Canada, the agency of the federal government of Canada in charge of transportation policies and programs, under the Open Government License - Canada version 2.0 [https://open.canada.ca/en/open-government-licence-canada]. 
 
-The NCDB is available from 1999. For the purpose of this paper, we use the data corresponding to 2017, which is the most recent year available as of this writing. Furthermore, for assessment we also use the data corresponding to 2016. Similar to databases in other jurisdictions [see @Montella2013crash], the NCDB contains information pertaining to the collision, the traffic unit(s), and the person(s) involved in a crash, as shown in Tables \ref{tab:ncdb-descriptives-collision}, \ref{tab:ncdb-descriptives-vehicle}, and \ref{tab:ncdb-descriptives-person}. Notice that, compared to Table \ref{tab:variable-categories}, crash-related variables and road-related variables are collected in a single variable class, namely collision-related, since they are unique for each crash.
+The NCDB is available from 1999. For the purpose of this paper, we use the data corresponding to 2017, which is the most recent year available as of this writing. Furthermore, for assessment we also use the data corresponding to 2016. Similar to databases in other jurisdictions [see @Montella2013crash], the NCDB contains information pertaining to the collision, the traffic unit(s), and the person(s) involved in a crash, as shown in Tables \ref{tab:ncdb-descriptives-collision}, \ref{tab:ncdb-descriptives-vehicle}, and \ref{tab:ncdb-descriptives-person}. Notice that, compared to Table \ref{tab:variable-categories}, crash-related variables and road-related variables are collected under a single variable class, namely collision-related, since they are unique for each crash.
 
 Data are organized by person; in other words, there is one record per participant in a collision, be they drivers, passengers, pedestrians, etc. The only variable directly available with respect to opponents in a collision is the number of vehicles involved [see models in @Bogue2017modified]. Therefore, the data needs to be processed to obtain attributes of opponents for each participant in a collision. The protocol to do this is described next.
 
@@ -1342,7 +1340,7 @@ data.frame(Variable = c("P_ID",
 
 ### Data preprocessing: initial filter
 
-The database is scanned to remove all records that are not a person (including parked cars and other objects) or that are missing information (e.g., runaway vehicles). Next, records missing at least one of the next variables are removed: P_USER (the road user class), P_SEX (sex), P_AGE (age), and P_ISEV (individual-level severity of crash). This initial filter ensures that all records are complete from the perspective of key information.
+We apply an initial filter, whereby we scan the database to remove all records that are not a person (including parked cars and other objects) or that are missing information (as is the case when a participant in a crash is a runaway vehicle). Next, records missing at least one of the next variables are removed: P_USER (the road user class), P_SEX (sex), P_AGE (age), and P_ISEV (individual-level severity of crash). This initial filter ensures that all records are complete from the perspective of key information for analysis.
 
 ```{r initial-filter, include=FALSE}
 # Remove parked cars and other objects
@@ -1375,7 +1373,7 @@ ncdb_2017_by_case <- ncdb_2017 %>%
 accidents <- summarize(ncdb_2017_by_case, n = n())
 ```
 
-After the initial filter, the database is summarized to find the number of individual-level records that correspond to each collision (C_CASE). At this point, there are `r format(table(accidents$n)[1], digits = 2, big.mark = ",")` collisions, involving only one (known) participant, there are `r format(table(accidents$n)[2], digits = 2, big.mark = ",")` collisions involving two participants, `r format(table(accidents$n)[3], digits = 2, big.mark = ",")` involving 3 participants, `r format(table(accidents$n)[4], digits = 2, big.mark = ",")` involving four participants, `r format(table(accidents$n)[5], digits = 2, big.mark = ",")` involving 5 participants, `r format(table(accidents$n)[6], digits = 2, big.mark = ",")` involving 6 participants, and `r format(sum(table(accidents$n)[7:length(table(accidents$n))]), digits = 2, big.mark = ",")` collisions involving seven or more participants. These participants were possibly occupants in different vehicles or were otherwise their own traffic units, as follows: the sample includes `r format(summary(ncdb_2017$P_USER)[1], digits = 2, big.mark = ",")` drivers, `r format(summary(ncdb_2017$P_USER)[2], digits = 2, big.mark = ",")` passengers, `r format(summary(ncdb_2017$P_USER)[3], digits = 2, big.mark = ",")` pedestrians, `r format(summary(ncdb_2017$P_USER)[4], digits = 2, big.mark = ",")` bicyclists, and `r format(summary(ncdb_2017$P_USER)[5], digits = 2, big.mark = ",")` motorcyclists. 
+After the initial filter, the database is summarized to find the number of individual-level records that correspond to each collision (C_CASE). At this point, there are `r format(table(accidents$n)[1], digits = 2, big.mark = ",")` collisions, involving only one (known) participant, there are `r format(table(accidents$n)[2], digits = 2, big.mark = ",")` collisions involving two participants, `r format(table(accidents$n)[3], digits = 2, big.mark = ",")` collisions with three participants, `r format(table(accidents$n)[4], digits = 2, big.mark = ",")` collisions involving four participants, `r format(table(accidents$n)[5], digits = 2, big.mark = ",")` collisions with five participants, `r format(table(accidents$n)[6], digits = 2, big.mark = ",")` collisions with six participants, and `r format(sum(table(accidents$n)[7:length(table(accidents$n))]), digits = 2, big.mark = ",")` collisions involving seven or more participants. These participants were possibly occupants in different vehicles or were otherwise their own traffic units. Accordingly, the sample includes `r format(summary(ncdb_2017$P_USER)[1], digits = 2, big.mark = ",")` drivers, `r format(summary(ncdb_2017$P_USER)[2], digits = 2, big.mark = ",")` passengers, `r format(summary(ncdb_2017$P_USER)[3], digits = 2, big.mark = ",")` pedestrians, `r format(summary(ncdb_2017$P_USER)[4], digits = 2, big.mark = ",")` bicyclists, and `r format(summary(ncdb_2017$P_USER)[5], digits = 2, big.mark = ",")` motorcyclists. 
 
 ```{r remove-collisions-single-person, include=FALSE}
 #Create a new variable with the number of records in each incident, as per the table:
@@ -1402,7 +1400,7 @@ ncdb_2017 <- ncdb_2017 %>%
   left_join(veh_per_accident, by = "C_CASE")
 ```
 
-The next step is to remove all collisions involving only one participant. This still leaves numerous cases where multiple participants could have been in a single vehicle, for instance in a collision against a stationary object. Therefore, we proceed to use the vehicle sequence number can to find the number of vehicles involved in each collision. This reveals that there are `r format(table(ncdb_2017$n_veh)[1], big.mark = ",")` collisions that involve only one vehicle but possibly multiple participants (i.e., driver and one or more passengers). In addition, there are `r format(table(ncdb_2017$n_veh)[2], big.mark = ",")` collisions involving two vehicles (and possibly multiple participants). Finally, there are `r format(sum(table(ncdb_2017$n_veh)[3:length(table(ncdb_2017$n_veh))]), big.mark = ",")` collisions with three or more vehicles.
+The next step in our data preprocessing protocol is to remove all collisions that involve only one participant. This still leaves numerous cases where multiple participants could have been in a single vehicle, for instance in a collision against a stationary object. Therefore, we proceed to use the vehicle sequence number to find the number of vehicles involved in each collision. This reveals that there are `r format(table(ncdb_2017$n_veh)[1], big.mark = ",")` collisions that involve only one vehicle but possibly multiple participants (i.e., driver and one or more passengers). In addition, there are `r format(table(ncdb_2017$n_veh)[2], big.mark = ",")` collisions involving two vehicles (and possibly multiple participants). Finally, there are `r format(sum(table(ncdb_2017$n_veh)[3:length(table(ncdb_2017$n_veh))]), big.mark = ",")` collisions with three or more vehicles.
 
 ```{r filter-two-vehicle-collisions, include=FALSE}
 # Filter all cases that involve only two vehicles
@@ -1415,7 +1413,7 @@ people_per_two_vehicle_case <- ncdb_2017 %>%
   summarize(n_people = n())
 ```
 
-Once we have identified the number of vehicles in each collision, we proceed to select all cases that involve only two vehicles. The most common cases in two-vehicle collisions are those that include drivers (`r format(table(people_per_two_vehicle_case$n_people)[1], big.mark = ",")` collisions; reflective of the prevalence of single-occupant vehicles), followed by cases with passengers (`r format(table(people_per_two_vehicle_case$n_people)[2], big.mark = ",")` collisions), pedestrians (`r format(table(people_per_two_vehicle_case$n_people)[3], big.mark = ",")` collisions), byciclists (`r format(table(people_per_two_vehicle_case$n_people)[4], big.mark = ",")` collisions), and motorcyclists (`r format(table(people_per_two_vehicle_case$n_people)[5], big.mark = ",")` collisions). The distribution of individuals per traffic unit is as follows: `r format(summary(ncdb_2017$V_ID)[1], big.mark = ",")` individuals are coded as being in V_ID = 1, `r format(summary(ncdb_2017$V_ID)[2], big.mark = ",")` individuals are coded as being in V_ID = 2, and `r format(summary(ncdb_2017$V_ID)[38], big.mark = ",")` individuals are coded as pedestrians. In addition, `r format(sum(summary(ncdb_2017$V_ID)[3:37]), big.mark = ",")` individuals are coded as being in vehicles 3 through 9, despite our earlier filter to retain only collisions with two vehicles. We therefore proceed to select only individuals assigned to vehicles 1 or 2, as well as pedestrians. As a result of this filter a number of cases with only one known participant need to be removed.
+Once we have identified the number of vehicles in each collision, we proceed to select all cases that involve only two vehicles. The most common cases in two-vehicle collisions are those that include drivers (`r format(table(people_per_two_vehicle_case$n_people)[1], big.mark = ",")` collisions; this is reflective of the prevalence of single-occupant vehicles). This is followed by cases with passengers (`r format(table(people_per_two_vehicle_case$n_people)[2], big.mark = ",")` collisions), pedestrians (`r format(table(people_per_two_vehicle_case$n_people)[3], big.mark = ",")` collisions), byciclists (`r format(table(people_per_two_vehicle_case$n_people)[4], big.mark = ",")` collisions), and motorcyclists (`r format(table(people_per_two_vehicle_case$n_people)[5], big.mark = ",")` collisions). The distribution of individuals per traffic unit is as follows: `r format(summary(ncdb_2017$V_ID)[1], big.mark = ",")` individuals are coded as being in V_ID = 1, `r format(summary(ncdb_2017$V_ID)[2], big.mark = ",")` individuals are coded as being in V_ID = 2, and `r format(summary(ncdb_2017$V_ID)[38], big.mark = ",")` individuals are coded as pedestrians. In addition, `r format(sum(summary(ncdb_2017$V_ID)[3:37]), big.mark = ",")` individuals are coded as being in vehicles 3 through 9, despite our earlier filter to retain only collisions with two vehicles. We therefore proceed to select only individuals assigned to vehicles 1 or 2, as well as pedestrians. As a result of this filter a number of cases with only one known participant need to be removed.
 
 ```{r filter-cases-for-vehicles-1-2-pedestrians, include=FALSE}
 
@@ -1468,9 +1466,9 @@ ncdb_2017_without_pedestrians <- ncdb_2017 %>%
 nrow(ncdb_2017) == nrow(ncdb_2017_with_pedestrians) + nrow(ncdb_2017_without_pedestrians)
 ```
 
-Up to this point, the goal of data preprocessing has been to obtain a complete, workable sample of individual records of participants in two-vehicle collisions. There are two possible cases for the collisions, depending on the traffic units involved: 1) vehicle vs vehicle collisions ("vehicle" includes all motorized vehicles, as well as motorcycles/mopeds and bicycles); and 2) vehicle vs pedestrian collisions. To identify opponents in a collision, it is convenient to classify collisions by pedestrian involvement. Accordingly, we find that the database includes `r format(nrow(ncdb_2017_with_pedestrians), big.mark = ",")` collisions are vehicle vs pedestrian (possibly multiple pedestrians), and `r format(nrow(ncdb_2017_without_pedestrians), big.mark = ",")` collisions involving two vehicles. After splitting the database in this way, we can now extract relevant information about participants in the collision. This involves renaming the person-level variables depending so that we can distinguish each individual by their role as an individual or an opponent in a given collision. Notice that when working with individuals in vehicles, only the driver is considered an opponent in a collisions (i.e., passengers are never considered opponents). 
+Up to this point, the goal of data preprocessing has been to obtain a complete, workable sample of individual records of participants in two-vehicle collisions. There are two possible cases for the collisions, depending on the traffic units involved: 1) vehicle vs vehicle collisions ("vehicle" is all motorized vehicles, including motorcycles/mopeds, as well as bicycles); and 2) vehicle vs pedestrian collisions. To identify opponents in a collision, it is convenient to classify collisions by pedestrian involvement. In this way, we find that the database includes `r format(nrow(ncdb_2017_with_pedestrians), big.mark = ",")` collisions that are vehicle vs pedestrian (possibly multiple pedestrians), and `r format(nrow(ncdb_2017_without_pedestrians), big.mark = ",")` collisions that involve two vehicles. After splitting the database according to pedestrian involvement, we can now extract relevant information about participants in the collision. This involves renaming the person-level variables so that we can distinguish each individual by their role as an individual or an opponent in a given record. Notice that when working with individuals in vehicles, only the driver is considered a legitimate opponent in a collision (i.e., passengers are never considered opponents). 
 
-Once the personal attributes of individuals that can be considered opponents in a given collision have ben extracted, their information can be joined to the individual records by means of the collision unique identifier. As a result of this process, a new set of variables are now available for analysis: the age, sex, use of safety device, and road user class of the opponent, as well as the type of the opponent vehicle. A summary of opponent interactions and outcomes can be found in Table \ref{tab:summary-opponent-information}. The information there shows that the most commont type of opponent for drivers is other drivers, followed by pedestrians. The only opponent of pedestrians, on the other hand, are drivers. Bicyclists and motorcyclists, on the other hand, are mostly opposed by drivers, but occasionally by other road users as well. In terms of outcomes, we observe that virtually all fatalities occur when the opponent is a driver, and only very rarely when the opponent is a motorcyclist. Injuries are also more common when the opponent is a driver, whereas the likelihood of no injuries is higher when the opponent is a pedestrian or a bicyclist.
+Once the personal attributes of individuals that can be considered opponents in a given collision have been extracted, their information is joined to the individual records by means of the collision unique identifier. As a result of this process, a new set of variables are now available for analysis: the age, sex, and road user class of the opponent, as well as the type of the opposing vehicle. A summary of opponent interactions and outcomes can be found in Table \ref{tab:summary-opponent-information}. The information there shows that the most commont type of opponent for drivers is other drivers, followed by pedestrians. The only opponents of pedestrians, on the other hand, are drivers. Bicyclists and motorcyclists, on the other hand, are mostly opposed by drivers, but occasionally by other road users as well. In terms of outcomes, we observe that virtually all fatalities occur when the opponent is a driver, and only very rarely when the opponent is a motorcyclist. Injuries are also more common when the opponent is a driver, whereas no injuries are relatively more frequent when the opponent is a pedestrian or a bicyclist.
 
 ```{r extract-pedestrians-as-main-and-opponents, include=FALSE}
 # Extract pedestrians as main:
@@ -1781,9 +1779,11 @@ ncdb_2016_paired_records <- droplevels(ncdb_2016_paired_records)
 
 ## Model estimation
 
-Before model estimation, the variables are prepared as follows. First, age is scaled from years to decades. Secondly, new variables are defined to describe the vehicle type. Three classes of vehicle types are considered: 1) light duty vehicles (which in Canada include passenger cars, passenger vans, light utility vehicles, and light duty pick up trucks); 2) light trucks (all other vehicles $\le$ 4536 kg in gross vehicle weight rating); and heavy vehicles (all other vehicles $\ge$ 4536 in gross vehicle weight rating). Furthermore, this classification of vehicle types is combined with the road user class to distiguish between drivers and passengers of light duty vehicles, light trucks, and heavy vehicles, in addition to pedestrians, bicyclists, and motorcyclists. This is done for both the individual and the opponent. Variable interactions are calculated to produce hierarchical variables. For example, for a hierarchical definition of traffic unit-level variables, age (and the square of aged) are interacted with gender, road user class, and vehicle type. For hierarchical opponent variables, age (and the square of age) are interacted with age of opponent (and squared aged of opponent). The variables thus obtained are shown in Table \ref{tab:model-specification-summary}. As seen in the table, Models 1 and 2 are single-level models, and the difference between them is that Model 2 includes opponent variables. Models 3 and 4, in contrast, are hierarchical models. Model 3 considers the hierarchy on the basis of the traffic unit, while Model 4 considers the hierarchy on the basis of the collision. 
+Before model estimation, the variables are prepared as follows. First, age is scaled from years to decades. Secondly, new variables are defined to describe the vehicle type. Three classes of vehicle types are considered: 1) light duty vehicles (which in Canada include passenger cars, passenger vans, light utility vehicles, and light duty pick up trucks); 2) light trucks (all other vehicles $\le$ 4536 kg in gross vehicle weight rating); and heavy vehicles (all other vehicles $\ge$ 4536 in gross vehicle weight rating). Furthermore, this typology of vehicle is combined with the road user class of the individual to distiguish between drivers and passengers of light duty vehicles, light trucks, and heavy vehicles, in addition to pedestrians, bicyclists, and motorcyclists. This is done for both the individual and the opponent. Variable interactions are calculated to produce hierarchical variables. For example, for a hierarchical definition of traffic unit-level variables, age (and the square of age to account for possible non-monotonic effects) are interacted with gender, road user class, and vehicle type. For hierarchical opponent variables, age (and the square of age) are interacted with the age of opponent (and the corresponding square). The variables thus obtained are shown in Table \ref{tab:model-specification-summary}. As seen in the table, Models 1 and 2 are single-level models, and the difference between them is that Model 2 includes opponent variables. Models 3 and 4, in contrast, are hierarchical models. Model 3 considers the hierarchy on the basis of the traffic unit, while Model 4 considers the hierarchy on the basis of the opponent. 
 
-Models 1 through 4 are estimated using the full sample. As discussed above, a related modelling strategy is to subset the sample [e.g., @Islam2014comprehensive; @Lee2014analysis; @Tarrao2014modeling; @Wu2014mixed]. In this case we subset by a combination of traffic unit type of the individual (i.e., light duty vehicle, light truck, heavy vehicle, pedestrian, bicyclist, and motorcyclist) and vehicle type of the oponent (i.e., light duty vehicle, light truck, heavy vehicle). This leads to an ensemble of eighteen models to be estimated using subsets of data (see Table \ref{tab:model-specification-summary}). By subsetting the sample, opponent effects are incorporated implicitly. Models 1 and 2 are re-estimated using this strategy, dropping variables as necessary where they are irrelevant (for instance, after filtering for pedestrians, no other traffic unit types are present in the subset of data).  
+Models 1 through 4 are estimated using the full sample. As discussed above, a related modelling strategy is to subset the sample [e.g., @Islam2014comprehensive; @Lee2014analysis; @Tarrao2014modeling; @Wu2014mixed]. In this case we subset by a combination of traffic unit type of the individual (i.e., light duty vehicle, light truck, heavy vehicle, pedestrian, bicyclist, and motorcyclist) and vehicle type of the oponent (i.e., light duty vehicle, light truck, heavy vehicle). This leads to an ensemble of eighteen models to be estimated using subsets of data (see Table \ref{tab:model-specification-summary}). By subsetting the sample, at least _some_ opponent effects are incorporated implicitly. Models 1 and 2 are re-estimated using this strategy, dropping variables as necessary whenever they become irrelevant (for instance, after filtering for pedestrians, no other traffic unit types are present in the subset of data). In addition to variables that are no longer relevant in some subsamples, it is important to note that when using some subsamples a few variables had to be  occasionally dropped to avoid convergence issues. This tended to happen particularly with smaller subsamples where some particular combination of attributes was rare as a result of subsampling (e.g., in 2017 there were few or no collisions that involved a motorcyclist and a heavy vehicle in a bridge, or overpass, or viaduct). The process of estimation carefully paid attention to convergence issues to ensure the validity of the models reported here.
+
+The resuls of model estimation are discussed in the following section.
 
 ```{r data-preparation-1, include=FALSE}
 # Change age to decades and calculate the square:
@@ -4598,14 +4598,6 @@ mod4_MOTORCYCLISTxHV <- polr(P_ISEV ~
                              control = list(maxit = 8000))
 ```
 
-Tables \ref{tab:model-full-sample-summary} and \ref{tab:model-subsample-summary} collect some key summary statistics of the estimated models. Of interest is the goodness of fit of the models, which in the case is measured with Akaike's Information Criterion (AIC). This criterion is calculated using the estimated likelihood of the model, penalized by the number of coefficients in the model, so that, other things being equal, it gives preference to more parsimonious models. The objective is to minimize the AIC, and therefore smaller values of this criterion represent better model fits. Turning our attention to the models estimated using the full sample (Table \ref{tab:model-full-sample-summary}), it is possible to see that, compared to the base (single-level) model without opponent variables (Model 1), there are large and significant improvements in fit to be gained by introducing opponent effects. However, the gains are not as large when hierarchical specifications are used, even when the number of additional coefficients that need to be estimated is not substantially larger (recall that the penalty per parameter in AIC is 2). The best model according to this measure of goodness of fit is Model 2 (single-level with opponent effects), followed by Model 4 (hierarchical opponent variables), Model 3 (hierarchical traffic unit variables with opponent effects), and finally Model 1 (single-level without opponent effects). 
-
-It is important to note that the likelihood function of the model, and therefore the value of the AIC, both depend on the size of the sample, which is why AIC is not comparable across models estimated with different sample sizes. For this reason, the full sample models cannot be compared directly to the models estimated with subsets of data. The models in the ensembles, however, can be compared to each other (Table \ref{tab:model-subsample-summary}). As seen in the table, introducing opponent variables leads to a better fit in the case of most, but not all models. The simplest model (single-level without opponent effects) is clearly the best fitting candidate in the case of bicycle vs light truck collisions, bicycle vs heavy vehicle collisions, motorcyclist vs light duty vehicle collisions, and motorcyclist vs heavy vehicle collisions. Model 1 is a statistical toss for best performance with other model(s) in the case of pedestrian vs heavy vehicle collisions. The relative likelihood of Model 1 compared to Models 2 and 3 in this case is `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)`, which means that either of these two competing models are `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)` times as probable as Model 1 to minimize the information loss. 
-
-Model 2 is the best fit in the case of light truck vs heavy vehicle collisions. This model is also tied for best fit with Model 2 in the case of pedestrian vs light duty vehicle and pedestrian vs light truck collisions, and is a statistical toss with Model 4 in the case of heavy vehicle vs heavy vehicle collisions (relative likelihood is `r format(exp((AIC(mod2_HVxHV) - AIC(mod4_HVxHV))/2), digits = 3)`). Model 3 is the best fit in the case of light duty vehicle vs light duty vehicle collisions and heavy vehicle vs light duty vehicle. Model 4 is the best fit in the case of light duty vehicle vs light truck collisions, light duty vehicle vs heavy vehicle collisions, light truck vs light duty vehicle collisions, heavy vehicle vs light truck collisions, and motorcycle vs light truck collisions. This model is a statistical toss with Model 2 in the case of light truck vs light truck collisions, with a relative likelihood of `r format(exp((AIC(mod4_LTxLT) - AIC(mod2_LTxLT))/2), digits = 3)`.
-
-These results give some preliminary ideas about the relative performance of the different modelling strategies. In the next section we delve more deeply into this question.
-
 ```{r save-models-and-data, eval=FALSE, echo=FALSE}
 # This is a shortcut to avoid having to re-estimate the models while working on the paper
 save.image(file = "Models-and-Data.RData")
@@ -4615,6 +4607,37 @@ save.image(file = "Models-and-Data.RData")
 # This is a shortcut to avoid having to re-estimate the models while working on the paper
 load("Models-and-Data.RData")
 ```
+
+Model assessment {#sec:assessment}
+============
+
+In this section we report an in-depth examination of the performance of the models. To this end, first inspect the goodness of fit of the models. Next, we use the models to conduct in-sample predictions (i.e., _nowcasting_), using the same sample that was used to estimate the models. In addition, we also conduct out-of-sample predictions, using the dataset corresponding to the year 2016, processed in identical way as the estimation sample. This is an example of _backcasting_. Using these predictions we evaluate the models in two ways: first, we compute the estimated shares of each outcome based on the predicted probabilities; and secondly, we evaluate the classes of outcomes of the individual-level predictions.
+
+## Goodness of fit of models
+
+We begin our empirical assessment by examining the results of estimating the models described above. Tables \ref{tab:model-full-sample-summary} and \ref{tab:model-subsample-summary} collect some key summary statistics of the estimated models. Of interest is the goodness of fit of the models, which in the case is measured with Akaike's Information Criterion ($AIC$). This criterion is calculated as follows:
+
+\begin{equation}
+\label{eq:aic}
+AIC = 2Z - 2\ln{\hat{L}}
+\end{equation}
+
+\noindent where $Z$ is the number of coefficients estimated by the model, and $\hat{L}$ the maximized likelihood of the model. Since $AIC$ penalizes the model fit by means of the number of coefficients, this criterion gives preference to more parsimonious models. The objective is to minimize the $AIC$, and therefore smaller values of this criterion represent better model fits. Model comparison can be conducted using the relative likelihood. Suppose that we have two models, say Model $a$ and Model $b$, with $AIC_{a} \le AIC_{b}$. The relative likelihood is calculated as:
+
+\begin{equation}
+\label{eq:relative-likelihood}
+e^{(AIC_b - AIC_b)/2}
+\end{equation}
+
+The relative likelihood is interpreted as the probability that Model $b$ minimizes the information loss as well as Model $a$.
+
+Turning our attention to the models estimated using the full sample (Table \ref{tab:model-full-sample-summary}), it is possible to see that, compared to the base (single-level) model without opponent variables (Model 1), there are large and significant improvements in goodness of fit to be gained by introducing opponent effects. However, the gains are not as large when hierarchical specifications are used, even when the number of additional coefficients that need to be estimated is not substantially larger (recall that the penalty per coefficient in $AIC$ is 2). The best model according to this measure of goodness of fit is Model 2 (single-level with opponent effects), followed by Model 4 (hierarchical opponent variables), Model 3 (hierarchical traffic unit variables with opponent effects), and finally Model 1 (single-level without opponent effects). 
+
+It is important to note that the likelihood function of a model, and therefore the value of its $AIC$, both depend on the size of the sample, which is why $AIC$ is not comparable across models estimated with different sample sizes. For this reason, the full sample models cannot be compared directly to the models estimated with subsets of data. The models in the ensembles, however, can be compared to each other (Table \ref{tab:model-subsample-summary}). As seen in the table, introducing opponent variables leads to a better fit in the case of most, but not all models. The simplest model (single-level without opponent effects) is clearly the best fitting candidate in the case of bicycle vs light truck collisions, bicycle vs heavy vehicle collisions, motorcyclist vs light duty vehicle collisions, and motorcyclist vs heavy vehicle collisions. Model 1 is a statistical toss for best performance with two competing models in the case of pedestrian vs heavy vehicle collisions. The relative likelihood of Model 1 compared to Models 2 and 3 in this case is `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)`, which means that these two models are `r format(exp((AIC(mod1_PEDESTRIANxHV) - AIC(mod2_PEDESTRIANxHV))/2), digits = 3)` times as probable as Model 1 to minimize the information loss. 
+
+Model 2 is the best fit in the case of light truck vs heavy vehicle collisions. This model is also tied for best fit with Model 2 in the case of pedestrian vs light duty vehicle and pedestrian vs light truck collisions, and is a statistical toss with Model 4 in the case of heavy vehicle vs heavy vehicle collisions (relative likelihood is `r format(exp((AIC(mod2_HVxHV) - AIC(mod4_HVxHV))/2), digits = 3)`). Model 3 is the best fit in the case of light duty vehicle vs light duty vehicle collisions and heavy vehicle vs light duty vehicle. Model 4 is the best fit in the case of light duty vehicle vs light truck collisions, light duty vehicle vs heavy vehicle collisions, light truck vs light duty vehicle collisions, heavy vehicle vs light truck collisions, and motorcycle vs light truck collisions. This model is a statistical toss with Model 2 in the case of light truck vs light truck collisions, with a relative likelihood of `r format(exp((AIC(mod4_LTxLT) - AIC(mod2_LTxLT))/2), digits = 3)`.
+
+These results give some preliminary ideas about the relative performance of the different modelling strategies. In the next subsection we delve more deeply into this question by examining the predictive performance of the various modelling strategies. The results up to this point indicate that different model specification strategies might work best when combined with subsampling strategies. For space reasons, from this point onwards, we will consider the ensembles of models for predictions and will not compare individual models within the ensembles; this we suggest is a matter for future research. 
 
 ```{r model-full-sample-summary, echo=FALSE, cache=TRUE}
 data.frame(Model = c("Model 1", 
@@ -4855,12 +4878,9 @@ data.frame(Model = c("Light duty vehicle vs light duty vehicle",
   footnote(general = "There are zero cases of Bicyclist vs heavy vehicle in the sample")
 ```
 
-Model assessment {#sec:assessment}
-============
-
-In this section we report an in-depth examination of the performance of the models. To this end, we use the models to conduct in-sample predictions (i.e., nowcasting), using the same sample that was used to estimate the models. In addition, we also conduct out-of-sample predictions, using the dataset corresponding to the year 2016, processed in identical way as the estimation sample (i.e., the 2017 dataset). This is an example of backcasting. Broadly, we evaluate the models in two ways: first, we compute the estimated shares of each outcome based on the predicted probabilities; and secondly, we evaluate the predicted outcomes.
-
 ## Outcome shares based on predicted probabilities
+
+In this, and the following section, _backcasting_ refers to the prediction of probabilities and classes of outcomes using the 2016 dataset. When conducting backcasting, the dataset is preprocessed in identical manner as the 2017 dataset. In addition, the variables used in backcasting match exactly those in the models. This means that some variables were dropped when they were present in the 2016 dataset but not in the models. This tended to happen in the case of relatively rare outcomes (e.g., in 2016, there was at least one collision between a heavy vehicle and a light duty vehicle in a school crossing zone; no such event was observed in 2017). 
 
 The shares of each outcome are calculated as the sum of the estimated probabilities for each observation:
 
@@ -4889,7 +4909,9 @@ The Weighted Average Percentage Error ($WAPE$) aggregates the $APE$ as follows:
 WAPE = \frac{\sum_w^WAPE_{h_w}\times S_{h_w}}{\sum_w^WS_{h_w}}
 \end{equation}
 
-The results of this exercise are reported in Table \ref{tab:ape-results}. Of the four full-sample models (Models 1-4), the $APE$ of Model 2 is lowest in the nowcasting exercise for every outcome, with the exception of Fatality, where Model 4 produces a considerably lower $APE$. When the results are aggregated by means of the $WAPE$, Model 2 gives marginally better results than Model 4. It is interesting to see that the two Ensemble models have lower $APE$ values across the board in the nowcasting exercise, and much better $WAPE$ than the full sample models. However, when we turn to the results of the backcasting (out-of-sample) predictions, these results do not hold, as the Average Percentage Errors worsen considerably, particularly in the case of Fatality. Excellent in-sample predictions but mediocre out-of-sample predictions could constitute evidence of overfitting by the Ensemble models. In terms of backcasting, again Model 4 is marginally better than Model 2, especially due to more accurate shares of No Injury.   
+The results of this exercise are reported in Table \ref{tab:ape-results}. Of the four full-sample models (Models 1-4), the $APE$ of Model 2 is lowest in the nowcasting exercise for every outcome, with the exception of Fatality, where Model 4 produces a considerably lower $APE$. When the results are aggregated by means of the $WAPE$, Model 2 gives marginally better results than Model 4. It is interesting to see that the four ensemble models have lower $APE$ values across the board in the nowcasting exercise, and much better $WAPE$ than the full sample models. However, once we turn to the results of the backcasting exercise, these results do not hold, and it is possible to see that the Average Percentage Errors of the ensemble worsen considerably, particularly in the case of Fatality. The Weighted Average Prediction Error of the ensemble models in the backcasting exercise is also worse than for any of the full sample models. Excellent in-sample predictions but mediocre out-of-sample predictions are often evidence of overfitting, as in the case of the ensemble models here. 
+
+In terms of backcasting, full sample Model 1 is marginally better than full sample Models 2 and 3, and better than full sample Model 4. The reason for this is the lower $APE$ of Model 1 when predicting Injury, the most frequent outcome. However, the performance of Model 1 with respect to Fatality (the least frequent outcome) is the worst of all models. Whereas Model 4 has the best performance predicting Fatality, its performance with respect to other classes of outcomes is less impressive. Model 3 does better than Model 2 with respect to Injury, but performs relatively poorly when backcasting Fatality. Overall, Model 2 appears to be the most balanced, with good in-sample performance and competitive out-of-sample performance that is also balanced with respect to the various classes of outcomes.
 
 ```{r nowcast-probabilities-model-1, include=FALSE, cache=TRUE}
 # Nowcast of probabilities and shares
@@ -7218,15 +7240,32 @@ rbind(nowcast_ape %>% rename(No.Injury.obs = No.Injury.2017, Injury.obs = Injury
   kable_styling(font_size = 7) %>% 
   pack_rows("In-sample (nowcasting using 2017 dataset, i.e., estimation dataset)", 1, 8) %>% 
   pack_rows("Out-of-sample (backcasting using 2016 dataset)", 9, 15) %>%
-  row_spec(c(0, 1, 3, 5, 6, 8, 9, 11, 13, 15), extra_latex_after = "\\rowcolor{gray!15}") %>%
-  landscape()
+  row_spec(c(0, 1, 3, 5, 6, 8, 9, 11, 13, 15), extra_latex_after = "\\rowcolor{gray!15}")
 ```
 
 ## Outcome frequency based on predicted classes
 
-Words go here.
+$APE$ and $WAPE$ are summary measures of the performance of models at the aggregated level. Aggregate-level predictions (i.e., shares of outcomes) are of interest from a population health perspective. In other cases, an analyst might be interested in the predicted outcomes at the individual level. In this section we examine the frequency of outcomes based on predicted classes, using the same two settings as above: nowcasting and backcasting.
 
-Verification statistics used are summarized in Table \ref{tab:verification-statistics}.
+The individual-level outcomes are examined using a battery of verification statistics. Verification statistics are widely used in the evaluation of predective approaches were the outcomes are categorical, and are often based on the analysis of _confusion matrices_ [e.g., @Provost1998glossary; @Begueria2006validation]. Confusion matrices are cross-tabulations of _observed_ and _predicted_ classes. In a two-by-two confusion matrix there are four possible combinations of observed to predicted classes: hits, misses, false alarms, and correct non-events, as shown in Table \ref{tab:confusion-matrix}. When the outcome has more than two classes, the confusion matrix is converted to a two-by-two table to calculate verification statistics. 
+
+```{r example-confusion-matrix, echo=FALSE}
+data.frame(Predicted = c("Yes",
+                        "No",
+                        "Marginal Total"),
+           Yes = c("Hit", "Miss", "Observed Yes"),
+           No = c("False Alarm", "Correct Non-event", "Observed No"),
+           Margin = c("Predicted Yes", "Predicted No", " ")) %>%
+  kable(booktabs = TRUE,
+        align = c("l", "c", "c", "c"),
+        col.names = c("Predicted", "Yes", "No", "Marginal Total"),
+        caption = "\\label{tab:confusion-matrix}Example of a two-by-two confusion matrix") %>%
+  kable_styling(font_size = 7, latex_options =  c("striped", "hold_position")) %>%
+  add_header_above(c(" " = 1, "Observed" = 2, " " = 1))
+```
+
+The statistics used in our assessment are summarized in Table \ref{tab:verification-statistics}, including brief descriptions of their interpretation. The statistics evaluate the performance of models from different perspectives. Take as examples Percent Correct ($PC$) is the sum of hits and correct rejections divided by the number of cases; Bias ($B$), which measures whether a class has been over- or under-predicted; and the probability of detection ($POD$) is the fraction of hits relative to the total observed for the corresponding class. The results of calculating the battery of verification statistics are shown in Table \ref{tab:nowcast-outcomes-assessment} for the nowcasting exercise, and Table \ref{tab:backcast-outcomes-assessment} for the backcasting exercise.
+
 ```{r table-verification-statistics, echo=FALSE, cache=TRUE}
 data.frame(Statistic = c("Percent Correct ($PC$)",
                          "Percent Correct by Class ($PC_c$)",
@@ -7266,7 +7305,17 @@ data.frame(Statistic = c("Percent Correct ($PC$)",
   landscape()
 ```
 
-We next evaluate the outcomes of the nowcast using an array of verification statistics. See Table \ref{tab:nowcast-outcomes-assessment}. We next evaluate the outcomes of the nowcast using an array of verification statistics. See Table \ref{tab:backcast-outcomes-assessment}.
+### Nowcasting
+
+First, some general remarks regarding the results are in order. It is clear that no model performs consistently well from every perspective. Recalling Box's maxim, all models are wrong - in this case it just so happens that the models are wrong in subtly different ways. 
+
+The model that performs best in terms of Percent Correct and is Model 2, followed by Model 4. The worst performer from this perspective is Model 1, with a $PC$ score several percentage points below the top models. The second score is Percent Correct by Class ($PC_c$). This score is calculated individually for each outcome class. Model 2, again, has the best performance for outcomes No Injury and Injury, and the second best score for Fatality. Model 4 has the best score for Fatality, and is second best for No Injury and Injury. Model 1 (full sample) has worst scores for No Injury and Injury whereas its ensemble version has the worst score for Fatality. It is important to note that Percent Correct and Percent Correct by Class are heavily influenced by the most common category. This can be appreciated in the scores, particularly for Fatality, which has generally high values of the score, despite the fact that the number of hits in that class are relatively low; the high values in this case are due to the high ocurrence of correct rejections elsewhere in the table. 
+
+Bias, in contrast, measures for each outcome class, the proportion of total predictions by category (e.g., hits as well as false alarms) relative to the total observed for that class. Overall, predictions can have low bias (values closer to 1) but still do poorly in terms of hits. The models with the best performance in terms of Bias are Model 1 for No Injury and Injury, and Model 3 (ensemble) for Fatality. Model 4 is the second best performer for No Injury and Injury, and Model 4 (ensemble) is second best performer for Fatality. Model 1 (ensemble) has the worst bias for No Injury and Injury, whereas Model 2 has the worst bias for Fatality.
+
+Critical Success Index ($CSI$) is a verification statistic that assumes that the number of correct non-events is inconsequential for determining forecasting skill. For this reason, the statistic is calculated as the proportion of hits relative to the sum of hits plus false alarms plus misses. No model performs uniformly best from this perspective. Model 1 has the best $CSI$ for No Injury, Model 2 (ensemble) has the best score for Injury, and Model 4 (ensemble) the best score for Fatality. Model 2 has the worst score for Fatality - this indicates that Model 4 is not particularly skilled at predicting Fatalities correctly, given the frequency with which it gives false alarms for this class, or misses it.
+
+The next statistic is Probability of False Detection ($F$). This is the proportion of false alarms relative to the total observed no events. This statistic measure the frequency with which the model incorrectly predicts an event, but not when it incorrectly misses it. The 
 
 ```{r nowcast-classes-model-1, include=FALSE, cache=TRUE}
 # Nowcast the outcomes
@@ -9158,14 +9207,14 @@ backcast.preds <- rbind(P_ISEV_mod1,
 ```
 
 ```{r nowcast-outcomes-assessment, echo=FALSE, cache=TRUE}
-rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")),
-      xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble"))) %>%
+nowcast_verification <- rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble"))) %>%
   data.frame(pc = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pc * 100, 3),
                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pc * 100, 3),
                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pc * 100, 3),
@@ -9249,7 +9298,118 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Mod
   rownames_to_column() %>%
   remove_rownames() %>%
   rename(Outcome = rowname) %>%
-  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8)) %>%
+  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8) %>% 
+           factor(levels = c("No Injury", "Injury", "Fatality"),
+                  labels = c("No Injury", "Injury", "Fatality"),
+                  ordered = TRUE))
+
+
+# Find best, second best, worst scores for all the verification statistics
+
+# First, set the following option so that summarize does not round by significant digits in the next few lines of code
+options(pillar.sigfig = 10)
+
+# Find the scores for percentage correct (pc)
+max_pc <- nowcast_verification %>% arrange(pc) %>% slice(24) %>% select(pc)
+second_pc <- nowcast_verification %>% arrange(pc) %>% slice(21) %>% select(pc)
+min_pc <- nowcast_verification %>% arrange(pc) %>% slice(1) %>% select(pc)
+
+# Find the scores for percentage correct by class (pc2)
+max_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(8, 16, 24)) %>% select(pc2)
+second_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(7, 15, 23)) %>% select(pc2)
+min_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(1, 9, 17)) %>% select(pc2)
+
+# Find the scores for bias (bias)
+max_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(8, 16, 24)) %>% select(bias)
+second_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(2, 10, 18)) %>% select(bias)
+min_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(1, 9, 17)) %>% select(bias)
+
+# Find the scores for critical success index (ts)
+max_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(8, 16, 24)) %>% select(ts)
+second_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(7, 15, 23)) %>% select(ts)
+min_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(1, 9, 17)) %>% select(ts)
+
+# Find the scores for probability of false detection (f)
+max_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(8, 16, 24)) %>% select(f)
+second_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(2, 10, 18)) %>% select(f)
+min_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(1, 9, 17)) %>% select(f)
+
+# Find the scores for probability of detection (h)
+max_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(8, 16, 24)) %>% select(h)
+second_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(7, 15, 23)) %>% select(h)
+min_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(1, 9, 17)) %>% select(h)
+
+# Find the scores for false alarm ratio (FAR)
+max_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(8, 16, 24)) %>% select(FAR)
+second_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(2, 10, 18)) %>% select(FAR)
+min_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(1, 9, 17)) %>% select(FAR)
+
+# Find the scores for Heidke skill score (hss)
+max_hss <- nowcast_verification %>% arrange(hss) %>% slice(24) %>% select(hss)
+second_hss <- nowcast_verification %>% arrange(hss) %>% slice(21) %>% select(hss)
+min_hss <- nowcast_verification %>% arrange(hss) %>% slice(1) %>% select(hss)
+
+# Find the scores for Peirce skill score (pss)
+max_pss <- nowcast_verification %>% arrange(pss) %>% slice(24) %>% select(pss)
+second_pss <- nowcast_verification %>% arrange(pss) %>% slice(21) %>% select(pss)
+min_pss <- nowcast_verification %>% arrange(pss) %>% slice(1) %>% select(pss)
+
+# Find the scores for Gerrity score (gs)
+max_gs <- nowcast_verification %>% arrange(gs) %>% slice(24) %>% select(gs)
+second_gs <- nowcast_verification %>% arrange(gs) %>% slice(21) %>% select(gs)
+min_gs <- nowcast_verification %>% arrange(gs) %>% slice(1) %>% select(gs)
+
+nowcast_verification %>%
+  mutate(pc = cell_spec(round(pc, digits = 2),
+                        "latex", 
+                        bold = ifelse(pc == max_pc[1,1], TRUE, FALSE),
+                        underline = ifelse(pc == second_pc[1,1], TRUE, FALSE),
+                        color = ifelse(pc == min_pc[1,1], "red", "black")),
+         pc2 = cell_spec(round(pc2, digits = 2),
+                         "latex",
+                         bold = ifelse(pc2 %in% max_pc2[,1], TRUE, FALSE),
+                         underline = ifelse(pc2 %in% second_pc2[,1], TRUE, FALSE),
+                         color = ifelse(pc2 %in% min_pc2[,1], "red", "black")),
+         bias = cell_spec(round(bias, digits = 4),
+                          "latex",
+                          bold = ifelse(bias %in% min_bias[,1], TRUE, FALSE),
+                          underline = ifelse(bias %in% second_bias[,1], TRUE, FALSE),
+                          color = ifelse(bias %in% max_bias[,1], "red", "black")),
+         ts = cell_spec(round(ts, digits = 4),
+                        "latex",
+                        bold = ifelse(ts %in% max_ts[,1], TRUE, FALSE),
+                        underline = ifelse(ts %in% second_ts[,1], TRUE, FALSE),
+                        color = ifelse(ts %in% min_ts[,1], "red", "black")),
+         f = cell_spec(round(f, digits = 4),
+                       "latex",
+                       bold = ifelse(f %in% min_f[,1], TRUE, FALSE),
+                       underline = ifelse(f %in% second_f[,1], TRUE, FALSE),
+                       color = ifelse(f %in% max_f[,1], "red", "black")),
+         h = cell_spec(round(h, digits = 4),
+                       "latex",
+                       bold = ifelse(h %in% max_h[,1], TRUE, FALSE),
+                       underline = ifelse(h %in% second_h[,1], TRUE, FALSE),
+                       color = ifelse(h %in% min_h[,1], "red", "black")),
+         FAR = cell_spec(round(FAR, digits = 4),
+                         "latex",
+                         bold = ifelse(FAR %in% min_FAR[,1], TRUE, FALSE),
+                         underline = ifelse(FAR %in% second_FAR[,1], TRUE, FALSE),
+                         color = ifelse(FAR %in% max_FAR[,1], "red", "black")),
+         hss = cell_spec(round(hss, digits = 4),
+                         "latex", 
+                         bold = ifelse(hss == max_hss[1,1], TRUE, FALSE),
+                         underline = ifelse(hss == second_hss[1,1], TRUE, FALSE),
+                         color = ifelse(hss == min_hss[1,1], "red", "black")),
+         pss = cell_spec(round(pss, digits = 4),
+                         "latex", 
+                         bold = ifelse(pss == max_pss[1,1], TRUE, FALSE),
+                         underline = ifelse(pss == second_pss[1,1], TRUE, FALSE),
+                         color = ifelse(pss == min_pss[1,1], "red", "black")),
+         gs = cell_spec(round(gs, digits = 4),
+                        "latex", 
+                        bold = ifelse(gs == max_gs[1,1], TRUE, FALSE),
+                        underline = ifelse(gs == second_gs[1,1], TRUE, FALSE),
+                        color = ifelse(gs == min_gs[1,1], "red", "black"))) %>%
   kable(digits = 4,
         booktabs = TRUE,
         escape = FALSE,
@@ -9268,7 +9428,7 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Mod
                                 "Peirce\nSkill\nScore$^7$",
                                 "Gerrity\nScore$^8$")),
         caption = "\\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)") %>%
-  add_header_above(c("Observed" = 1, "Predicted Outcome" = 3, "Verification Statistics" = 10)) %>%
+  add_header_above(c("Predicted" = 1, "Observed Outcome" = 3, "Verification Statistics" = 10)) %>%
   collapse_rows(columns = c(5, 12:14), latex_hline = "major", valign = "middle") %>%
   pack_rows("Model 1", 1, 3) %>% 
   pack_rows("Model 2", 4, 6) %>%
@@ -9279,20 +9439,20 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Mod
   pack_rows("Model 3 Ensemble", 19, 21) %>%
   pack_rows("Model 4 Ensemble", 22, 24) %>% 
   kable_styling(font_size = 7, latex_options = c("scale_down", "hold_position")) %>%
-  footnote(number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
+  footnote(general = "Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores",
+           number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
                       "$CSI = 1$: perfect score; $CSI = 0$: no skill; ",
                       "$F = 0$: perfect score; ",
                       "$POD = 1$: perfect score; ",
                       "$FAR = 0$: perfect score; ",
                       "$HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; ",
                       "$PSS = 1$: perfect score; $PSS = 0$: no skill; ",
-                      "$GS = 1$: perfect score; $GS = 0$: no skill."), 
-           number_title = "Notes: ",
+                      "$GS = 1$: perfect score; $GS = 0$: no skill."),
            escape = FALSE)
 ```
 
 ```{r backcast-outcomes-assessment, echo=FALSE, cache=TRUE}
-rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 1")),
+backcast_verification <- rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 1")),
       xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 2")),
       xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 3")),
       xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 4")),
@@ -9383,7 +9543,118 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Mo
   rownames_to_column() %>%
   remove_rownames() %>%
   rename(Outcome = rowname) %>%
-  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8)) %>%
+  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8) %>% 
+           factor(levels = c("No Injury", "Injury", "Fatality"),
+                  labels = c("No Injury", "Injury", "Fatality"),
+                  ordered = TRUE))
+  
+
+# Find best, second best, worst scores for all the verification statistics
+
+# First, set the following option so that summarize does not round by significant digits in the next few lines of code
+options(pillar.sigfig = 10)
+
+# Find the scores for percentage correct (pc)
+max_pc <- backcast_verification %>% arrange(pc) %>% slice(24) %>% select(pc)
+second_pc <- backcast_verification %>% arrange(pc) %>% slice(21) %>% select(pc)
+min_pc <- backcast_verification %>% arrange(pc) %>% slice(1) %>% select(pc)
+
+# Find the scores for percentage correct by class (pc2)
+max_pc2 <- backcast_verification %>% arrange(Outcome, pc2) %>% slice(c(8, 16, 24)) %>% select(pc2)
+second_pc2 <- backcast_verification %>% arrange(Outcome, pc2) %>% slice(c(7, 15, 23)) %>% select(pc2)
+min_pc2 <- backcast_verification %>% arrange(Outcome, pc2) %>% slice(c(1, 9, 17)) %>% select(pc2)
+
+# Find the scores for bias (bias)
+max_bias <- backcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(8, 16, 24)) %>% select(bias)
+second_bias <- backcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(2, 10, 18)) %>% select(bias)
+min_bias <- backcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(1, 9, 17)) %>% select(bias)
+
+# Find the scores for critical success index (ts)
+max_ts <- backcast_verification %>% arrange(Outcome, ts) %>% slice(c(8, 16, 24)) %>% select(ts)
+second_ts <- backcast_verification %>% arrange(Outcome, ts) %>% slice(c(7, 15, 23)) %>% select(ts)
+min_ts <- backcast_verification %>% arrange(Outcome, ts) %>% slice(c(1, 9, 17)) %>% select(ts)
+
+# Find the scores for probability of false detection (f)
+max_f <- backcast_verification %>% arrange(Outcome, f) %>% slice(c(8, 16, 24)) %>% select(f)
+second_f <- backcast_verification %>% arrange(Outcome, f) %>% slice(c(2, 10, 18)) %>% select(f)
+min_f <- backcast_verification %>% arrange(Outcome, f) %>% slice(c(1, 9, 17)) %>% select(f)
+
+# Find the scores for probability of detection (h)
+max_h <- backcast_verification %>% arrange(Outcome, h) %>% slice(c(8, 16, 24)) %>% select(h)
+second_h <- backcast_verification %>% arrange(Outcome, h) %>% slice(c(7, 15, 23)) %>% select(h)
+min_h <- backcast_verification %>% arrange(Outcome, h) %>% slice(c(1, 9, 17)) %>% select(h)
+
+# Find the scores for false alarm ratio (FAR)
+max_FAR <- backcast_verification %>% arrange(Outcome, FAR) %>% slice(c(8, 16, 24)) %>% select(FAR)
+second_FAR <- backcast_verification %>% arrange(Outcome, FAR) %>% slice(c(2, 10, 18)) %>% select(FAR)
+min_FAR <- backcast_verification %>% arrange(Outcome, FAR) %>% slice(c(1, 9, 17)) %>% select(FAR)
+
+# Find the scores for Heidke skill score (hss)
+max_hss <- backcast_verification %>% arrange(hss) %>% slice(24) %>% select(hss)
+second_hss <- backcast_verification %>% arrange(hss) %>% slice(21) %>% select(hss)
+min_hss <- backcast_verification %>% arrange(hss) %>% slice(1) %>% select(hss)
+
+# Find the scores for Peirce skill score (pss)
+max_pss <- backcast_verification %>% arrange(pss) %>% slice(24) %>% select(pss)
+second_pss <- backcast_verification %>% arrange(pss) %>% slice(21) %>% select(pss)
+min_pss <- backcast_verification %>% arrange(pss) %>% slice(1) %>% select(pss)
+
+# Find the scores for Gerrity score (gs)
+max_gs <- backcast_verification %>% arrange(gs) %>% slice(24) %>% select(gs)
+second_gs <- backcast_verification %>% arrange(gs) %>% slice(21) %>% select(gs)
+min_gs <- backcast_verification %>% arrange(gs) %>% slice(1) %>% select(gs)
+
+backcast_verification %>%
+  mutate(pc = cell_spec(round(pc, digits = 2),
+                        "latex", 
+                        bold = ifelse(pc == max_pc[1,1], TRUE, FALSE),
+                        underline = ifelse(pc == second_pc[1,1], TRUE, FALSE),
+                        color = ifelse(pc == min_pc[1,1], "red", "black")),
+         pc2 = cell_spec(round(pc2, digits = 2),
+                         "latex",
+                         bold = ifelse(pc2 %in% max_pc2[,1], TRUE, FALSE),
+                         underline = ifelse(pc2 %in% second_pc2[,1], TRUE, FALSE),
+                         color = ifelse(pc2 %in% min_pc2[,1], "red", "black")),
+         bias = cell_spec(round(bias, digits = 4),
+                         "latex",
+                         bold = ifelse(bias %in% min_bias[,1], TRUE, FALSE),
+                         underline = ifelse(bias %in% second_bias[,1], TRUE, FALSE),
+                         color = ifelse(bias %in% max_bias[,1], "red", "black")),
+         ts = cell_spec(round(ts, digits = 4),
+                         "latex",
+                         bold = ifelse(ts %in% max_ts[,1], TRUE, FALSE),
+                         underline = ifelse(ts %in% second_ts[,1], TRUE, FALSE),
+                         color = ifelse(ts %in% min_ts[,1], "red", "black")),
+         f = cell_spec(round(f, digits = 4),
+                         "latex",
+                         bold = ifelse(f %in% min_f[,1], TRUE, FALSE),
+                         underline = ifelse(f %in% second_f[,1], TRUE, FALSE),
+                         color = ifelse(f %in% max_f[,1], "red", "black")),
+         h = cell_spec(round(h, digits = 4),
+                         "latex",
+                         bold = ifelse(h %in% max_h[,1], TRUE, FALSE),
+                         underline = ifelse(h %in% second_h[,1], TRUE, FALSE),
+                         color = ifelse(h %in% min_h[,1], "red", "black")),
+         FAR = cell_spec(round(FAR, digits = 4),
+                         "latex",
+                         bold = ifelse(FAR %in% min_FAR[,1], TRUE, FALSE),
+                         underline = ifelse(FAR %in% second_FAR[,1], TRUE, FALSE),
+                         color = ifelse(FAR %in% max_FAR[,1], "red", "black")),
+         hss = cell_spec(round(hss, digits = 4),
+                        "latex", 
+                        bold = ifelse(hss == max_hss[1,1], TRUE, FALSE),
+                        underline = ifelse(hss == second_hss[1,1], TRUE, FALSE),
+                        color = ifelse(hss == min_hss[1,1], "red", "black")),
+         pss = cell_spec(round(pss, digits = 4),
+                        "latex", 
+                        bold = ifelse(pss == max_pss[1,1], TRUE, FALSE),
+                        underline = ifelse(pss == second_pss[1,1], TRUE, FALSE),
+                        color = ifelse(pss == min_pss[1,1], "red", "black")),
+         gs = cell_spec(round(gs, digits = 4),
+                        "latex", 
+                        bold = ifelse(gs == max_gs[1,1], TRUE, FALSE),
+                        underline = ifelse(gs == second_gs[1,1], TRUE, FALSE),
+                        color = ifelse(gs == min_gs[1,1], "red", "black"))) %>%
   kable(digits = 4,
         booktabs = TRUE,
         escape = FALSE,
@@ -9403,7 +9674,7 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Mo
                                 "Gerrity\nScore$^8$")),
         caption = "\\label{tab:nowcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 dataset)") %>%
   kable_styling(font_size = 7, latex_options = c("scale_down", "hold_position")) %>%
-  add_header_above(c("Observed" = 1, "Predicted Outcome" = 3, "Verification Statistics" = 10)) %>%
+  add_header_above(c("Predicted" = 1, "Observed Outcome" = 3, "Verification Statistics" = 10)) %>%
   collapse_rows(columns = c(5, 12:14), latex_hline = "major", valign = "middle") %>%
   pack_rows("Model 1", 1, 3) %>% 
   pack_rows("Model 2", 4, 6) %>%
@@ -9414,15 +9685,15 @@ rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Mo
   pack_rows("Model 3 Ensemble", 19, 21) %>% 
   pack_rows("Model 4 Ensemble", 22, 24) %>% 
   kable_styling(latex_options = c("scale_down")) %>%
-  footnote(number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
+  footnote(general = "Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores",
+           number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
                       "$CSI = 1$: perfect score; $CSI = 0$: no skill; ",
                       "$F = 0$: perfect score; ",
                       "$POD = 1$: perfect score; ",
                       "$FAR = 0$: perfect score; ",
                       "$HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; ",
                       "$PSS = 1$: perfect score; $PSS = 0$: no skill; ",
-                      "$GS = 1$: perfect score; $GS = 0$: no skill."), 
-           number_title = "Notes: ",
+                      "$GS = 1$: perfect score; $GS = 0$: no skill."),
            escape = FALSE)
 ```
 
@@ -9578,7 +9849,7 @@ Different modelling strategies can be used to model complex hierarchical, multie
 
 The results of the empirical assessment strongly suggest that incorporating opponent effects can greatly improve the fit and predictive performance of a model. There is some evidence that subsetting the sample can improve the results in some isolated situations (e.g., when modelling the severity of crashes involving active travellers or motorcyclists), possibly at the risk of overfitting. In this paper we did not compare individual models in our Ensemble approach, but we suggest that this is an avenue for future research.
 
-In terms of the full sample models, the evidence was not conclusive in favor of a single-level model with opponent variables (Model 2), or a hierarchical model with individual-opponent interactions (Model 4). On the one hand, the AIC tended to favor the 
+In terms of the full sample models, the evidence was not conclusive in favor of a single-level model with opponent variables (Model 2), or a hierarchical model with individual-opponent interactions (Model 4). On the one hand, the $AIC$ tended to favor the 
 
 References {#references .unnumbered}
 ==========
