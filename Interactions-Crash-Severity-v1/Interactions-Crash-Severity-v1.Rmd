@@ -16,9 +16,9 @@ author:
     affiliation: McMaster University    
 address:
   - code: McMaster University
-    address: McMaster Institute for Transportation and Logistics, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1
+    address: McMaster Institute for Transportation and Logistics, McMaster University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1
   - code: Louisiana State University
-    address: Department of Civil and Environmental Engineering, Baton Rouge, Louisiana, USA 70803
+    address: Department of Civil and Environmental Engineering, Louisiana State University, Baton Rouge, Louisiana, USA 70803
 abstract: |
  Road accidents impose an important burden on health and the economy. Numerous efforts to understand the factors that affect road collisions have been undertaken. One stream of research focus on modelling the severity of crashes. Crash severity research is useful to clarify the way different factors can influence the outcome of an event. The objective of this paper is to assess different strategies to model the interactions between participants in a crash in the context of crashes involving two parties. Towards this objective, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. Modelling strategies include different ways of introducing the covariates (e.g., in a single-level or multi-level form), as well as by subsetting the dataset. The models are assessed using predicted shares and classes of outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. The study also suggests that hierarchical (i.e., multi-level) specifications and subsetting do not necessarily perform better than a relatively simple single-level model with opponent effects. The results of this study provide insights regarding the performace of different modelling strategies, and should be informative to researchers working with crash severity models.
 
@@ -999,7 +999,7 @@ The rest of this paper is structured as follows. In Section \ref{sec:review-of-m
 Methodological approaches in crash severity analysis {#sec:review-of-methods}
 ============
 
-## General considerations
+## General considerations {#sec:general-considerations}
 
 Modelling the outcomes of crashes in terms of the severity of injuries to participants has been a preoccupation of transportation researchers, planners, auto insurance companies, governments, and the general public for decades. One of the earliests studies to investigate the severity of injuries conditional on an accident having occurred was by White and Clayton [-@White1972effects]. Kim et al. [-@Kim1995personal] later stated that the "linkages between severity of injury and driver characteristics and behaviors have not been thoroughly investigated" (p. 470). Nowadays, there is a burgeoning literature on this subject, including methodological developments, case studies, and more niche research with a focus on particular situations [e.g., crashes at intersections, @Mussone2017analysis; crashes in rural roads, @Gong2017modeling], and crashes involving special population groups [e.g., crashes involving motorcyclists or active travelers; see @Shaheed2013mixed; @Salon2018determinants].
 
@@ -1028,7 +1028,7 @@ data.frame(Category = c("Person-related",
   kable_styling(font_size = 7)
 ```
 
-## Modelling techniques
+## Modelling techniques {#sec:techniques}
 
 With respect to model structures, Shamsunnahar and Eluru [-@Shamsunnahar2013evaluating] conducted an extensive comparison of models for discrete outcomes and found only small differences in the performance of unordered models and ordered models; however, ordered models are usually more parsimonious since only one latent functions needs to be estimated for all outcomes, as opposed to one for each outcome in unordered modelling mechanisms. Bogue et al. [-@Bogue2017modified] also compared unordered and ordered models in the form of the mixed multinomial logit and a modified rank ordered logit, respectively, and found that the ordered model performed best. To keep the empirical assessment managable we will consider only the ordinal logit model, and will comment on potential extensions in Section \ref{sec:further-considerations}.
 
@@ -1110,7 +1110,7 @@ P(y_{itk} = \text{fatality}) &=& P(\epsilon_{itk} < \mu_1 - \sum_{z=1}\theta_zp_
 
 If the random terms are assumed to follow the logistic distribution, the ordered logit model is obtained; if the normal distribution, then the ordered probit model. Estimation methods for these models are very well-established [e.g., @Maddala1986limited; @Train2009discrete]. There are numerous variations of the basic modelling framework above, including hierarchical models, bivariate models, multinomial models, and Bayesian models, among others [see @Savolainen2011statistical for a review of methods].
 
-## Model specification strategies
+## Model specification strategies {#sec:strategies}
 
 In this paper we consider three general model specification strategies, as follows:
 
@@ -1231,7 +1231,7 @@ In this section we present the setting for the empirical assessment of the model
 
 >The source files, code, and data will be publicly available in a GitHub repository upon acceptance of the paper for publication
 
-## Data for empirical assessment
+## Data for empirical assessment {#sec:data}
 
 To assess the performance of the various modelling strategies we use data from Canada's National Collision Database (NCDB). This database contains all police-reported motor vehicle collisions on public roads in Canada. Data are originally collected by provinces and territories, and shared with the federal government, that proceeds to combine, track, and analyze them for reporting deaths, injuries, and collisions in Canada at the national level. The NCDB is provided by Transport Canada, the agency of the federal government of Canada in charge of transportation policies and programs, under the Open Government License - Canada version 2.0 [https://open.canada.ca/en/open-government-licence-canada]. 
 
@@ -1777,7 +1777,7 @@ ncdb_2016_paired_records <- rbind(ncdb_2016_with_pedestrians_opponents, ncdb_201
 ncdb_2016_paired_records <- droplevels(ncdb_2016_paired_records)
 ```
 
-## Model estimation
+## Model estimation {#sec:model-estimation}
 
 Before model estimation, the variables are prepared as follows. First, age is scaled from years to decades. Secondly, new variables are defined to describe the vehicle type. Three classes of vehicle types are considered: 1) light duty vehicles (which in Canada include passenger cars, passenger vans, light utility vehicles, and light duty pick up trucks); 2) light trucks (all other vehicles $\le$ 4536 kg in gross vehicle weight rating); and heavy vehicles (all other vehicles $\ge$ 4536 in gross vehicle weight rating). Furthermore, this typology of vehicle is combined with the road user class of the individual to distiguish between drivers and passengers of light duty vehicles, light trucks, and heavy vehicles, in addition to pedestrians, bicyclists, and motorcyclists. This is done for both the individual and the opponent. Variable interactions are calculated to produce hierarchical variables. For example, for a hierarchical definition of traffic unit-level variables, age (and the square of age to account for possible non-monotonic effects) are interacted with gender, road user class, and vehicle type. For hierarchical opponent variables, age (and the square of age) are interacted with the age of opponent (and the corresponding square). The variables thus obtained are shown in Table \ref{tab:model-specification-summary}. As seen in the table, Models 1 and 2 are single-level models, and the difference between them is that Model 2 includes opponent variables. Models 3 and 4, in contrast, are hierarchical models. Model 3 considers the hierarchy on the basis of the traffic unit, while Model 4 considers the hierarchy on the basis of the opponent. 
 
@@ -4613,7 +4613,7 @@ Model assessment {#sec:assessment}
 
 In this section we report an in-depth examination of the performance of the models. To this end, first inspect the goodness of fit of the models. Next, we use the models to conduct in-sample predictions (i.e., _nowcasting_), using the same sample that was used to estimate the models. In addition, we also conduct out-of-sample predictions, using the dataset corresponding to the year 2016, processed in identical way as the estimation sample. This is an example of _backcasting_. Using these predictions we evaluate the models in two ways: first, we compute the estimated shares of each outcome based on the predicted probabilities; and secondly, we evaluate the classes of outcomes of the individual-level predictions.
 
-## Goodness of fit of models
+## Goodness of fit of models {#sec:goodness-of-fit}
 
 We begin our empirical assessment by examining the results of estimating the models described above. Tables \ref{tab:model-full-sample-summary} and \ref{tab:model-subsample-summary} collect some key summary statistics of the estimated models. Of interest is the goodness of fit of the models, which in the case is measured with Akaike's Information Criterion ($AIC$). This criterion is calculated as follows:
 
@@ -4626,7 +4626,7 @@ AIC = 2Z - 2\ln{\hat{L}}
 
 \begin{equation}
 \label{eq:relative-likelihood}
-e^{(AIC_b - AIC_b)/2}
+e^{(AIC_a - AIC_b)/2}
 \end{equation}
 
 The relative likelihood is interpreted as the probability that Model $b$ minimizes the information loss as well as Model $a$.
@@ -4878,7 +4878,7 @@ data.frame(Model = c("Light duty vehicle vs light duty vehicle",
   footnote(general = "There are zero cases of Bicyclist vs heavy vehicle in the sample")
 ```
 
-## Outcome shares based on predicted probabilities
+## Outcome shares based on predicted probabilities {#sec:outcomes-shares}
 
 In this, and the following section, _backcasting_ refers to the prediction of probabilities and classes of outcomes using the 2016 dataset. When conducting backcasting, the dataset is preprocessed in identical manner as the 2017 dataset. In addition, the variables used in backcasting match exactly those in the models. This means that some variables were dropped when they were present in the 2016 dataset but not in the models. This tended to happen in the case of relatively rare outcomes (e.g., in 2016, there was at least one collision between a heavy vehicle and a light duty vehicle in a school crossing zone; no such event was observed in 2017). 
 
@@ -7243,7 +7243,7 @@ rbind(nowcast_ape %>% rename(No.Injury.obs = No.Injury.2017, Injury.obs = Injury
   row_spec(c(0, 1, 3, 5, 6, 8, 9, 11, 13, 15), extra_latex_after = "\\rowcolor{gray!15}")
 ```
 
-## Outcome frequency based on predicted classes
+## Outcome frequency based on predicted classes {sec:outcomes-classes}
 
 $APE$ and $WAPE$ are summary measures of the performance of models at the aggregated level. Aggregate-level predictions (i.e., shares of outcomes) are of interest from a population health perspective. In other cases, an analyst might be interested in the predicted outcomes at the individual level. In this section we examine the frequency of outcomes based on predicted classes, using the same two settings as above: nowcasting and backcasting.
 
@@ -7264,7 +7264,7 @@ data.frame(Predicted = c("Yes",
   add_header_above(c(" " = 1, "Observed" = 2, " " = 1))
 ```
 
-The statistics used in our assessment are summarized in Table \ref{tab:verification-statistics}, including brief descriptions of their interpretation. The statistics evaluate the performance of models from different perspectives. Take as examples Percent Correct ($PC$) is the sum of hits and correct rejections divided by the number of cases; Bias ($B$), which measures whether a class has been over- or under-predicted; and the probability of detection ($POD$) is the fraction of hits relative to the total observed for the corresponding class. The results of calculating the battery of verification statistics are shown in Table \ref{tab:nowcast-outcomes-assessment} for the nowcasting exercise, and Table \ref{tab:backcast-outcomes-assessment} for the backcasting exercise.
+The statistics used in our assessment are summarized in Table \ref{tab:verification-statistics}, including brief descriptions of their interpretation (more on this below). The statistics evaluate different aspects of the performance of a model. Some are concerned with the ability of the model to be right. For example, Percent Correct ($PC$) is the sum of hits and correct rejections divided by the number of cases. Others are concerned with the ability of the model to match the observed outcomes, including Bias ($B$), which measures whether a class has been over- or under-predicted. Whereas others measure the ability of the model to not be wrong, such as the probability of false detection ($F$) and the False Alarm Ration ($FAR$). We discuss the results of calculating the battery of verification statistics, first for the nowcasting case (are shown in (Table \ref{tab:nowcast-outcomes-assessment}) and subsequently for the backcasting case (Table \ref{tab:backcast-outcomes-assessment}).
 
 ```{r table-verification-statistics, echo=FALSE, cache=TRUE}
 data.frame(Statistic = c("Percent Correct ($PC$)",
@@ -7305,17 +7305,23 @@ data.frame(Statistic = c("Percent Correct ($PC$)",
   landscape()
 ```
 
-### Nowcasting
+### Nowcasting: verification statistics
 
-First, some general remarks regarding the results are in order. It is clear that no model performs consistently well from every perspective. Recalling Box's maxim, all models are wrong - in this case it just so happens that the models are wrong in subtly different ways. 
+At first glance, the results of the verification statistics (Table \ref{tab:nowcast-outcomes-assessment}) make it clear that no model under comparison is consistently a top performer from every aspect of prediction. Recalling Box's aphorism, all models are wrong but some are useful - in this case it just so happens that some models are more wrong than others in subtly different ways. That said, it is noticeable that the worst scores across the board tend to accrue to Model 1 in its full sample and ensemble versions. On the other hand, Model 2 (full sample) concentrates most of the best scores and second best scores of all the models, but also some of the worst scores for Fatality. Model 4, in contrast, has most of the second best scores and a few top scores, but not a single worst score.
 
-The model that performs best in terms of Percent Correct and is Model 2, followed by Model 4. The worst performer from this perspective is Model 1, with a $PC$ score several percentage points below the top models. The second score is Percent Correct by Class ($PC_c$). This score is calculated individually for each outcome class. Model 2, again, has the best performance for outcomes No Injury and Injury, and the second best score for Fatality. Model 4 has the best score for Fatality, and is second best for No Injury and Injury. Model 1 (full sample) has worst scores for No Injury and Injury whereas its ensemble version has the worst score for Fatality. It is important to note that Percent Correct and Percent Correct by Class are heavily influenced by the most common category. This can be appreciated in the scores, particularly for Fatality, which has generally high values of the score, despite the fact that the number of hits in that class are relatively low; the high values in this case are due to the high ocurrence of correct rejections elsewhere in the table. 
+Of all the models, Model 2 (full sample) performs best in terms of Percent Correct, followed by Model 4 (full sample). The worst performer from this perspective is Model 1 (full sample), with a $PC$ score several percentage points below the top models. The second score is Percent Correct by Class ($PC_c$). This score is calculated individually for each outcome class. Model 2 (full sample), has the best performance for outcomes No Injury and Injury, and the second best score for Fatality. Model 4 (full sample) has the best score for Fatality, and is second best for No Injury and Injury. Model 1 (full sample) has worst scores for No Injury and Injury whereas its ensemble version has the worst score for Fatality. It is important to note that $PC$ and $PC_c$ are heavily influenced by the most common category, something that can be particularly appreciated in the scores for Fatality. The scores for this class of outcome are generally high, despite the fact that the number of hits are relatively low; the high values of $PC_c$ in this case are due to the high ocurrence of correct rejections elsewhere in the table. 
 
-Bias, in contrast, measures for each outcome class, the proportion of total predictions by category (e.g., hits as well as false alarms) relative to the total observed for that class. Overall, predictions can have low bias (values closer to 1) but still do poorly in terms of hits. The models with the best performance in terms of Bias are Model 1 for No Injury and Injury, and Model 3 (ensemble) for Fatality. Model 4 is the second best performer for No Injury and Injury, and Model 4 (ensemble) is second best performer for Fatality. Model 1 (ensemble) has the worst bias for No Injury and Injury, whereas Model 2 has the worst bias for Fatality.
+Bias ($B$) measures for each outcome class the proportion of total predictions by class (e.g., hits as well as false alarms) relative to the total number of cases observed for that class. For this reason, it is possible for predictions to have low bias (values closer to 1) but still do poorly in terms of hits. The models with the best performance in terms of $B$ are Model 1 (full sample) for No Injury and Injury, and Model 3 (ensemble) for Fatality. Model 4 (full sample) is the second best performer for No Injury and Injury, and Model 4 (ensemble) is second best performer for Fatality. Model 1 (ensemble) has the worst bias for No Injury and Injury, whereas Model 2 (full sample) has the worst bias for Fatality.
 
-Critical Success Index ($CSI$) is a verification statistic that assumes that the number of correct non-events is inconsequential for determining forecasting skill. For this reason, the statistic is calculated as the proportion of hits relative to the sum of hits plus false alarms plus misses. No model performs uniformly best from this perspective. Model 1 has the best $CSI$ for No Injury, Model 2 (ensemble) has the best score for Injury, and Model 4 (ensemble) the best score for Fatality. Model 2 has the worst score for Fatality - this indicates that Model 4 is not particularly skilled at predicting Fatalities correctly, given the frequency with which it gives false alarms for this class, or misses it.
+Critical Success Index ($CSI$) evaluates forecasting skill while assuming that the number of correct non-events is inconsequential skill. Accordingly, the statistic is calculated as the proportion of hits relative to the sum of hits plus false alarms plus misses. No model performs uniformly best from this perspective. Model 2 (full sample) has the best $CSI$ for No Injury, Model 2 (ensemble) has the best score for Injury, and Model 4 (ensemble) the best score for Fatality. On the other hand, Model 1 (ensemble) has the worst score for No Injury, Model 1 (full sample) the worst score for Injury, and Model 2 the worst score for Fatality. These scores indicates that the models are not particularly skilled at predicting the corresponding classes correctly, given the frequency with which they give false alarms or miss the class.
 
-The next statistic is Probability of False Detection ($F$). This is the proportion of false alarms relative to the total observed no events. This statistic measure the frequency with which the model incorrectly predicts an event, but not when it incorrectly misses it. The 
+The next statistic is Probability of False Detection ($F$). This is the proportion of false alarms relative to the total number of cases that the event is not observed. This statistic measure the frequency with which the model incorrectly predicts an event, but not when it incorrectly misses it. The lowest probability of false detection in the case of No Injury is 19.17% for Model 2 (ensemble), with every other model having values lower than 21%,  with the exception of Model 1 (full sample) that has a score of 26.46%. With respect to Injury, the lowest probabilities range 35.8% and 35.29% and 35.35% for Models 4 (full sample) and 2 (full sample). In contrast, the highest probability of false detection for Injury is 45.12% for Model 1 (ensemble). The scores for $F$ for Fatality are all extremely low as a consequence of the very low frequency of this class of outcome in the sample.
+
+The Probability of Detection ($POD$) measures the frequency with which the model correctly predicts a class, relative to the number of cases of that class. As with some other verification statistics, no model is consistently a best performer. Model 4 (full sample) has the highest probability of detection for No Injury (65.38%), followed by Model 2 (65.32%), whereas the worst probability of detection is by Model 1 (ensemble) with a score of 55.54%. In terms of Injury, all models have $POD$ higher than 79%, and the highest score is 80.67% for Model 2 (ensemble). The exception is Model 1 (full sample), which has a considerably lower $POD$ of Injury with a score of 73.36%. Lastly, in terms of Fatalities, all models have very low probabilities of detection, ranging from a high of 4.94% in the case of Model 4 (ensemble) to a worst score of 0.11% in the case of Model 2 (full sample). 
+
+The False Alarm Ratio ($FAR$) is the fraction of predictions by class that were false alarms, which means that lower scores are better. Model 2 (full sample) has the best $FAR$ statistic for No Injury, as only 25.05% of predictions for this class are false alarms. The next best score is by Model 4 (full sample), with only 25.23% of No Injury predictions being false alarms. The worst performance in this class is by Model 1 (ensemble), which produces almost a third of false alarms in its predictions of No Injury. In the case of Injury, the False Alarm Ratio ranges from a low of 29.15% by Model (ensemble), with every other model having scores lower than 30% except Model 1 (full sample), that gives almost 32% of false alarms. In terms of Fatality, the lowest $FAR$ is also for Model 4 (ensemble) with only 17.86% of false alarms, whereas the worst performance is by Model 2 (full sample), which produces over 95% of false alarms.
+
+The next three verification statistics are skill scores that simultaneously consider different aspects of prediction, and are therefore overall indicators of prediction skill. Heidke's Skill Score ($HSS$) is the fraction of correct predictions above those that could be attributed to chance. Peirce's Skill Score ($PSS$) combines the Probability of Detection ($POD$) of a model and its Probability of False Detection ($F$) to measure the skill of a model to discriminate the classes of outcomes. Lastly, Gerrity Score ($GS$) is a measure of the model's skill predicting the correct classes that tends to reward correct forecasts of the least frequent class. These scores help to remove some of the ambiguity regarding the overall performance of a model. In this way, we know that Model 2 (full sample) does not do particularly well with the class Fatality - however, of all models, it tends to have the best overall performance. Its $HSS$, for example, suggests that it achieves 44.74% of correct predictions after removing correct predictions attributable to chance. In contrast, the lowest score is for Model 1 (ensemble), which only achieves 36.26% correct predictions after removing those attributable to chance. Model 2 (full sample) also has the highest $PSS$ and the second highest $GS$. Model 4 (full sample) has the highest $GS$ and the second highest $HSS$ and $PSS$.
 
 ```{r nowcast-classes-model-1, include=FALSE, cache=TRUE}
 # Nowcast the outcomes
@@ -7862,6 +7868,255 @@ nowcast.preds <- rbind(P_ISEV_mod1,
                         labels = c("Model 1", "Model 2", "Model 3", "Model 4", 
                                    "Model 1 Ensemble", "Model 2 Ensemble", "Model 3 Ensemble", "Model 4 Ensemble")))
 ```
+
+```{r nowcast-outcomes-assessment, echo=FALSE, cache=TRUE}
+nowcast_verification <- rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")),
+                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble"))) %>%
+  data.frame(pc = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pc * 100, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pc * 100, 3)),
+             pc2 = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pc2 * 100,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pc2 * 100),
+             bias = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$bias,
+                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$bias),
+             ts = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$ts,
+                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$ts),
+             f = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$f,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$f),
+             h = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$h,
+                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$h),
+             FAR = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$false.alarm.ratio,
+                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$false.alarm.ratio),
+             hss = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$hss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$hss, 3)),
+             pss = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pss, 3),
+                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pss, 3)),
+             gs = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$gs, 3),
+                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$gs, 3))) %>%
+  rownames_to_column() %>%
+  remove_rownames() %>%
+  rename(Outcome = rowname) %>%
+  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8) %>% 
+           factor(levels = c("No Injury", "Injury", "Fatality"),
+                  labels = c("No Injury", "Injury", "Fatality"),
+                  ordered = TRUE))
+
+
+# Find best, second best, worst scores for all the verification statistics
+
+# First, set the following option so that summarize does not round by significant digits in the next few lines of code
+options(pillar.sigfig = 10)
+
+# Find the scores for percentage correct (pc)
+max_pc <- nowcast_verification %>% arrange(pc) %>% slice(24) %>% select(pc)
+second_pc <- nowcast_verification %>% arrange(pc) %>% slice(21) %>% select(pc)
+min_pc <- nowcast_verification %>% arrange(pc) %>% slice(1) %>% select(pc)
+
+# Find the scores for percentage correct by class (pc2)
+max_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(8, 16, 24)) %>% select(pc2)
+second_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(7, 15, 23)) %>% select(pc2)
+min_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(1, 9, 17)) %>% select(pc2)
+
+# Find the scores for bias (bias)
+max_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(8, 16, 24)) %>% select(bias)
+second_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(2, 10, 18)) %>% select(bias)
+min_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(1, 9, 17)) %>% select(bias)
+
+# Find the scores for critical success index (ts)
+max_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(8, 16, 24)) %>% select(ts)
+second_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(7, 15, 23)) %>% select(ts)
+min_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(1, 9, 17)) %>% select(ts)
+
+# Find the scores for probability of false detection (f)
+max_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(8, 16, 24)) %>% select(f)
+second_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(2, 10, 18)) %>% select(f)
+min_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(1, 9, 17)) %>% select(f)
+
+# Find the scores for probability of detection (h)
+max_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(8, 16, 24)) %>% select(h)
+second_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(7, 15, 23)) %>% select(h)
+min_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(1, 9, 17)) %>% select(h)
+
+# Find the scores for false alarm ratio (FAR)
+max_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(8, 16, 24)) %>% select(FAR)
+second_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(2, 10, 18)) %>% select(FAR)
+min_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(1, 9, 17)) %>% select(FAR)
+
+# Find the scores for Heidke skill score (hss)
+max_hss <- nowcast_verification %>% arrange(hss) %>% slice(24) %>% select(hss)
+second_hss <- nowcast_verification %>% arrange(hss) %>% slice(21) %>% select(hss)
+min_hss <- nowcast_verification %>% arrange(hss) %>% slice(1) %>% select(hss)
+
+# Find the scores for Peirce skill score (pss)
+max_pss <- nowcast_verification %>% arrange(pss) %>% slice(24) %>% select(pss)
+second_pss <- nowcast_verification %>% arrange(pss) %>% slice(21) %>% select(pss)
+min_pss <- nowcast_verification %>% arrange(pss) %>% slice(1) %>% select(pss)
+
+# Find the scores for Gerrity score (gs)
+max_gs <- nowcast_verification %>% arrange(gs) %>% slice(24) %>% select(gs)
+second_gs <- nowcast_verification %>% arrange(gs) %>% slice(21) %>% select(gs)
+min_gs <- nowcast_verification %>% arrange(gs) %>% slice(1) %>% select(gs)
+
+nowcast_verification %>%
+  mutate(pc = cell_spec(round(pc, digits = 2),
+                        "latex", 
+                        bold = ifelse(pc == max_pc[1,1], TRUE, FALSE),
+                        underline = ifelse(pc == second_pc[1,1], TRUE, FALSE),
+                        color = ifelse(pc == min_pc[1,1], "red", "black")),
+         pc2 = cell_spec(round(pc2, digits = 2),
+                         "latex",
+                         bold = ifelse(pc2 %in% max_pc2[,1], TRUE, FALSE),
+                         underline = ifelse(pc2 %in% second_pc2[,1], TRUE, FALSE),
+                         color = ifelse(pc2 %in% min_pc2[,1], "red", "black")),
+         bias = cell_spec(round(bias, digits = 4),
+                          "latex",
+                          bold = ifelse(bias %in% min_bias[,1], TRUE, FALSE),
+                          underline = ifelse(bias %in% second_bias[,1], TRUE, FALSE),
+                          color = ifelse(bias %in% max_bias[,1], "red", "black")),
+         ts = cell_spec(round(ts, digits = 4),
+                        "latex",
+                        bold = ifelse(ts %in% max_ts[,1], TRUE, FALSE),
+                        underline = ifelse(ts %in% second_ts[,1], TRUE, FALSE),
+                        color = ifelse(ts %in% min_ts[,1], "red", "black")),
+         f = cell_spec(round(f, digits = 4),
+                       "latex",
+                       bold = ifelse(f %in% min_f[,1], TRUE, FALSE),
+                       underline = ifelse(f %in% second_f[,1], TRUE, FALSE),
+                       color = ifelse(f %in% max_f[,1], "red", "black")),
+         h = cell_spec(round(h, digits = 4),
+                       "latex",
+                       bold = ifelse(h %in% max_h[,1], TRUE, FALSE),
+                       underline = ifelse(h %in% second_h[,1], TRUE, FALSE),
+                       color = ifelse(h %in% min_h[,1], "red", "black")),
+         FAR = cell_spec(round(FAR, digits = 4),
+                         "latex",
+                         bold = ifelse(FAR %in% min_FAR[,1], TRUE, FALSE),
+                         underline = ifelse(FAR %in% second_FAR[,1], TRUE, FALSE),
+                         color = ifelse(FAR %in% max_FAR[,1], "red", "black")),
+         hss = cell_spec(round(hss, digits = 4),
+                         "latex", 
+                         bold = ifelse(hss == max_hss[1,1], TRUE, FALSE),
+                         underline = ifelse(hss == second_hss[1,1], TRUE, FALSE),
+                         color = ifelse(hss == min_hss[1,1], "red", "black")),
+         pss = cell_spec(round(pss, digits = 4),
+                         "latex", 
+                         bold = ifelse(pss == max_pss[1,1], TRUE, FALSE),
+                         underline = ifelse(pss == second_pss[1,1], TRUE, FALSE),
+                         color = ifelse(pss == min_pss[1,1], "red", "black")),
+         gs = cell_spec(round(gs, digits = 4),
+                        "latex", 
+                        bold = ifelse(gs == max_gs[1,1], TRUE, FALSE),
+                        underline = ifelse(gs == second_gs[1,1], TRUE, FALSE),
+                        color = ifelse(gs == min_gs[1,1], "red", "black"))) %>%
+  kable(digits = 4,
+        booktabs = TRUE,
+        escape = FALSE,
+        col.names = linebreak(c("Outcome",
+                                "No Injury",
+                                "Injury",
+                                "Fatality",
+                                "Percent\nCorrect",
+                                "Percent\nCorrect\nby Class",
+                                "Bias$^1$",
+                                "Critical\nSuccess\nIndex$^2$",
+                                "Probability of\nFalse\nDetection$^3$",
+                                "Probability\nof\nDetection$^4$",
+                                "False\nAlarm\nRatio$^5$",
+                                "Heidke\nSkill\nScore$^6$",
+                                "Peirce\nSkill\nScore$^7$",
+                                "Gerrity\nScore$^8$")),
+        caption = "\\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)") %>%
+  add_header_above(c("Predicted" = 1, "Observed Outcome" = 3, "Verification Statistics" = 10)) %>%
+  collapse_rows(columns = c(5, 12:14), latex_hline = "major", valign = "middle") %>%
+  pack_rows("Model 1", 1, 3) %>% 
+  pack_rows("Model 2", 4, 6) %>%
+  pack_rows("Model 3", 7, 9) %>%
+  pack_rows("Model 4", 10, 12) %>%
+  pack_rows("Model 1 Ensemble", 13, 15) %>%
+  pack_rows("Model 2 Ensemble", 16, 18) %>%
+  pack_rows("Model 3 Ensemble", 19, 21) %>%
+  pack_rows("Model 4 Ensemble", 22, 24) %>% 
+  kable_styling(font_size = 7, latex_options = c("scale_down")) %>%
+  footnote(general = "Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores",
+           number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
+                      "$CSI = 1$: perfect score; $CSI = 0$: no skill; ",
+                      "$F = 0$: perfect score; ",
+                      "$POD = 1$: perfect score; ",
+                      "$FAR = 0$: perfect score; ",
+                      "$HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; ",
+                      "$PSS = 1$: perfect score; $PSS = 0$: no skill; ",
+                      "$GS = 1$: perfect score; $GS = 0$: no skill."),
+           escape = FALSE)
+```
+
+### Backcasting: verification statistics
+
+Table \ref{tab:backcast-outcomes-assessment} presents the results of the verification exercise for the case of our out-of-sample predictions (i.e., backasting). Qualitatively, the results are similar to those of the nowcasting experiments, but with a somewhat weaker performance of the ensemble models. This, again, supports the idea that these models might be overfitting the process, as discussed in reference to the aggregate forecasts (see Section \ref{sec:outcomes-shares}). Models 2 (full sample) and 4 (full sample) are again identified as the best overall performers, and particularly Model 2 (full sample) performs somewhat more adroitly with respect to Fatality in backcasting than it did in nowcasting.
 
 ```{r backcast-classes-model-1, include=FALSE, cache=TRUE}
 # Backcast the outcomes
@@ -9206,251 +9461,6 @@ backcast.preds <- rbind(P_ISEV_mod1,
                                    "Model 1 Ensemble", "Model 2 Ensemble", "Model 3 Ensemble", "Model 4 Ensemble")))
 ```
 
-```{r nowcast-outcomes-assessment, echo=FALSE, cache=TRUE}
-nowcast_verification <- rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")),
-                              xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble"))) %>%
-  data.frame(pc = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pc * 100, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pc * 100, 3)),
-             pc2 = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pc2 * 100,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pc2 * 100),
-             bias = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$bias,
-                      multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$bias),
-             ts = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$ts,
-                    multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$ts),
-             f = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$f,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$f),
-             h = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$h,
-                   multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$h),
-             FAR = c(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$false.alarm.ratio,
-                     multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$false.alarm.ratio),
-             hss = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$hss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$hss, 3)),
-             pss = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$pss, 3),
-                     rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$pss, 3)),
-             gs = c(rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 1 Ensemble")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 2 Ensemble")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 3 Ensemble")))$gs, 3),
-                    rep(multi.cont(xtabs(~ P_ISEV_mod + P_ISEV, data = nowcast.preds %>% filter(Model == "Model 4 Ensemble")))$gs, 3))) %>%
-  rownames_to_column() %>%
-  remove_rownames() %>%
-  rename(Outcome = rowname) %>%
-  mutate(Outcome = rep(c("No Injury", "Injury", "Fatality"), 8) %>% 
-           factor(levels = c("No Injury", "Injury", "Fatality"),
-                  labels = c("No Injury", "Injury", "Fatality"),
-                  ordered = TRUE))
-
-
-# Find best, second best, worst scores for all the verification statistics
-
-# First, set the following option so that summarize does not round by significant digits in the next few lines of code
-options(pillar.sigfig = 10)
-
-# Find the scores for percentage correct (pc)
-max_pc <- nowcast_verification %>% arrange(pc) %>% slice(24) %>% select(pc)
-second_pc <- nowcast_verification %>% arrange(pc) %>% slice(21) %>% select(pc)
-min_pc <- nowcast_verification %>% arrange(pc) %>% slice(1) %>% select(pc)
-
-# Find the scores for percentage correct by class (pc2)
-max_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(8, 16, 24)) %>% select(pc2)
-second_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(7, 15, 23)) %>% select(pc2)
-min_pc2 <- nowcast_verification %>% arrange(Outcome, pc2) %>% slice(c(1, 9, 17)) %>% select(pc2)
-
-# Find the scores for bias (bias)
-max_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(8, 16, 24)) %>% select(bias)
-second_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(2, 10, 18)) %>% select(bias)
-min_bias <- nowcast_verification %>% mutate(bias2 = abs(bias - 1)) %>% arrange(Outcome, bias2) %>% slice(c(1, 9, 17)) %>% select(bias)
-
-# Find the scores for critical success index (ts)
-max_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(8, 16, 24)) %>% select(ts)
-second_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(7, 15, 23)) %>% select(ts)
-min_ts <- nowcast_verification %>% arrange(Outcome, ts) %>% slice(c(1, 9, 17)) %>% select(ts)
-
-# Find the scores for probability of false detection (f)
-max_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(8, 16, 24)) %>% select(f)
-second_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(2, 10, 18)) %>% select(f)
-min_f <- nowcast_verification %>% arrange(Outcome, f) %>% slice(c(1, 9, 17)) %>% select(f)
-
-# Find the scores for probability of detection (h)
-max_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(8, 16, 24)) %>% select(h)
-second_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(7, 15, 23)) %>% select(h)
-min_h <- nowcast_verification %>% arrange(Outcome, h) %>% slice(c(1, 9, 17)) %>% select(h)
-
-# Find the scores for false alarm ratio (FAR)
-max_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(8, 16, 24)) %>% select(FAR)
-second_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(2, 10, 18)) %>% select(FAR)
-min_FAR <- nowcast_verification %>% arrange(Outcome, FAR) %>% slice(c(1, 9, 17)) %>% select(FAR)
-
-# Find the scores for Heidke skill score (hss)
-max_hss <- nowcast_verification %>% arrange(hss) %>% slice(24) %>% select(hss)
-second_hss <- nowcast_verification %>% arrange(hss) %>% slice(21) %>% select(hss)
-min_hss <- nowcast_verification %>% arrange(hss) %>% slice(1) %>% select(hss)
-
-# Find the scores for Peirce skill score (pss)
-max_pss <- nowcast_verification %>% arrange(pss) %>% slice(24) %>% select(pss)
-second_pss <- nowcast_verification %>% arrange(pss) %>% slice(21) %>% select(pss)
-min_pss <- nowcast_verification %>% arrange(pss) %>% slice(1) %>% select(pss)
-
-# Find the scores for Gerrity score (gs)
-max_gs <- nowcast_verification %>% arrange(gs) %>% slice(24) %>% select(gs)
-second_gs <- nowcast_verification %>% arrange(gs) %>% slice(21) %>% select(gs)
-min_gs <- nowcast_verification %>% arrange(gs) %>% slice(1) %>% select(gs)
-
-nowcast_verification %>%
-  mutate(pc = cell_spec(round(pc, digits = 2),
-                        "latex", 
-                        bold = ifelse(pc == max_pc[1,1], TRUE, FALSE),
-                        underline = ifelse(pc == second_pc[1,1], TRUE, FALSE),
-                        color = ifelse(pc == min_pc[1,1], "red", "black")),
-         pc2 = cell_spec(round(pc2, digits = 2),
-                         "latex",
-                         bold = ifelse(pc2 %in% max_pc2[,1], TRUE, FALSE),
-                         underline = ifelse(pc2 %in% second_pc2[,1], TRUE, FALSE),
-                         color = ifelse(pc2 %in% min_pc2[,1], "red", "black")),
-         bias = cell_spec(round(bias, digits = 4),
-                          "latex",
-                          bold = ifelse(bias %in% min_bias[,1], TRUE, FALSE),
-                          underline = ifelse(bias %in% second_bias[,1], TRUE, FALSE),
-                          color = ifelse(bias %in% max_bias[,1], "red", "black")),
-         ts = cell_spec(round(ts, digits = 4),
-                        "latex",
-                        bold = ifelse(ts %in% max_ts[,1], TRUE, FALSE),
-                        underline = ifelse(ts %in% second_ts[,1], TRUE, FALSE),
-                        color = ifelse(ts %in% min_ts[,1], "red", "black")),
-         f = cell_spec(round(f, digits = 4),
-                       "latex",
-                       bold = ifelse(f %in% min_f[,1], TRUE, FALSE),
-                       underline = ifelse(f %in% second_f[,1], TRUE, FALSE),
-                       color = ifelse(f %in% max_f[,1], "red", "black")),
-         h = cell_spec(round(h, digits = 4),
-                       "latex",
-                       bold = ifelse(h %in% max_h[,1], TRUE, FALSE),
-                       underline = ifelse(h %in% second_h[,1], TRUE, FALSE),
-                       color = ifelse(h %in% min_h[,1], "red", "black")),
-         FAR = cell_spec(round(FAR, digits = 4),
-                         "latex",
-                         bold = ifelse(FAR %in% min_FAR[,1], TRUE, FALSE),
-                         underline = ifelse(FAR %in% second_FAR[,1], TRUE, FALSE),
-                         color = ifelse(FAR %in% max_FAR[,1], "red", "black")),
-         hss = cell_spec(round(hss, digits = 4),
-                         "latex", 
-                         bold = ifelse(hss == max_hss[1,1], TRUE, FALSE),
-                         underline = ifelse(hss == second_hss[1,1], TRUE, FALSE),
-                         color = ifelse(hss == min_hss[1,1], "red", "black")),
-         pss = cell_spec(round(pss, digits = 4),
-                         "latex", 
-                         bold = ifelse(pss == max_pss[1,1], TRUE, FALSE),
-                         underline = ifelse(pss == second_pss[1,1], TRUE, FALSE),
-                         color = ifelse(pss == min_pss[1,1], "red", "black")),
-         gs = cell_spec(round(gs, digits = 4),
-                        "latex", 
-                        bold = ifelse(gs == max_gs[1,1], TRUE, FALSE),
-                        underline = ifelse(gs == second_gs[1,1], TRUE, FALSE),
-                        color = ifelse(gs == min_gs[1,1], "red", "black"))) %>%
-  kable(digits = 4,
-        booktabs = TRUE,
-        escape = FALSE,
-        col.names = linebreak(c("Outcome",
-                                "No Injury",
-                                "Injury",
-                                "Fatality",
-                                "Percent\nCorrect",
-                                "Percent\nCorrect\nby Class",
-                                "Bias$^1$",
-                                "Critical\nSuccess\nIndex$^2$",
-                                "Probability of\nFalse\nDetection$^3$",
-                                "Probability\nof\nDetection$^4$",
-                                "False\nAlarm\nRatio$^5$",
-                                "Heidke\nSkill\nScore$^6$",
-                                "Peirce\nSkill\nScore$^7$",
-                                "Gerrity\nScore$^8$")),
-        caption = "\\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)") %>%
-  add_header_above(c("Predicted" = 1, "Observed Outcome" = 3, "Verification Statistics" = 10)) %>%
-  collapse_rows(columns = c(5, 12:14), latex_hline = "major", valign = "middle") %>%
-  pack_rows("Model 1", 1, 3) %>% 
-  pack_rows("Model 2", 4, 6) %>%
-  pack_rows("Model 3", 7, 9) %>%
-  pack_rows("Model 4", 10, 12) %>%
-  pack_rows("Model 1 Ensemble", 13, 15) %>%
-  pack_rows("Model 2 Ensemble", 16, 18) %>%
-  pack_rows("Model 3 Ensemble", 19, 21) %>%
-  pack_rows("Model 4 Ensemble", 22, 24) %>% 
-  kable_styling(font_size = 7, latex_options = c("scale_down", "hold_position")) %>%
-  footnote(general = "Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores",
-           number = c("$B>1$: class is overpredicted; $B<1$: class is underpredicted; ",
-                      "$CSI = 1$: perfect score; $CSI = 0$: no skill; ",
-                      "$F = 0$: perfect score; ",
-                      "$POD = 1$: perfect score; ",
-                      "$FAR = 0$: perfect score; ",
-                      "$HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; ",
-                      "$PSS = 1$: perfect score; $PSS = 0$: no skill; ",
-                      "$GS = 1$: perfect score; $GS = 0$: no skill."),
-           escape = FALSE)
-```
-
 ```{r backcast-outcomes-assessment, echo=FALSE, cache=TRUE}
 backcast_verification <- rbind(xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 1")),
       xtabs(~ P_ISEV_mod + P_ISEV, data = backcast.preds %>% filter(Model == "Model 2")),
@@ -9672,8 +9682,8 @@ backcast_verification %>%
                                 "Heidke\nSkill\nScore$^6$",
                                 "Peirce\nSkill\nScore$^7$",
                                 "Gerrity\nScore$^8$")),
-        caption = "\\label{tab:nowcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 dataset)") %>%
-  kable_styling(font_size = 7, latex_options = c("scale_down", "hold_position")) %>%
+        caption = "\\label{tab:backcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 dataset)") %>%
+  kable_styling(font_size = 7, latex_options = c("scale_down")) %>%
   add_header_above(c("Predicted" = 1, "Observed Outcome" = 3, "Verification Statistics" = 10)) %>%
   collapse_rows(columns = c(5, 12:14), latex_hline = "major", valign = "middle") %>%
   pack_rows("Model 1", 1, 3) %>% 
@@ -9840,16 +9850,44 @@ data.frame(coef(summary(mod2)),
 Further considerations {#sec:further-considerations}
 ============
 
-Here I plan to discuss the applicability of the modelling strategy to advanced modelling techniques (partial proportional odds, heterogeneity, hierarchical models, etc.)
+As discussed in Section \ref{sec:techniques}, there is a rich selection of modelling approaches that are applicable to crash severity analysis. Based on the literature, we limited our empirical assessment of modelling strategies to only one model, namely the ordinal probit. On the other hand, since the modelling strategies discussed here all relate to the specification of the latent function and data subsetting, it is a relatively simple matter to extend them to other modelling approaches. For example, take Expression \ref{eq:latent-function-with-opponent-variables} and add a random component $\mu_{k}$ as follows:
+
+\begin{equation}
+\label{eq:latent-function-with-opponent-variables-and-random-component}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \sum_{r=1}^R\delta_ro_{jvkr} + \mu_{k} + \epsilon_{itk}
+\end{equation}
+
+The addition of the random component in this fashion would help to capture, when appropriate, unobserved heterogeneity at the level of the crash [this is similar to the random intercepts approach in multi-level modelling; also see @Mannering2016unobserved]. As a second example, take Expressions \ref{eq:latent-function-with-hierarchical-traffic-unit} to \ref{eq:hierarchical-traffic-unit-coefficients} and add a random component to a hierarchical coefficient, to obtain:
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients-with-random-component}
+\begin{array}{rcl}\
+\beta_{m}u_{tkm} &=& \big( \beta_{m1} + \beta_{m2}p_{itk2} + \cdots + \beta_{mL}p_{itkL} + \mu_{mk}\big)u_{tkm}\\ 
+&=& \beta_{m1}u_{tkm} + \beta_{m2}p_{itk2}u_{tkm} + \cdots + \beta_{mL}p_{itkL}u_{tkm} + \mu_{mk}u_{tkm}
+\end{array}
+\end{equation}
+
+This is similar to the random slopes strategy in multi-level modelling.
+
+We do not report results regarding other modelling strategies. On the one hand, more sophisticated modelling frameworks are generally capable of improving the performance of a model. On the other hand, there are well-known challenges in the estimation of more sophisticated models [see @Lenguerrand2006modelling, p. 47, for a discussion of convergence issues in models with mixed effects; @Mannering2016unobserved, p.13, for some considerations regarding the complexity and cost of estimating more complex models; and @Bogue2017modified, p. 27, on computational demands of models with random components]. The additional cost and complexity of more sophisticated modelling approaches would, in our view, have greatly complicated our empirical assessment, particularly considering the large size of the sample involved in this research (a dataset with over 164,000 records in the case of the full sample models). That said, we experimented with a model with random components using monthly subsets of data to find that, indeed, estimation takes considerably longer, is more demanding in terms of fixing potential estimation quirks, and in the end resulted in variance components that could not be reliably estimated as different from zero (results can be consulted in the source R Notebook). For this reason, we choose to leave the application of more sophisticated models as a matter for future research.
 
 Concluding remarks {#sec:concluding-remarks}
 ============
 
-Different modelling strategies can be used to model complex hierarchical, multievent outcomes such as the severity of injuries following a collision. The objective of this paper was to assess the performance of different strategies to model opponent effects in two-vehicle crashes. In broad terms, three strategies were considered: 1) incorporating opponent-level variables in the model; 2) single- versus multi-level model specifications; and 3) sample subsetting and estimation of separate models for different types of individual-opponent interactions. 
+The study of crash severity is an important component of accident research, as seen from a large and vibrant literature and numerous applications. Part of this literature covers different modelling strategies that can be used to model complex hierarchical, multievent outcomes such as the severity of injuries following a collision. In this paper, our objective has been to assess the performance of different strategies to model opponent effects in two-vehicle crashes. In broad terms, three strategies were considered: 1) incorporating opponent-level variables in the model; 2) single- versus multi-level model specifications; and 3) sample subsetting and estimation of separate models for different types of individual-opponent interactions. The empirical evaluation was based on data from Canada's National Crash Database and the application of ordered probit models. A suite of models that implemented the various strategies considered was estimated using data from 2017. We then assessed the performance of the models using one information criterion (AIC). Furthermore, the predictive performance of the models was assessed in terms of both nowcasting (in-sample predictions) and backcasting (out-of-sample predictions), the latter using data from 2016.
 
-The results of the empirical assessment strongly suggest that incorporating opponent effects can greatly improve the fit and predictive performance of a model. There is some evidence that subsetting the sample can improve the results in some isolated situations (e.g., when modelling the severity of crashes involving active travellers or motorcyclists), possibly at the risk of overfitting. In this paper we did not compare individual models in our Ensemble approach, but we suggest that this is an avenue for future research.
+The results of the empirical assessment strongly suggest that incorporating opponent effects can greatly improve the goodness-of-fit and predictive performance of a model. Two modelling strategies appear to outperform the rest: a relatively simple single-level modelling approach that incorporates opponent effects, and a hierarchical modelling approach with nested opponent effects. There was some evidence that subsetting the sample can improve the results in some cases s(e.g., when modelling the severity of crashes involving active travellers or motorcyclists), but possibly at the risk of overfitting the process and leading to worse out-of-sample performance. In this paper we did not compare individual models in our ensemble approach, but we suggest that this is an avenue for future research.
 
-In terms of the full sample models, the evidence was not conclusive in favor of a single-level model with opponent variables (Model 2), or a hierarchical model with individual-opponent interactions (Model 4). On the one hand, the $AIC$ tended to favor the 
+The results of this research should be informative to analysts interested in crashes involving two parties, since it provides some useful guidelines regarding the specification of opponent effects.
+
+The analysis also opens up a few avenues for future research. First, for reasons discussed in Section {sec:further-considerations}, we did not consider more sophisticated modelling approaches, such as models with random components, partial proportional odds, ranked ordered models, or multinomial models, to mention just a few possibilities. Secondly, we only considered the performance of the models when making predictions for the full sample. That is, the submodels in the ensembles were not compared in detail, just their aggregate results when predicting the full sample. However, the goodness-of-fit was not uniformly better for any one modelling strategy when the data were subset, and it is possible that individual models perform better for a certain subset than competitors that are part of a better ensemble, overall. For this reason, we suggest that additional work with ensemble approaches is warranted. Finally, it is clear that the models do not generally do well when predicting the least frequent class of outcome, namely Fatality. It would be worthwhile to further investigate approaches for so-called imbalanced learning, a task where Tarrao et al. [-@Tarrao2014modeling] have already made some headway.
+
+Finally, as an aside, this paper is, to the best of our knowledge, the first example of reproducible research in crash severity analysis. By providing the data _and_ code for the analysis, it is our hope that this will allow other researchers to easily verify the results, and to extend them. A common practice in the machine learning community is to use canonical dataset to demonstrate the performance of new techniques. Sharing code and data has remained relatively rare in transportation research, and we would like to suggest that the datasets used in this research could constitute one such canonical dataset for future methodological developments.
+
+Acknowledgments {#acknowledgments .unnumbered}
+==========
+
+To be added in the final version of the paper.
 
 References {#references .unnumbered}
 ==========

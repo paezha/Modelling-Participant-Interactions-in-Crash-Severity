@@ -88,10 +88,10 @@ severity analysis}
    \ead{fergumr@mcmaster.ca} 
     \author[McMaster University]{Saiedeh Razavi}
    \ead{razavi@mcmaster.ca} 
-      \address[McMaster University]{McMaster Institute for Transportation and Logistics, 1280 Main Street
-West, Hamilton, Ontario, Canada L8S 4K1}
-    \address[Louisiana State University]{Department of Civil and Environmental Engineering, Baton Rouge,
-Louisiana, USA 70803}
+      \address[McMaster University]{McMaster Institute for Transportation and Logistics, McMaster
+University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1}
+    \address[Louisiana State University]{Department of Civil and Environmental Engineering, Louisiana State
+University, Baton Rouge, Louisiana, USA 70803}
     
   \begin{abstract}
   Road accidents impose an important burden on health and the economy.
@@ -225,8 +225,8 @@ some concluding remarks in Section \ref{sec:concluding-remarks}.
 \section{Methodological approaches in crash severity
 analysis}\label{sec:review-of-methods}}
 
-\hypertarget{general-considerations}{%
-\subsection{General considerations}\label{general-considerations}}
+\hypertarget{sec:general-considerations}{%
+\subsection{General considerations}\label{sec:general-considerations}}
 
 Modelling the outcomes of crashes in terms of the severity of injuries
 to participants has been a preoccupation of transportation researchers,
@@ -332,8 +332,8 @@ Opponent-related & Attributes of the opponent, e.g., age of opponent, gender of 
 \end{tabular}
 \end{table}
 
-\hypertarget{modelling-techniques}{%
-\subsection{Modelling techniques}\label{modelling-techniques}}
+\hypertarget{sec:techniques}{%
+\subsection{Modelling techniques}\label{sec:techniques}}
 
 With respect to model structures, Shamsunnahar and Eluru (2013)
 conducted an extensive comparison of models for discrete outcomes and
@@ -484,9 +484,8 @@ hierarchical models, bivariate models, multinomial models, and Bayesian
 models, among others (see Savolainen et al., 2011 for a review of
 methods).
 
-\hypertarget{model-specification-strategies}{%
-\subsection{Model specification
-strategies}\label{model-specification-strategies}}
+\hypertarget{sec:strategies}{%
+\subsection{Model specification strategies}\label{sec:strategies}}
 
 In this paper we consider three general model specification strategies,
 as follows:
@@ -666,9 +665,8 @@ The source files, code, and data will be publicly available in a GitHub
 repository upon acceptance of the paper for publication
 \end{quote}
 
-\hypertarget{data-for-empirical-assessment}{%
-\subsection{Data for empirical
-assessment}\label{data-for-empirical-assessment}}
+\hypertarget{sec:data}{%
+\subsection{Data for empirical assessment}\label{sec:data}}
 
 To assess the performance of the various modelling strategies we use
 data from Canada's National Collision Database (NCDB). This database
@@ -947,8 +945,8 @@ Pedestrian & 7880 & 0 & 0 & 0 & 145 & 7507 & 228 & 0.01840 & 0.95266 & \vphantom
 \end{tabular}}
 \end{table}
 
-\hypertarget{model-estimation}{%
-\subsection{Model estimation}\label{model-estimation}}
+\hypertarget{sec:model-estimation}{%
+\subsection{Model estimation}\label{sec:model-estimation}}
 
 Before model estimation, the variables are prepared as follows. First,
 age is scaled from years to decades. Secondly, new variables are defined
@@ -1086,8 +1084,8 @@ compute the estimated shares of each outcome based on the predicted
 probabilities; and secondly, we evaluate the classes of outcomes of the
 individual-level predictions.
 
-\hypertarget{goodness-of-fit-of-models}{%
-\subsection{Goodness of fit of models}\label{goodness-of-fit-of-models}}
+\hypertarget{sec:goodness-of-fit}{%
+\subsection{Goodness of fit of models}\label{sec:goodness-of-fit}}
 
 We begin our empirical assessment by examining the results of estimating
 the models described above. Tables \ref{tab:model-full-sample-summary}
@@ -1113,7 +1111,7 @@ The relative likelihood is calculated as:
 
 \begin{equation}
 \label{eq:relative-likelihood}
-e^{(AIC_b - AIC_b)/2}
+e^{(AIC_a - AIC_b)/2}
 \end{equation}
 
 The relative likelihood is interpreted as the probability that Model
@@ -1232,9 +1230,9 @@ Motorcyclist vs heavy vehicle & 62 & 43 & 88 & 45 & 90 & 46 & 92 & 51 & 102\\
 \end{table}
 \end{landscape}
 
-\hypertarget{outcome-shares-based-on-predicted-probabilities}{%
+\hypertarget{sec:outcomes-shares}{%
 \subsection{Outcome shares based on predicted
-probabilities}\label{outcome-shares-based-on-predicted-probabilities}}
+probabilities}\label{sec:outcomes-shares}}
 
 In this, and the following section, \emph{backcasting} refers to the
 prediction of probabilities and classes of outcomes using the 2016
@@ -1357,9 +1355,9 @@ Model 4 Ensemble & 77461 & 76766.08 & 0.90 & 100029 & 100630.21 & 0.60 & 1070 & 
 \end{tabular}
 \end{table}
 
-\hypertarget{outcome-frequency-based-on-predicted-classes}{%
-\subsection{Outcome frequency based on predicted
-classes}\label{outcome-frequency-based-on-predicted-classes}}
+\hypertarget{outcome-frequency-based-on-predicted-classes-secoutcomes-classes}{%
+\subsection{Outcome frequency based on predicted classes
+\{sec:outcomes-classes\}}\label{outcome-frequency-based-on-predicted-classes-secoutcomes-classes}}
 
 \(APE\) and \(WAPE\) are summary measures of the performance of models
 at the aggregated level. Aggregate-level predictions (i.e., shares of
@@ -1401,16 +1399,19 @@ No & Miss & Correct Non-event & Predicted No\\
 
 The statistics used in our assessment are summarized in Table
 \ref{tab:verification-statistics}, including brief descriptions of their
-interpretation. The statistics evaluate the performance of models from
-different perspectives. Take as examples Percent Correct (\(PC\)) is the
-sum of hits and correct rejections divided by the number of cases; Bias
-(\(B\)), which measures whether a class has been over- or
-under-predicted; and the probability of detection (\(POD\)) is the
-fraction of hits relative to the total observed for the corresponding
-class. The results of calculating the battery of verification statistics
-are shown in Table \ref{tab:nowcast-outcomes-assessment} for the
-nowcasting exercise, and Table \ref{tab:backcast-outcomes-assessment}
-for the backcasting exercise.
+interpretation (more on this below). The statistics evaluate different
+aspects of the performance of a model. Some are concerned with the
+ability of the model to be right. For example, Percent Correct (\(PC\))
+is the sum of hits and correct rejections divided by the number of
+cases. Others are concerned with the ability of the model to match the
+observed outcomes, including Bias (\(B\)), which measures whether a
+class has been over- or under-predicted. Whereas others measure the
+ability of the model to not be wrong, such as the probability of false
+detection (\(F\)) and the False Alarm Ration (\(FAR\)). We discuss the
+results of calculating the battery of verification statistics, first for
+the nowcasting case (are shown in (Table
+\ref{tab:nowcast-outcomes-assessment}) and subsequently for the
+backcasting case (Table \ref{tab:backcast-outcomes-assessment}).
 
 \begin{landscape}\begin{table}
 
@@ -1438,60 +1439,133 @@ Gerrity Score ($GS$) & Measures accuracy of predicting the correct category, rel
 \end{table}
 \end{landscape}
 
-\hypertarget{nowcasting}{%
-\subsubsection{Nowcasting}\label{nowcasting}}
+\hypertarget{nowcasting-verification-statistics}{%
+\subsubsection{Nowcasting: verification
+statistics}\label{nowcasting-verification-statistics}}
 
-First, some general remarks regarding the results are in order. It is
-clear that no model performs consistently well from every perspective.
-Recalling Box's maxim, all models are wrong - in this case it just so
-happens that the models are wrong in subtly different ways.
+At first glance, the results of the verification statistics (Table
+\ref{tab:nowcast-outcomes-assessment}) make it clear that no model under
+comparison is consistently a top performer from every aspect of
+prediction. Recalling Box's aphorism, all models are wrong but some are
+useful - in this case it just so happens that some models are more wrong
+than others in subtly different ways. That said, it is noticeable that
+the worst scores across the board tend to accrue to Model 1 in its full
+sample and ensemble versions. On the other hand, Model 2 (full sample)
+concentrates most of the best scores and second best scores of all the
+models, but also some of the worst scores for Fatality. Model 4, in
+contrast, has most of the second best scores and a few top scores, but
+not a single worst score.
 
-The model that performs best in terms of Percent Correct and is Model 2,
-followed by Model 4. The worst performer from this perspective is Model
-1, with a \(PC\) score several percentage points below the top models.
-The second score is Percent Correct by Class (\(PC_c\)). This score is
-calculated individually for each outcome class. Model 2, again, has the
-best performance for outcomes No Injury and Injury, and the second best
-score for Fatality. Model 4 has the best score for Fatality, and is
-second best for No Injury and Injury. Model 1 (full sample) has worst
+Of all the models, Model 2 (full sample) performs best in terms of
+Percent Correct, followed by Model 4 (full sample). The worst performer
+from this perspective is Model 1 (full sample), with a \(PC\) score
+several percentage points below the top models. The second score is
+Percent Correct by Class (\(PC_c\)). This score is calculated
+individually for each outcome class. Model 2 (full sample), has the best
+performance for outcomes No Injury and Injury, and the second best score
+for Fatality. Model 4 (full sample) has the best score for Fatality, and
+is second best for No Injury and Injury. Model 1 (full sample) has worst
 scores for No Injury and Injury whereas its ensemble version has the
-worst score for Fatality. It is important to note that Percent Correct
-and Percent Correct by Class are heavily influenced by the most common
-category. This can be appreciated in the scores, particularly for
-Fatality, which has generally high values of the score, despite the fact
-that the number of hits in that class are relatively low; the high
-values in this case are due to the high ocurrence of correct rejections
+worst score for Fatality. It is important to note that \(PC\) and
+\(PC_c\) are heavily influenced by the most common category, something
+that can be particularly appreciated in the scores for Fatality. The
+scores for this class of outcome are generally high, despite the fact
+that the number of hits are relatively low; the high values of \(PC_c\)
+in this case are due to the high ocurrence of correct rejections
 elsewhere in the table.
 
-Bias, in contrast, measures for each outcome class, the proportion of
-total predictions by category (e.g., hits as well as false alarms)
-relative to the total observed for that class. Overall, predictions can
-have low bias (values closer to 1) but still do poorly in terms of hits.
-The models with the best performance in terms of Bias are Model 1 for No
-Injury and Injury, and Model 3 (ensemble) for Fatality. Model 4 is the
-second best performer for No Injury and Injury, and Model 4 (ensemble)
-is second best performer for Fatality. Model 1 (ensemble) has the worst
-bias for No Injury and Injury, whereas Model 2 has the worst bias for
-Fatality.
+Bias (\(B\)) measures for each outcome class the proportion of total
+predictions by class (e.g., hits as well as false alarms) relative to
+the total number of cases observed for that class. For this reason, it
+is possible for predictions to have low bias (values closer to 1) but
+still do poorly in terms of hits. The models with the best performance
+in terms of \(B\) are Model 1 (full sample) for No Injury and Injury,
+and Model 3 (ensemble) for Fatality. Model 4 (full sample) is the second
+best performer for No Injury and Injury, and Model 4 (ensemble) is
+second best performer for Fatality. Model 1 (ensemble) has the worst
+bias for No Injury and Injury, whereas Model 2 (full sample) has the
+worst bias for Fatality.
 
-Critical Success Index (\(CSI\)) is a verification statistic that
-assumes that the number of correct non-events is inconsequential for
-determining forecasting skill. For this reason, the statistic is
-calculated as the proportion of hits relative to the sum of hits plus
-false alarms plus misses. No model performs uniformly best from this
-perspective. Model 1 has the best \(CSI\) for No Injury, Model 2
-(ensemble) has the best score for Injury, and Model 4 (ensemble) the
-best score for Fatality. Model 2 has the worst score for Fatality - this
-indicates that Model 4 is not particularly skilled at predicting
-Fatalities correctly, given the frequency with which it gives false
-alarms for this class, or misses it.
+Critical Success Index (\(CSI\)) evaluates forecasting skill while
+assuming that the number of correct non-events is inconsequential skill.
+Accordingly, the statistic is calculated as the proportion of hits
+relative to the sum of hits plus false alarms plus misses. No model
+performs uniformly best from this perspective. Model 2 (full sample) has
+the best \(CSI\) for No Injury, Model 2 (ensemble) has the best score
+for Injury, and Model 4 (ensemble) the best score for Fatality. On the
+other hand, Model 1 (ensemble) has the worst score for No Injury, Model
+1 (full sample) the worst score for Injury, and Model 2 the worst score
+for Fatality. These scores indicates that the models are not
+particularly skilled at predicting the corresponding classes correctly,
+given the frequency with which they give false alarms or miss the class.
 
 The next statistic is Probability of False Detection (\(F\)). This is
-the proportion of false alarms relative to the total observed no events.
-This statistic measure the frequency with which the model incorrectly
-predicts an event, but not when it incorrectly misses it. The
+the proportion of false alarms relative to the total number of cases
+that the event is not observed. This statistic measure the frequency
+with which the model incorrectly predicts an event, but not when it
+incorrectly misses it. The lowest probability of false detection in the
+case of No Injury is 19.17\% for Model 2 (ensemble), with every other
+model having values lower than 21\%, with the exception of Model 1 (full
+sample) that has a score of 26.46\%. With respect to Injury, the lowest
+probabilities range 35.8\% and 35.29\% and 35.35\% for Models 4 (full
+sample) and 2 (full sample). In contrast, the highest probability of
+false detection for Injury is 45.12\% for Model 1 (ensemble). The scores
+for \(F\) for Fatality are all extremely low as a consequence of the
+very low frequency of this class of outcome in the sample.
 
-\begin{table}[!h]
+The Probability of Detection (\(POD\)) measures the frequency with which
+the model correctly predicts a class, relative to the number of cases of
+that class. As with some other verification statistics, no model is
+consistently a best performer. Model 4 (full sample) has the highest
+probability of detection for No Injury (65.38\%), followed by Model 2
+(65.32\%), whereas the worst probability of detection is by Model 1
+(ensemble) with a score of 55.54\%. In terms of Injury, all models have
+\(POD\) higher than 79\%, and the highest score is 80.67\% for Model 2
+(ensemble). The exception is Model 1 (full sample), which has a
+considerably lower \(POD\) of Injury with a score of 73.36\%. Lastly, in
+terms of Fatalities, all models have very low probabilities of
+detection, ranging from a high of 4.94\% in the case of Model 4
+(ensemble) to a worst score of 0.11\% in the case of Model 2 (full
+sample).
+
+The False Alarm Ratio (\(FAR\)) is the fraction of predictions by class
+that were false alarms, which means that lower scores are better. Model
+2 (full sample) has the best \(FAR\) statistic for No Injury, as only
+25.05\% of predictions for this class are false alarms. The next best
+score is by Model 4 (full sample), with only 25.23\% of No Injury
+predictions being false alarms. The worst performance in this class is
+by Model 1 (ensemble), which produces almost a third of false alarms in
+its predictions of No Injury. In the case of Injury, the False Alarm
+Ratio ranges from a low of 29.15\% by Model (ensemble), with every other
+model having scores lower than 30\% except Model 1 (full sample), that
+gives almost 32\% of false alarms. In terms of Fatality, the lowest
+\(FAR\) is also for Model 4 (ensemble) with only 17.86\% of false
+alarms, whereas the worst performance is by Model 2 (full sample), which
+produces over 95\% of false alarms.
+
+The next three verification statistics are skill scores that
+simultaneously consider different aspects of prediction, and are
+therefore overall indicators of prediction skill. Heidke's Skill Score
+(\(HSS\)) is the fraction of correct predictions above those that could
+be attributed to chance. Peirce's Skill Score (\(PSS\)) combines the
+Probability of Detection (\(POD\)) of a model and its Probability of
+False Detection (\(F\)) to measure the skill of a model to discriminate
+the classes of outcomes. Lastly, Gerrity Score (\(GS\)) is a measure of
+the model's skill predicting the correct classes that tends to reward
+correct forecasts of the least frequent class. These scores help to
+remove some of the ambiguity regarding the overall performance of a
+model. In this way, we know that Model 2 (full sample) does not do
+particularly well with the class Fatality - however, of all models, it
+tends to have the best overall performance. Its \(HSS\), for example,
+suggests that it achieves 44.74\% of correct predictions after removing
+correct predictions attributable to chance. In contrast, the lowest
+score is for Model 1 (ensemble), which only achieves 36.26\% correct
+predictions after removing those attributable to chance. Model 2 (full
+sample) also has the highest \(PSS\) and the second highest \(GS\).
+Model 4 (full sample) has the highest \(GS\) and the second highest
+\(HSS\) and \(PSS\).
+
+\begin{table}
 
 \caption{\label{tab:nowcast-outcomes-assessment}\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 dataset, i.e., estimation dataset)}
 \centering
@@ -1580,9 +1654,25 @@ Fatality & 0 & 10 & 46 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor
 \end{tabular}}
 \end{table}
 
-\begin{table}[!h]
+\hypertarget{backcasting-verification-statistics}{%
+\subsubsection{Backcasting: verification
+statistics}\label{backcasting-verification-statistics}}
 
-\caption{\label{tab:backcast-outcomes-assessment}\label{tab:nowcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 dataset)}
+Table \ref{tab:backcast-outcomes-assessment} presents the results of the
+verification exercise for the case of our out-of-sample predictions
+(i.e., backasting). Qualitatively, the results are similar to those of
+the nowcasting experiments, but with a somewhat weaker performance of
+the ensemble models. This, again, supports the idea that these models
+might be overfitting the process, as discussed in reference to the
+aggregate forecasts (see Section \ref{sec:outcomes-shares}). Models 2
+(full sample) and 4 (full sample) are again identified as the best
+overall performers, and particularly Model 2 (full sample) performs
+somewhat more adroitly with respect to Fatality in backcasting than it
+did in nowcasting.
+
+\begin{table}
+
+\caption{\label{tab:backcast-outcomes-assessment}\label{tab:backcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 dataset)}
 \centering
 \resizebox{\linewidth}{!}{
 \fontsize{7}{9}\selectfont
@@ -1673,37 +1763,136 @@ Fatality & 25 & 107 & 17 & \multirow{-3}{*}{\raggedright\arraybackslash \textcol
 \hypertarget{sec:further-considerations}{%
 \section{Further considerations}\label{sec:further-considerations}}
 
-Here I plan to discuss the applicability of the modelling strategy to
-advanced modelling techniques (partial proportional odds, heterogeneity,
-hierarchical models, etc.)
+As discussed in Section \ref{sec:techniques}, there is a rich selection
+of modelling approaches that are applicable to crash severity analysis.
+Based on the literature, we limited our empirical assessment of
+modelling strategies to only one model, namely the ordinal probit. On
+the other hand, since the modelling strategies discussed here all relate
+to the specification of the latent function and data subsetting, it is a
+relatively simple matter to extend them to other modelling approaches.
+For example, take Expression
+\ref{eq:latent-function-with-opponent-variables} and add a random
+component \(\mu_{k}\) as follows:
+
+\begin{equation}
+\label{eq:latent-function-with-opponent-variables-and-random-component}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \sum_{r=1}^R\delta_ro_{jvkr} + \mu_{k} + \epsilon_{itk}
+\end{equation}
+
+The addition of the random component in this fashion would help to
+capture, when appropriate, unobserved heterogeneity at the level of the
+crash (this is similar to the random intercepts approach in multi-level
+modelling; also see Mannering et al., 2016). As a second example, take
+Expressions \ref{eq:latent-function-with-hierarchical-traffic-unit} to
+\ref{eq:hierarchical-traffic-unit-coefficients} and add a random
+component to a hierarchical coefficient, to obtain:
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients-with-random-component}
+\begin{array}{rcl}\
+\beta_{m}u_{tkm} &=& \big( \beta_{m1} + \beta_{m2}p_{itk2} + \cdots + \beta_{mL}p_{itkL} + \mu_{mk}\big)u_{tkm}\\ 
+&=& \beta_{m1}u_{tkm} + \beta_{m2}p_{itk2}u_{tkm} + \cdots + \beta_{mL}p_{itkL}u_{tkm} + \mu_{mk}u_{tkm}
+\end{array}
+\end{equation}
+
+This is similar to the random slopes strategy in multi-level modelling.
+
+We do not report results regarding other modelling strategies. On the
+one hand, more sophisticated modelling frameworks are generally capable
+of improving the performance of a model. On the other hand, there are
+well-known challenges in the estimation of more sophisticated models
+(see Lenguerrand et al., 2006, p. 47, for a discussion of convergence
+issues in models with mixed effects; Mannering et al., 2016, p. 13, for
+some considerations regarding the complexity and cost of estimating more
+complex models; and Bogue et al., 2017, p. 27, on computational demands
+of models with random components). The additional cost and complexity of
+more sophisticated modelling approaches would, in our view, have greatly
+complicated our empirical assessment, particularly considering the large
+size of the sample involved in this research (a dataset with over
+164,000 records in the case of the full sample models). That said, we
+experimented with a model with random components using monthly subsets
+of data to find that, indeed, estimation takes considerably longer, is
+more demanding in terms of fixing potential estimation quirks, and in
+the end resulted in variance components that could not be reliably
+estimated as different from zero (results can be consulted in the source
+R Notebook). For this reason, we choose to leave the application of more
+sophisticated models as a matter for future research.
 
 \hypertarget{sec:concluding-remarks}{%
 \section{Concluding remarks}\label{sec:concluding-remarks}}
 
-Different modelling strategies can be used to model complex
-hierarchical, multievent outcomes such as the severity of injuries
-following a collision. The objective of this paper was to assess the
-performance of different strategies to model opponent effects in
-two-vehicle crashes. In broad terms, three strategies were considered:
-1) incorporating opponent-level variables in the model; 2) single-
-versus multi-level model specifications; and 3) sample subsetting and
-estimation of separate models for different types of individual-opponent
-interactions.
+The study of crash severity is an important component of accident
+research, as seen from a large and vibrant literature and numerous
+applications. Part of this literature covers different modelling
+strategies that can be used to model complex hierarchical, multievent
+outcomes such as the severity of injuries following a collision. In this
+paper, our objective has been to assess the performance of different
+strategies to model opponent effects in two-vehicle crashes. In broad
+terms, three strategies were considered: 1) incorporating opponent-level
+variables in the model; 2) single- versus multi-level model
+specifications; and 3) sample subsetting and estimation of separate
+models for different types of individual-opponent interactions. The
+empirical evaluation was based on data from Canada's National Crash
+Database and the application of ordered probit models. A suite of models
+that implemented the various strategies considered was estimated using
+data from 2017. We then assessed the performance of the models using one
+information criterion (AIC). Furthermore, the predictive performance of
+the models was assessed in terms of both nowcasting (in-sample
+predictions) and backcasting (out-of-sample predictions), the latter
+using data from 2016.
 
 The results of the empirical assessment strongly suggest that
-incorporating opponent effects can greatly improve the fit and
-predictive performance of a model. There is some evidence that
-subsetting the sample can improve the results in some isolated
-situations (e.g., when modelling the severity of crashes involving
-active travellers or motorcyclists), possibly at the risk of
-overfitting. In this paper we did not compare individual models in our
-Ensemble approach, but we suggest that this is an avenue for future
-research.
+incorporating opponent effects can greatly improve the goodness-of-fit
+and predictive performance of a model. Two modelling strategies appear
+to outperform the rest: a relatively simple single-level modelling
+approach that incorporates opponent effects, and a hierarchical
+modelling approach with nested opponent effects. There was some evidence
+that subsetting the sample can improve the results in some cases s(e.g.,
+when modelling the severity of crashes involving active travellers or
+motorcyclists), but possibly at the risk of overfitting the process and
+leading to worse out-of-sample performance. In this paper we did not
+compare individual models in our ensemble approach, but we suggest that
+this is an avenue for future research.
 
-In terms of the full sample models, the evidence was not conclusive in
-favor of a single-level model with opponent variables (Model 2), or a
-hierarchical model with individual-opponent interactions (Model 4). On
-the one hand, the \(AIC\) tended to favor the
+The results of this research should be informative to analysts
+interested in crashes involving two parties, since it provides some
+useful guidelines regarding the specification of opponent effects.
+
+The analysis also opens up a few avenues for future research. First, for
+reasons discussed in Section \{sec:further-considerations\}, we did not
+consider more sophisticated modelling approaches, such as models with
+random components, partial proportional odds, ranked ordered models, or
+multinomial models, to mention just a few possibilities. Secondly, we
+only considered the performance of the models when making predictions
+for the full sample. That is, the submodels in the ensembles were not
+compared in detail, just their aggregate results when predicting the
+full sample. However, the goodness-of-fit was not uniformly better for
+any one modelling strategy when the data were subset, and it is possible
+that individual models perform better for a certain subset than
+competitors that are part of a better ensemble, overall. For this
+reason, we suggest that additional work with ensemble approaches is
+warranted. Finally, it is clear that the models do not generally do well
+when predicting the least frequent class of outcome, namely Fatality. It
+would be worthwhile to further investigate approaches for so-called
+imbalanced learning, a task where Tarrao et al.~(2014) have already made
+some headway.
+
+Finally, as an aside, this paper is, to the best of our knowledge, the
+first example of reproducible research in crash severity analysis. By
+providing the data \emph{and} code for the analysis, it is our hope that
+this will allow other researchers to easily verify the results, and to
+extend them. A common practice in the machine learning community is to
+use canonical dataset to demonstrate the performance of new techniques.
+Sharing code and data has remained relatively rare in transportation
+research, and we would like to suggest that the datasets used in this
+research could constitute one such canonical dataset for future
+methodological developments.
+
+\hypertarget{acknowledgments}{%
+\section*{Acknowledgments}\label{acknowledgments}}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+To be added in the final version of the paper.
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
@@ -1843,6 +2032,12 @@ Lee, C., Li, X.C., 2014. Analysis of injury severity of drivers involved
 in single- and two-vehicle crashes on highways in ontario. Accident
 Analysis and Prevention 71, 286--295.
 doi:\href{https://doi.org/10.1016/j.aap.2014.06.008}{10.1016/j.aap.2014.06.008}
+
+\leavevmode\hypertarget{ref-Lenguerrand2006modelling}{}%
+Lenguerrand, E., Martin, J.L., Laumon, B., 2006. Modelling the
+hierarchical structure of road crash data - application to severity
+analysis. Accident Analysis and Prevention 38, 43--53.
+doi:\href{https://doi.org/10.1016/j.aap.2005.06.021}{10.1016/j.aap.2005.06.021}
 
 \leavevmode\hypertarget{ref-Li2017interplay}{}%
 Li, L., Hasnine, M.S., Habib, K.M.N., Persaud, B., Shalaby, A., 2017.
