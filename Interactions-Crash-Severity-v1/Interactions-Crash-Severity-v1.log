@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.22)  25 JAN 2020 00:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.22)  17 FEB 2020 15:31
 entering extended mode
 **./Interactions-Crash-Severity-v1.tex
 (Interactions-Crash-Severity-v1.tex
@@ -692,21 +692,6 @@ LaTeX Warning: Label `eq:hierarchical-traffic-unit-coefficients' multiply defin
 ed.
 
 
-LaTeX Warning: Label `tab:ncdb-descriptives-collision' multiply defined.
-
-
-LaTeX Warning: Label `tab:ncdb-descriptives-collision' multiply defined.
-
-
-LaTeX Warning: Label `tab:ncdb-descriptives-vehicle' multiply defined.
-
-
-LaTeX Warning: Label `tab:ncdb-descriptives-person' multiply defined.
-
-
-LaTeX Warning: Label `tab:ncdb-descriptives-person' multiply defined.
-
-
 LaTeX Warning: Label `tab:summary-opponent-information' multiply defined.
 
 
@@ -720,6 +705,15 @@ LaTeX Warning: Label `tab:nowcast-outcomes-assessment' multiply defined.
 
 
 LaTeX Warning: Label `tab:backcast-outcomes-assessment' multiply defined.
+
+
+LaTeX Warning: Label `tab:ncdb-descriptives-collision' multiply defined.
+
+
+LaTeX Warning: Label `tab:ncdb-descriptives-vehicle' multiply defined.
+
+
+LaTeX Warning: Label `tab:ncdb-descriptives-person' multiply defined.
 
 )
 \openout1 = `Interactions-Crash-Severity-v1.aux'.
@@ -842,39 +836,39 @@ LaTeX Info: Redefining \nameref on input line 78.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-15.
+17.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-15.
+17.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-115.
+117.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-115.
+117.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 115.
+(Font)              <8> on input line 117.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 115.
+(Font)              <6> on input line 117.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 115.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 115
+(Font)              <5> on input line 117.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 117
 .
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) ("C:\Program Files\MiKTeX 2.9\tex/latex/microtype\mt-msa.cfg"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 115
+LaTeX Font Info:    Trying to load font information for U+msb on input line 117
 .
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -882,7 +876,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-15.
+17.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmtt.fd"
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -891,7 +885,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-15.
+17.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\t1lmss.fd"
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
@@ -900,146 +894,149 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 115.
+(Font)              <10> on input line 117.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 115.
+(Font)              <7> on input line 117.
 
-Overfull \vbox (31.65489pt too high) has occurred while \output is active []
+Overfull \vbox (19.65489pt too high) has occurred while \output is active []
 
 [1
 
 
-{C:/Users/paezha/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3pdfT
-eX warning (ext4): destination with the same identifier (name{table.1}) has bee
-n already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.344 
-      ] [4]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 4
+{C:/Users/paezha/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
 90.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/lm\ts1lmr.fd"
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [5] [6] [7] [8] [9] [10] [11pdfTeX warning (ext4): destination with the same 
-identifier (name{table.5}) has been already used, duplicate ignored
+) [3pdfTeX warning (ext4): destination with the same identifier (name{table.1})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1105 
-       ] [12pdfTeX warning (ext4): destination with the same identifier (name{t
-able.6}) has been already used, duplicate ignored
+l.340 
+      ] [4] [5] [6] [7] [8pdfTeX warning (ext4): destination with the same iden
+tifier (name{table.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1105 
-       ] [13pdfTeX warning (ext4): destination with the same identifier (name{t
-able.7}) has been already used, duplicate ignored
+l.835 
+      ] [9] [10pdfTeX warning (ext4): destination with the same identifier (nam
+e{table.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1187 \begin{landscape}
-                        \begin{table}] [14pdfTeX warning (ext4): destination wi
+l.988 
+      ] [11pdfTeX warning (ext4): destination with the same identifier (name{ta
+ble.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1030 \begin{landscape}
+                        \begin{table}] [12pdfTeX warning (ext4): destination wi
+th the same identifier (name{table.5}) has been already used, duplicate ignored
+
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1068 \end{landscape}
+                      ]
+Overfull \hbox (6.15256pt too wide) in paragraph at lines 1155--1193
+ [][] 
+ []
+
+[13
+
+
+] [14pdfTeX warning (ext4): destination with the same identifier (name{table.6}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1253 \begin{landscape}
+                        \begin{table}pdfTeX warning (ext4): destination with th
+e same identifier (name{table.7}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1253 \begin{landscape}
+                        \begin{table}] [15pdfTeX warning (ext4): destination wi
 th the same identifier (name{table.8}) has been already used, duplicate ignored
 
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1225 \end{landscape}
-                      ]
-Overfull \hbox (6.15256pt too wide) in paragraph at lines 1312--1350
- [][] 
- []
-
-[15
+l.1277 \end{landscape}
+                      ] [16
 
 
-] [16pdfTeX warning (ext4): destination with the same identifier (name{table.9}
-) has been already used, duplicate ignored
+] [17] [18pdfTeX warning (ext4): destination with the same identifier (name{tab
+le.9}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1410 \begin{landscape}
-                        \begin{table}pdfTeX warning (ext4): destination with th
-e same identifier (name{table.10}) has been already used, duplicate ignored
+l.1657 
+       ] [19pdfTeX warning (ext4): destination with the same identifier (name{t
+able.10}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1410 \begin{landscape}
-                        \begin{table}] [17pdfTeX warning (ext4): destination wi
-th the same identifier (name{table.11}) has been already used, duplicate ignore
-d
+l.1657 
+       ] [20]
+Overfull \vbox (29.01154pt too high) has occurred while \output is active []
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.1434 \end{landscape}
-                      ] [18
-
-
-] [19] [20pdfTeX warning (ext4): destination with the same identifier (name{tab
-le.12}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.1814 
-       ] [21pdfTeX warning (ext4): destination with the same identifier (name{t
-able.13}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.1814 
-       ] [22]
-Overfull \hbox (3.16089pt too wide) in paragraph at lines 1914--1919
+[21]
+Overfull \hbox (3.16089pt too wide) in paragraph at lines 1864--1869
 \T1/lmr/m/n/10 (-20) pants in mul-ti-ve-hi-cle crashes. An-a-lytic Meth-ods in 
 Ac-ci-dent Re-search 14, 22--40. doi:[]10.1016/j.amar.2017.03.001[] 
  []
 
-
-Overfull \hbox (14.40115pt too wide) in paragraph at lines 1937--1942
+[22]
+Overfull \hbox (14.40115pt too wide) in paragraph at lines 1887--1892
 \T1/lmr/m/n/10 (-20) gen-er-al-ized or-dered pro-bit ap-proach. Ac-ci-dent Anal
 -y-sis and Pre-ven-tion 51, 175--184. doi:[]10.1016/j.aap.2012.11.008[] 
  []
 
-[23] [24]
-Overfull \hbox (0.98694pt too wide) in paragraph at lines 2162--2167
+[23]
+Overfull \hbox (0.98694pt too wide) in paragraph at lines 2092--2097
 \T1/lmr/m/n/10 (-20) pedes-trian crash in-jury sever-i-ties. Ac-ci-dent Anal-y-
 sis and Pre-ven-tion 72, 330--340. doi:[]10.1016/j.aap.2014.07.025[] 
  []
 
 
-Overfull \hbox (3.68279pt too wide) in paragraph at lines 2193--2198
+Overfull \hbox (3.68279pt too wide) in paragraph at lines 2123--2128
 \T1/lmr/m/n/10 (-20) crashes - a cop-ula based ap-proach. Ac-ci-dent Anal-y-sis
  and Pre-ven-tion 66, 120--135. doi:[]10.1016/j.aap.2014.01.018[] 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2264.
+[24]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2187.
 [25]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2264.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2187.
 (Interactions-Crash-Severity-v1.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2264.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2264.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2187.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2187.
 
 Package rerunfilecheck Info: File `Interactions-Crash-Severity-v1.out' has not 
 changed.
-(rerunfilecheck)             Checksum: 9DBAD5987F62C1F0C0ED5F3BA8190F71;5169.
+(rerunfilecheck)             Checksum: 6391EE65C6A5FEB1BE0FDA80683463C8;4804.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2264.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2187.
  ) 
 Here is how much of TeX's memory you used:
- 15313 strings out of 492453
- 219556 string characters out of 3129816
- 451043 words of memory out of 3000000
- 19132 multiletter control sequences out of 15000+200000
- 74771 words of font info for 114 fonts, out of 3000000 for 9000
+ 15319 strings out of 492453
+ 219404 string characters out of 3129816
+ 450511 words of memory out of 3000000
+ 19131 multiletter control sequences out of 15000+200000
+ 75551 words of font info for 120 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,20n,42p,1003b,468s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,20n,42p,1003b,397s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Program Files/M
 iKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/d
-vips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.en
-c}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Fil
-es/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}<C:/Program Files/MiKTeX 2.9/fon
+vips/lm/lm-mathit.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy
+.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Program 
+Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ts1.enc}<C:/Program Files/MiKTeX 2.9/fon
 ts/type1/public/lm/lmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/l
 m/lmbx7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmex10.pfb><C:/P
 rogram Files/MiKTeX 2.9/fonts/type1/public/lm/lmmi10.pfb><C:/Program Files/MiKT
@@ -1055,9 +1052,9 @@ c/lm/lmss8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C
 :/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmsy7.pfb><C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/lm/lmtt8.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
 e1/public/amsfonts/symbols/msam7.pfb>
-Output written on Interactions-Crash-Severity-v1.pdf (25 pages, 514348 bytes).
+Output written on Interactions-Crash-Severity-v1.pdf (25 pages, 508075 bytes).
 PDF statistics:
- 540 PDF objects out of 1000 (max. 8388607)
- 174 named destinations out of 1000 (max. 500000)
- 19641 words of extra memory for PDF output out of 20736 (max. 10000000)
+ 535 PDF objects out of 1000 (max. 8388607)
+ 169 named destinations out of 1000 (max. 500000)
+ 19649 words of extra memory for PDF output out of 20736 (max. 10000000)
 

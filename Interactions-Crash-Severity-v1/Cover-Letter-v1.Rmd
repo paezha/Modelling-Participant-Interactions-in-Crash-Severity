@@ -1,0 +1,36 @@
+---
+title: " "
+author: "Antonio Paez"
+date: "2/17/2020"
+output: pdf_document
+---
+
+Dear Editor:
+
+Please find attached our jointly authored submission entitled "An empirical assessment of strategies to model opponent effects in crash severity analysis". We wish to submit this paper for publication consideration in Analytical Methods in Accident Research.
+
+Modelling opponent effects in crash severity analysis is nothing new. However, of the various strategies often employed to this end, there is no systematic evaluation in the literature about their relative performance. Therefore, our objective with this paper is to empirically evaluate the following modelling strategies:
+
+1. Inclusion of opponent-level effects.
+2. Data subsetting.
+3. Use of hierarchical variable specification.
+
+We conduct an extensive evaluation based on analysis of the latest edition of Canada's National Crash Database (2017), and also use the 2016 edition for validation purposes in extensive _backcasting_ experiments.
+
+The contributions of this research are as follows:
+
+1. We systematize the analysis of opponent effects in crash severity models. Although every strategy discussed has been used in past research, we organize it in a way that clarifies its operation.
+
+2. We present a data management workflow to prepare a dataset to implement analysis of opponent effects.
+
+3. We provide evidence of the performance of different modelling strategies. In particular, the importance of considering opponent-level effects and the suitability of single-level models.
+
+4. Last, but not least, we present our paper as an example of reproducible research: all data and code are publicly available from the beginning of the peer-review process, and will be available upon publication.
+
+We anticipate that the findings reported here will be useful to guide future research on crash severity analysis. And by making it an early example of reproducible research, we expect that the impact of this paper will extend beyond opponent effects, since other researchers will be able, if so they wish, to take the data and our results as a starting point for their own accident research.
+
+It is our hope that you will find the topic of the research to be a good fit to Analytical Methods in Accident Research, and that your expert reviewers will be able to provide valuable feedback to improve our research.
+
+Looking forward to hearing back from you in due course, we remain sincerely yours.
+
+The Authors
