@@ -1,22 +1,28 @@
 ---
 title: An empirical assessment of strategies to model opponent effects in crash severity analysis
 author:
-  - name: Author 1
-    email: author1@address.edu
-    affiliation: Some University
+  - name: Antonio Paez
+    email: paezha@mcmaster.ca
+    affiliation: McMaster University
     footnote: Corresponding Author
-  - name: Author 2
-    email: author2@address.edu
-    affiliation: Another University
+  - name: Hany Hassan
+    email: hassan1@lsu.edu
+    affiliation: Louisiana State University
+  - name: Mark Ferguson
+    email: fergumr@mcmaster.ca
+    affiliation: McMaster University
+  - name: Saiedeh Razavi
+    email: razavi@mcmaster.ca
+    affiliation: McMaster University    
 address:
-  - code: Some University
-    address: Address
-  - code: Another University
-    address: Address
+  - code: McMaster University
+    address: McMaster Institute for Transportation and Logistics, McMaster University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1
+  - code: Louisiana State University
+    address: Department of Civil and Environmental Engineering, Louisiana State University, Baton Rouge, Louisiana, USA 70803
 abstract: |
   Road accidents impose an important burden on health and the economy. Numerous efforts have been undertaken to understand the factors that affect road collisions in general, and the severity of crashes in particular. In this literature several strategies have been proposed to model opponent effects, that is, ways to deal with the way the different parties in a crash interact to influence the severity of the individual outcomes. These strategies include the use of opponent variables, data subsetting, and estimating models with hierarchical components. Since, no systematic assessment has been conducted of the performance of these strategies, they appear to be used in an ad-hoc fashion in the literature. The objective of this paper is to empirically evaluate ways to model opponent effects in the context of crashes involving two parties. To this end, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered logit models and covariates for the participants in the crash and the conditions of the crash. The models are assessed using predicted shares and classes of outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. The study also suggests that hierarchical (i.e., multi-level) specifications and subsetting do not necessarily perform better than a relatively simple single-level model with opponent-related factors. The results of this study provide insights regarding the performance of different modelling strategies, and should be informative to researchers in the field of crash severity.
 
-journal: "Some Journal"
+journal: "Accident Analysis and Prevention"
 date: "`r Sys.Date()`"
 bibliography: mybibfile.bib
 #linenumbers: true
@@ -28,6 +34,8 @@ header-includes:
    - \usepackage[margin=1in]{geometry}
    - \usepackage{lineno}
    - \linenumbers
+   - \usepackage{setspace}
+   - \doublespacing
 ---
 
 <!--- 
@@ -41,9 +49,9 @@ This paper is an R markdown document that includes self-contained, reproducible 
 
 https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a
 
-Or from the following anonymous Drive folder:
+Or from the following repository:
 
-https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV
+https://github.com/paezha/Modelling-Participant-Interactions-in-Crash-Severity
 
 3. For compiling into a pdf in the style of an Elsevier document: elsarticle.cls, elsevier-harvard.csl, elsevier-harvard-without-titles.csl, elsevier-vancouver.csl, elsevier-without-titles.cls, elsevier-with-titles.csl, elsevier-with-titles-alphabetical.csl, mybibfile.bib
 --->
@@ -1189,11 +1197,9 @@ Setting for empirical assessment {#sec:application}
 
 In this section we present the setting for the empirical assessment of the modelling strategies discussed in Section \ref{sec:methods}, namely matters related to data and model estimation.
 
->**Note:** this paper presents reproducible research. The source file is an R Markdown document. All code and data necessary to reproduce the analysis are available from the following anonymous Drive folder:
+>**Note:** this paper presents reproducible research. The source file is an R Markdown document. All code and data necessary to reproduce the analysis are available from the following GitHub repository:
 
->https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb_XV
-
->The source files, code, and data will be publicly available in a GitHub repository upon acceptance of the paper for publication
+>https://github.com/paezha/Modelling-Participant-Interactions-in-Crash-Severity
 
 ## Data for empirical assessment {#sec:data}
 

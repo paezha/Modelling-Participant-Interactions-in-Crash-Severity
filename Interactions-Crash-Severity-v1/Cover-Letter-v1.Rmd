@@ -7,7 +7,7 @@ output: pdf_document
 
 Dear Editor:
 
-Please find attached our jointly authored submission entitled "An empirical assessment of strategies to model opponent effects in crash severity analysis". We wish to submit this paper for publication consideration in Analytical Methods in Accident Research.
+Please find attached our jointly authored submission entitled "An empirical assessment of strategies to model opponent effects in crash severity analysis". We wish to submit this paper for publication consideration in Accident Analysis & Prevention.
 
 Modelling opponent effects in crash severity analysis is nothing new. However, of the various strategies often employed to this end, there is no systematic evaluation in the literature about their relative performance. Therefore, our objective with this paper is to empirically evaluate the following modelling strategies:
 
@@ -29,7 +29,7 @@ The contributions of this research are as follows:
 
 We anticipate that the findings reported here will be useful to guide future research on crash severity analysis. And by making it an early example of reproducible research, we expect that the impact of this paper will extend beyond opponent effects, since other researchers will be able, if so they wish, to take the data and our results as a starting point for their own accident research.
 
-It is our hope that you will find the topic of the research to be a good fit to Analytical Methods in Accident Research, and that your expert reviewers will be able to provide valuable feedback to improve our research.
+It is our hope that you will find the topic of the research to be a good fit to Accident Analysis & Prevention, and that your expert reviewers will be able to provide valuable feedback to improve our research.
 
 Looking forward to hearing back from you in due course, we remain sincerely yours.
 
