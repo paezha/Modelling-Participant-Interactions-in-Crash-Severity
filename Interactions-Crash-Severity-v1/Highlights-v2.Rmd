@@ -1,0 +1,12 @@
+---
+title: "Hightlights"
+author: ""
+date: "5/8/2020"
+output: pdf_document
+---
+
+- Strategies to model interactions between parties in crash severity modelling are investigated
+- A data workflow is presented for preparing data for modelling party interactions
+- Single-level and hierarchical models are compared
+- Full-sample and sub-sample models are compared
+- The results provide information useful to select a modelling strategy for crash severity

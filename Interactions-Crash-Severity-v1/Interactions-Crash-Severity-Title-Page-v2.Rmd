@@ -1,0 +1,37 @@
+---
+title: An empirical assessment of strategies to model party interactions in crash severity analysis
+author:
+  - name: Antonio Paez
+    email: paezha@mcmaster.ca
+    affiliation: McMaster University
+    footnote: Corresponding Author
+  - name: Hany Hassan
+    email: hassan1@lsu.edu
+    affiliation: Louisiana State University
+  - name: Mark Ferguson
+    email: fergumr@mcmaster.ca
+    affiliation: McMaster University
+  - name: Saiedeh Razavi
+    email: razavi@mcmaster.ca
+    affiliation: McMaster University    
+address:
+  - code: McMaster University
+    address: McMaster Institute for Transportation and Logistics, McMaster University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1
+  - code: Louisiana State University
+    address: Department of Civil and Environmental Engineering, Louisiana State University, Baton Rouge, Louisiana, USA 70803
+abstract: |
+  Road crashes impose an important burden on health and the economy. Numerous efforts have been undertaken to understand the factors that affect road collisions in general, and the severity of crashes in particular. In this literature several strategies have been proposed to model interactions between parties in a crash, including the use of variables regarding the other party (or parties) in the collision, data subsetting, and estimating models with hierarchical components. Since no systematic assessment has been conducted of the performance of these strategies, they appear to be used in an ad-hoc fashion in the literature. The objective of this paper is to empirically evaluate ways to model party interactions in the context of crashes involving two parties. To this end, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered probit models and covariates for the parties in the crash and the conditions of the crash. The models are assessed using predicted shares and classes of outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. The study also suggests that hierarchical (i.e., multi-level) specifications and subsetting do not necessarily perform better than a relatively simple single-level model with opponent-related factors. The results of this study provide insights regarding the performance of different modelling strategies, and should be informative to researchers in the field of crash severity.
+
+journal: "Some Journal"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+#linenumbers: true
+numbersections: true
+csl: elsevier-harvard.csl
+output: rticles::elsevier_article
+
+header-includes:
+   - \usepackage[margin=1in]{geometry}
+   - \usepackage{lineno}
+   - \linenumbers
+---
