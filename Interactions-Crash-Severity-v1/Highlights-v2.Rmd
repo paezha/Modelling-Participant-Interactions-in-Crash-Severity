@@ -1,5 +1,5 @@
 ---
-title: "Hightlights"
+title: "Highlights"
 author: ""
 date: "5/8/2020"
 output: pdf_document
