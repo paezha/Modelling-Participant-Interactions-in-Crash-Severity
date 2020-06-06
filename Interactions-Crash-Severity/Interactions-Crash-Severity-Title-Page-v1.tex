@@ -1,0 +1,114 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{Some Journal} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{booktabs} % book-quality tables
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={An empirical assessment of strategies to model opponent effects in crash severity analysis},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{5}
+% Pandoc toggle for numbering sections (defaults to be off)
+
+
+% Pandoc header
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}
+\linenumbers
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{An empirical assessment of strategies to model opponent effects in crash
+severity analysis}
+    \author[McMaster University]{Antonio Paez\corref{Corresponding Author}}
+   \ead{paezha@mcmaster.ca} 
+    \author[Louisiana State University]{Hany Hassan}
+   \ead{hassan1@lsu.edu} 
+    \author[McMaster University]{Mark Ferguson}
+   \ead{fergumr@mcmaster.ca} 
+    \author[McMaster University]{Saiedeh Razavi}
+   \ead{razavi@mcmaster.ca} 
+      \address[McMaster University]{McMaster Institute for Transportation and Logistics, McMaster
+University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1}
+    \address[Louisiana State University]{Department of Civil and Environmental Engineering, Louisiana State
+University, Baton Rouge, Louisiana, USA 70803}
+    
+  \begin{abstract}
+  Road accidents impose an important burden on health and the economy.
+  Numerous efforts to understand the factors that affect road collisions
+  have been undertaken. One stream of research focus on modelling the
+  severity of crashes. Crash severity research is useful to clarify the
+  way different factors can influence the outcome of an event. The
+  objective of this paper is to assess different strategies to model the
+  interactions between participants in a crash in the context of crashes
+  involving two parties. Towards this objective, a series of models are
+  estimated using data from Canada's National Collision Database. Three
+  levels of crash severity (no injury/injury/fatality) are analyzed using
+  ordered logit models and covariates for the participants in the crash
+  and the conditions of the crash. Modelling strategies include different
+  ways of introducing the covariates (e.g., in a single-level or
+  multi-level form), as well as by subsetting the dataset. The models are
+  assessed using predicted shares and classes of outcomes, and the results
+  highlight the importance of considering opponent effects in crash
+  severity analysis. The study also suggests that hierarchical (i.e.,
+  multi-level) specifications and subsetting do not necessarily perform
+  better than a relatively simple single-level model with opponent
+  effects. The results of this study provide insights regarding the
+  performace of different modelling strategies, and should be informative
+  to researchers working with crash severity models.
+  \end{abstract}
+  
+ \end{frontmatter}
+
+
+
+
+\end{document}
+
+

@@ -1,0 +1,62 @@
+---
+title: "Response to reviewers"
+author: ""
+date: "6/6/2020"
+output: pdf_document
+---
+
+We wish to thank three anonymous reviewers for their feedback on the second version of our paper. In this letter we respond to their comments and describe the changes made to the paper in response. Reviewer comments are in black and our responses in blue.
+
+\newpage
+
+# Reviewer 1
+
+No comment to authors.  
+
+>\textcolor{blue}{Thank you for reading the paper again.}
+
+\newpage
+
+# Reviewer 3
+
+This paper is very well done and the revisions have improved it even further.
+
+>\textcolor{blue}{Thank you for your suggestions to improve the paper.}
+
+\newpage
+
+# Reviewer 4
+
+1. Authors mentioned that the WAPE are still less than one percent for every model/ensemble of models in Table 6. This is true. But it does not change the fact that the models are overfitting. If you evaluate the model performances based on other criteria, the in-sample and out-of-sample performances might be quite different. As such, these models might be biased.
+
+2. I’m very confused by the calculation process of “percent correct”. Not sure if it is a proper performance measure. As the authors mentioned, that crash data is highly imbalanced. In this case, there are other performance metrics which are more adapted into imbalanced data problem, such as ROC, G-mean, or F-measure. You can refer to the following paper
+
+Learning from class-imbalanced data: Review of methods and applications
+
+https://www.sciencedirect.com/science/article/pii/S0957417416307175
+
+>>It is curious that its ‘percent correct by class’ is generally very high (close to or greater than 90%) when numbers are so bad; it is curious too that the ‘percent correct’ is always lower than the lowest value of each ‘percent correct by class’.  
+
+>\textcolor{blue}{Percent correct by class is heavily influenced by the dominant class (see note in Table 8). It is calculated as the sum of total hits and correct non-events divided by the number of cases. Accordingly (see for example Table 9, Model 1):}
+
+
+Outcome | Pred. No Injury | Pred. Injury | Pred. Fatality |
+--- | --- | --- | --- |
+No Injury | 50652 | 22503 | 150 |
+Injury | 28232 | 62121 | 797 |
+Fatality | 2 | 51 | 3 |
+
+>\textcolor{blue}{The percent correct by class (No Injury) is calculated as follows:}
+
+$$
+PC_{No-Injury} = \frac{50652 + 62121 + 797 + 51 + 3}{164511} = 0.6907 = 69.07\%
+$$
+
+>\textcolor{blue}{In the above, $50652$ is the number of total hits, and $62121 + 797 + 51 + 3$ is the number of correct non-events. Compare to the percent correct by class (Fatality):}
+
+$$
+PC_{Fatality} = \frac{3 + 50652 + 22503 + 28232 + 62121}{164511} = 0.9939 = 99.39\%
+$$
+
+>\textcolor{blue}{In the above, $3$ is the number of total hits, and $50652 + 22503 + 28232 + 62121$ is the number of correct non-events. It is not surprising that the value is so high: in fact, the model correctly predicts non-fatalities most of the time! However, when we look at bias ($B$) we see that fatalities are severely underpredicted. This is despite APE and WAPE statistics that are similar or better than those reported in the literature. Our argument is that the use of verification statistics provides a more nuanced view of the performance of the models. Again, to the best of our knowledge, this more nuanced perspective is not currently available, and it provides new insights into the performance of models.}
+

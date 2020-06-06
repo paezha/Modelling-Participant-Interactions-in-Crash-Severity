@@ -1,0 +1,16 @@
+---
+title: "Cover Letter"
+author: ""
+date: "5/8/2020"
+output: pdf_document
+---
+
+Dear Editor:
+
+We would like to express our gratitude to four anonymous reviewers for their generous reviews of our paper. Their comments have helped us to improve the paper. In this letter we detail our responses to the feedback received, and actions taken in this revision.
+
+We hope that you and the expert reviewers will find that our responses address in a thorough and conscientious manner the points raised with respect to the previous version of the paper.
+
+Looking forward to hearing back from you in due course with your opinion about this revision, we remain sincerely yours.
+
+The Authors

@@ -1,0 +1,8 @@
+---
+title: "CRediT Author Statement"
+author: ""
+date: "5/8/2020"
+output: pdf_document
+---
+
+**Antonio Paez:** Conceptualization, Methodology, Validation, Formal analysis, Data Curation, Writing - Original Draft, Project Administration **Hanny Hassan:** Conceptualization, Writing - Review & Editing, Funding acquisition **Mark Ferguson:** Writing - Review & Editing **Saiedeh Razavi:** Conceptualization, Supervision, Funding acquisition
