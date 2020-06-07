@@ -1,0 +1,2158 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{Accident Analysis and Prevention} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{booktabs} % book-quality tables
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={A systematic assessment of the use of opponent variables, data subsetting and hierarchical specification in two-party crash severity analysis},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{5}
+% Pandoc toggle for numbering sections (defaults to be off)
+
+
+% Pandoc header
+\usepackage[margin=1in]{geometry}
+\usepackage{lineno}
+\linenumbers
+\usepackage{setspace}
+\doublespacing
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{A systematic assessment of the use of opponent variables, data
+subsetting and hierarchical specification in two-party crash severity
+analysis}
+    \author[McMaster University]{Antonio Paez\corref{Corresponding Author}}
+   \ead{paezha@mcmaster.ca} 
+    \author[Louisiana State University]{Hany Hassan}
+   \ead{hassan1@lsu.edu} 
+    \author[McMaster University]{Mark Ferguson}
+   \ead{fergumr@mcmaster.ca} 
+    \author[McMaster University]{Saiedeh Razavi}
+   \ead{razavi@mcmaster.ca} 
+      \address[McMaster University]{McMaster Institute for Transportation and Logistics, McMaster
+University, 1280 Main Street West, Hamilton, Ontario, Canada L8S 4K1}
+    \address[Louisiana State University]{Department of Civil and Environmental Engineering, Louisiana State
+University, Baton Rouge, Louisiana, USA 70803}
+    
+  \begin{abstract}
+  Road crashes impose an important burden on health and the economy.
+  Numerous efforts have been undertaken to understand the factors that
+  affect road collisions in general, and the severity of crashes in
+  particular. In this literature several strategies have been proposed to
+  model interactions between parties in a crash, including the use of
+  variables regarding the other party (or parties) in the collision, data
+  subsetting, and estimating models with hierarchical components. Since no
+  systematic assessment has been conducted of the performance of these
+  strategies, they appear to be used in an ad-hoc fashion in the
+  literature. The objective of this paper is to empirically evaluate ways
+  to model party interactions in the context of crashes involving two
+  parties. To this end, a series of models are estimated using data from
+  Canada's National Collision Database. Three levels of crash severity (no
+  injury/injury/fatality) are analyzed using ordered probit models and
+  covariates for the parties in the crash and the conditions of the crash.
+  The models are assessed using predicted shares and classes of outcomes,
+  and the results highlight the importance of considering opponent effects
+  in crash severity analysis. The study also suggests that hierarchical
+  (i.e., multi-level) specifications and subsetting do not necessarily
+  perform better than a relatively simple single-level model with
+  opponent-related factors. The results of this study provide insights
+  regarding the performance of different modelling strategies, and should
+  be informative to researchers in the field of crash severity.
+  \end{abstract}
+  
+ \end{frontmatter}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Modelling the severity of injuries to victims of road crashes has been a
+preoccupation of transportation researchers, planners, auto insurance
+companies, governments, and the general public for decades. One of the
+earliest studies to investigate the severity of injuries conditional on
+a collision having occurred was by White and Clayton (1972). Kim et
+al.~(1995) later stated that the ``linkages between severity of injury
+and driver characteristics and behaviors have not been thoroughly
+investigated'' (p.~470). Nowadays, there is a burgeoning literature on
+this subject, which often relies on multivariate analysis of crash
+severity to clarify the way various factors can affect the outcome of an
+incident, and to discriminate between various levels of injury.
+
+Crash severity is an active area of research, and one where
+methodological developments have aimed at improving the reliability,
+accuracy, and precision of models (e.g., Savolainen et al., 2011; Bogue
+et al., 2017; Yasmin and Eluru, 2013). Of interest in this literature is
+how different parties in a crash interact to influence the severity of
+individual outcomes. The importance of these interactions has been
+recognized by numerous authors (e.g., Chiou et al., 2013; Lee and Li,
+2014; Li et al., 2017; Torrao et al., 2014). Lee and Li (2014) for
+instance, note that ``{[}for{]} two-vehicle crashes, most studies only
+considered the effects of one vehicle on driver's injury severity or the
+highest injury severity of two drivers. However, it is expected that
+driver's injury severity is not only affected by characteristics of
+his/her own vehicle, but also characteristics of a partner vehicle.''
+More generally, the severity of the outcome depends, at least in part,
+on the characteristics of the parties, and a crash between two heavy
+vehicles is likely to have very different outcomes compared to crash
+where a heavy vehicle hits a pedestrian.
+
+For the purpose of this paper, we define a party as one or more
+individuals travelling in a traffic unit that becomes involved in a
+crash. Sometimes the traffic unit is a vehicle, and the party is a
+single individual (i.e.~a single occupant vehicle); but in other cases,
+a party could consist of several individuals (i.e., a driver and one or
+more passengers). Other times, the individual \emph{is} the traffic
+unit, for instance a pedestrian or a bicyclist. An opponent is a
+different party that is involved in the same collision. In the
+literature, interactions between parties in a collision are treated by
+means of different strategies, including the use of \emph{data
+subsetting}, \emph{opponent variables}, and estimating models with
+\emph{hierarchical components}. These strategies are not new, however, a
+systematic comparison between them is missing from the literature. For
+this reason, the objective of this paper is to empirically evaluate
+different strategies to model party interactions in crash severity in
+the context of incidents involving two parties. More concretely, this
+research aims to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Systematize the analysis of party interactions in crash severity
+  models. Although every strategy considered here has been used in past
+  research, in this paper they are organized in a way that clarifies
+  their operation.
+\item
+  Present a data management workflow to prepare a dataset to implement
+  analysis of opponent effects.
+\item
+  Provide evidence of the performance of different modelling strategies.
+  In particular, the importance of considering opponent-level effects
+  and the suitability of single-level models.
+\item
+  Present an example of reproducible research in crash severity
+  analysis: all data and code are publicly available from the beginning
+  of the peer-review
+  process\footnote{The source file for this paper is an `R` Markdown document; all code and data necessary to reproduce the analysis are available from the following GitHub repository: \url{https://github.com/paezha/Modelling-Participant-Interactions-in-Crash-Severity}}.
+\end{enumerate}
+
+For the assessment we use data from Canada's National Collision
+Database, a database that collects all police-reported collisions in the
+country. Using the most recent version of the data set (2017). Three
+levels of crash severity (no injury/injury/fatality) are analyzed using
+ordered logit models, and covariates for the parties in the crash and
+the conditions of the crash. For model assessment, we conduct an
+in-sample prediction exercise using the estimation sample (i.e.,
+\emph{nowcasting}), and also an out-of-sample prediction exercise using
+the data set corresponding to 2016 (i.e., \emph{backcasting}). The
+models are assessed using predicted shares and predicted classes of
+outcomes at the individual level, using an extensive array of
+verification statistics.
+
+The rest of this paper is structured as follows. In Section
+\ref{sec:background} we discuss some background matters, and follow this
+with a concise review of the modelling strategies used to analyze crash
+severity \ref{sec:methods}. Section \ref{sec:application} describes the
+data requirements, data preprocessing, and the modelling strategies,
+along with the results of model estimation. The results of assessing the
+models and the discussion of these results is found in Section
+\ref{sec:assessment}. We then present some additional thoughts about the
+applicability of this approach in Section
+\ref{sec:further-considerations} before offering some concluding remarks
+in Section \ref{sec:concluding-remarks}.
+
+\hypertarget{sec:background}{%
+\section{Background}\label{sec:background}}
+
+Crash severity is often modeled using models for discrete outcomes.
+Analysts interested in crash severity have at their disposal an ample
+repertoire of models to choose from, including classification techniques
+from machine learning (e.g., Iranitalab and Khattak, 2017; Chang and
+Wang, 2006; Effati et al., 2015; Khan et al., 2015), Poisson models for
+counts (e.g., Ma et al., 2008), unordered logit/probit models (e.g., Tay
+et al., 2011), as well as ordered logit/probit models (e.g., Rifaat and
+Chin, 2007), with numerous variants, such as random parameters/mixed
+logit (e.g., Aziz et al., 2013; Haleem and Gan, 2013), partial
+proportional odds models (e.g., Mooradian et al., 2013; Sasidharan and
+Menendez, 2014), and the use of copulas (e.g., Wang et al., 2015).
+Recent reviews of methods include Savolainen et al.~(2011), Yasmin and
+Eluru (2013), and Mannering et al.~(2016).
+
+Irrespective of the modelling framework employed, models of crash
+severity often include variables in several categories, as shown with
+examples in Table \ref{tab:variable-categories} (also see Montella et
+al., 2013). Many crash databases and analyses also account for the
+multi-event nature of many crashes. Individuals in the crash may have
+had different roles depending on their situation, with some acting as
+operators of a vehicle (i.e., drivers, bicyclists), while others were
+passengers. They also may differ depending on what type of traffic unit
+they were, for example pedestrians, or operators/passengers of a
+vehicle. The multiplicity of roles makes for complicated modelling
+decisions when trying to understand the severity of injuries; for
+example, what is the unit of analysis, the person, the traffic unit, or
+the collision? Not surprisingly, it is possible to find examples of
+studies that adopt different perspectives. A common simplifying strategy
+in model specification is to consider only \emph{drivers} and/or only
+\emph{single-vehicle} crashes (e.g., Kim et al., 2013; Gong and Fan,
+2017; Lee and Li, 2014; Osman et al., 2018). This strategy reduces the
+dimensions of the event, and it becomes possible, for example, to equate
+the traffic unit to the person for modelling purposes.
+
+The situation becomes more complex when dealing with events that involve
+two traffic units (e.g., Torrao et al., 2014; Wang et al., 2015) and
+multi-traffic unit crashes (e.g., Wu et al., 2014; Bogue et al., 2017).
+Different strategies have been developed to study these, more complex
+events. A number of studies advocate the estimation of separate models
+for different parties, individuals, and/or situations. In this way, Wang
+and Kockelman (2005) estimated models for single-vehicle and two-vehicle
+crashes, while Savolainen and Mannering (2007) estimated models for
+single-vehicle and multi-vehicle crashes. More recently, Duddu et
+al.~(2018) and Penmetsa et al.~(2017) presented research that estimated
+separate models for at-fault and not-at-fault drivers. The strategy of
+estimating separate models relies on \emph{subsetting} the data set,
+although it is possible to link the relevant models more tightly by
+means of a common covariance structure, as is the case of bivariate
+models (e.g., Chiou et al., 2013; Chen et al., 2019) or models with
+copulas (e.g., Rana et al., 2010; Shamsunnahar et al., 2014; Wang et
+al., 2015).
+
+A related strategy to specify crash severity models is to organize the
+data in such a way that it is possible to introduce \emph{opponent
+effects}. There are numerous examples of studies that consider at least
+some characteristics of the opposite party (or parties) in two- or
+multi-vehicle crashes. For example, Wang and Kockelman (2005) considered
+the type of the opposite vehicle in their model for two-vehicle
+collisions. Similarly, Torrao et al.~(2014) included in their analysis
+the age, wheelbase, weight, and engine size of the opposite vehicle,
+while Bogue et al.~(2017) used the body type of the opposite vehicle.
+Penmetsa et al.~(2017) and Duddu et al.~(2018) are two of the most
+comprehensive examples of using opponent's information, as they included
+attributes of individuals in the opposite party (their physical
+condition, sex, and age), as well as characteristics of the other
+party's traffic unit (the vehicle type of the opponent). The twin
+strategies of subsetting the sample and using the attributes of the
+opponent are not mutually exclusive, but neither are they used
+consistently together, as a scan of the literature reveals.
+
+Another strategy is to introduce \emph{hierarchical components} in the
+model, a technique widely used in the hierarchical or multi-level
+modelling literature. This involves considering observations as being
+nested at different levels: individuals nested in traffic units, which
+in turn are nested in accidents, as an example.
+
+In this paper we consider three general modelling strategies, as
+follows:
+
+\begin{itemize}
+\item
+  Strategy 1. Introducing opponent-related factors
+\item
+  Strategy 2. Single-level model and multi-level (hierarchical) model
+  specifications
+\item
+  Strategy 3. Full sample and sample subsetting
+\end{itemize}
+
+These are discussed in more detail in the following section.
+
+\begin{table}
+
+\caption{\label{tab:table-variable-categories}\label{tab:variable-categories}Categories of variables used in the analysis of crash severity with examples}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{22em}}
+\toprule
+Category & Examples\\
+\midrule
+Human-factors & Attributes of individuals in the crash, e.g., injury status, age, gender, licensing status, professional driver status\\
+Traffic unit-factors & Attributes of the traffic unit, e.g., type of traffic unit (pedestrian, car, motorcycle, etc.), maneuver, etc.\\
+Environmental-factors & Attributes of the crash, e.g., location, weather conditions, light conditions, number of parties, etc.\\
+Road-factors & Attributes of the road, e.g., surface condition, grade, geometry, etc.\\
+Opponent-related factors & Attributes of the opponent, e.g., age of opponent, gender of opponent, opponent vehicle type, etc.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{sec:methods}{%
+\section{Methods}\label{sec:methods}}
+
+\hypertarget{choice-of-model}{%
+\subsection{Choice of model}\label{choice-of-model}}
+
+Before describing the modelling strategies, it is important to explain
+our choice of model. There have already been comparisons between
+different models. Yasmin and Eluru (2013), for instance, conducted an
+extensive comparison of models for discrete outcomes in crash severity
+analysis, and found only small differences in the performance of
+unordered models and ordered models; however, ordered models are usually
+more parsimonious since only one latent functions needs to be estimated
+for all outcomes, as opposed to one for each outcome in unordered
+models. Bogue et al.~(2017) also compared unordered and ordered models
+in the form of the mixed multinomial logit and a modified rank ordered
+logit, respectively, and found that the ordered model performed best. To
+keep the empirical assessment manageable, in this paper we will consider
+only the ordinal logit model, and will comment on potential extensions
+in Section \ref{sec:further-considerations}.
+
+The ordinal model is a latent-variable approach, whereby the severity of
+the crash (observed) is linked to an underlying latent variable that is
+a function of the variables of interest, as follows:
+
+\begin{equation}
+\label{eq:latent-function}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \epsilon_{itk}
+\end{equation}
+
+The left-hand side of the expression above (\(y_{itk}^*\)) is a latent
+(unobservable) variable that is associated with the severity of crash
+\(k\) (\(k=1,\cdots,K\)) for individual \(i\) in traffic unit \(t\). The
+right-hand side of the expression is split in four parts. The first part
+gathers \(l=1,\cdots,L\) human-factors \(p\) for individual \(i\) in
+traffic unit \(t\) and crash \(k\); these could relate to the person
+(e.g., age, gender, and road user class). The second part gathers
+\(m=1,\cdots,M\) attributes \(u\) related to traffic unit \(t\) in crash
+\(k\); these could be items such as maneuver or vehicle type. The third
+part gathers \(q=1,\cdots,Q\) attributes \(c\) related to the crash
+\(k\), including environmental-factors and road-factors, such as weather
+conditions, road alignment, and type of surface. Lastly, the fourth
+element is a random term specific to individual \(i\) in traffic unit
+\(t\) and crash \(k\). The function consists of a total of \(Z=L+M+Q\)
+covariates and associated parameters.
+
+For conciseness, in what follows we will abbreviate the function as
+follows:
+
+\begin{equation}
+\label{eq:latent-function-compact}
+y_{itk}^*=\sum_{z=1}^Z\theta_zx_{itkz} + \epsilon_{itk}
+\end{equation}
+
+The latent variable is not observed directly, but it is possible to
+posit a probabilistic relationship with the outcome \(y_{itk}\) (the
+severity of crash \(k\) for individual \(i\) in traffic unit \(t\)).
+Depending on the characteristics of the data and the assumptions made
+about the random component of the latent function different models can
+be obtained. For example, if crash severity is coded as a variable with
+three outcomes (e.g., property damage only/injury/fatal), we can relate
+the latent variable to the outcome as follows:
+
+\begin{equation}
+\label{eq:latent-function-ordered-outcomes}
+y_{itk} = 
+\begin{cases}
+\text{fatality} & \text{if } y_{itk}^*> \mu_2\\
+\text{injury} & \text{if } \mu_1< y_{itk}^*< \mu_2\\
+\text{PDO} & \text{if } y_{itk}^*< \mu_1
+\end{cases}
+\end{equation}
+
+\noindent where \(\mu_1\) and \(\mu_2\) are estimable thresholds. Due to
+the stochastic nature of the latent function, the outcome of the crash
+is not fully determined. However, we can make the following probability
+statements:
+
+\begin{equation}
+\label{eq:probability-ordered-outcomes}
+\begin{array}{rcl}\
+P(y_{itk} = \text{PDO}) &=& 1 - P(y_{itk} = \text{injury}) - P(y_{itk} = \text{fatality})\\ 
+P(y_{itk} = \text{injury}) &=& P(\mu_1 - \sum_{z=1}\theta_zp_{itkz} < \epsilon_{itk} < \mu_2 - \sum_{z=1}\theta_zp_{itkz})\\
+P(y_{itk} = \text{fatality}) &=& P(\epsilon_{itk} < \mu_1 - \sum_{z=1}\theta_zp_{itkz})
+\end{array}
+\end{equation}
+
+If the random terms are assumed to follow the logistic distribution, the
+ordered logit model is obtained; if the normal distribution, then the
+ordered probit model. Estimation methods for these models are very
+well-established (e.g., Maddala, 1986; Train, 2009). There are numerous
+variations of the basic modelling framework above, including
+hierarchical models, bivariate models, multinomial models, and Bayesian
+models, among others (see Savolainen et al., 2011 for a review of
+methods).
+
+\hypertarget{strategy-1-opponent-related-factors}{%
+\subsection{Strategy 1: opponent-related
+factors}\label{strategy-1-opponent-related-factors}}
+
+When opponent-related variables are included, the function is augmented
+as follows:
+
+\begin{equation}
+\label{eq:latent-function-with-opponent-variables}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \sum_{r=1}^R\delta_ro_{jvkr} + \epsilon_{itk}
+\end{equation}
+
+This function includes one additional summation compared to Equation
+\ref{eq:latent-function-ordered-outcomes}. This summation gathers
+\(r=1,\cdots,R\) attributes \(o\) related to individual \(j\) in traffic
+unit \(v\) that was an opposite party to individual \(i\) in traffic
+unit \(t\) in crash \(k\). These attributes could be individual
+characteristics of the operator of the opposite traffic unit (such as
+age and gender) and/or characteristics of the opposite traffic unit
+(such as vehicle type or weight). To qualify as an opposite party,
+individual \(j\) must have been an individual in crash \(k\) but
+operating traffic unit \(v\ne t\). Sometimes the person \emph{is} the
+traffic unit, as is the case of a pedestrian. And we exclude passengers
+of vehicles as opponents, since they do not operate the traffic unit. In
+case the opponent attributes include only characteristics of the traffic
+unit, the condition for the traffic unit to be an opponent is that it
+was part of crash \(k\) and was different from \(t\). After introducing
+this new set of terms, the latent function now consists of a total of
+\(Z=L+M+Q+R\) covariates and associated parameters.
+
+\hypertarget{strategy-2-hierarchical-model-specification}{%
+\subsection{Strategy 2: hierarchical model
+specification}\label{strategy-2-hierarchical-model-specification}}
+
+We can choose to conceptualize the event leading to the outcome as a
+hierarchical process. There are a few different ways of doing this. For
+example, the hierarchy could be based on individuals in traffic units.
+In this case, we can rewrite the latent function as follows:
+
+\begin{equation}
+\label{eq:latent-function-with-hierarchical-traffic-unit}
+y_{itk}^*=\sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \sum_{r=1}^R\delta_ro_{jvkr} + \epsilon_{itk}
+\end{equation}
+
+The coefficients of the traffic unit nest the individual attributes as
+follows. For any given coefficient \(m\):
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients}
+\beta_{m}=\sum_{l=1}^L\beta_{ml}p_{itkl} 
+\end{equation}
+
+Therefore, the corresponding term in the latent function becomes
+(assuming that \(p_{itk1} = 1\), i.e., it is a constant term):
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients}
+\begin{array}{rcl}\
+\beta_{m}u_{tkm} &=& \big( \beta_{m1} + \beta_{m2}p_{itk2} + \cdots + \beta_{mL}p_{itkL}\big)u_{tkm}\\ 
+&=& \beta_{m1}u_{tkm} + \beta_{m2}p_{itk2}u_{tkm} + \cdots + \beta_{mL}p_{itkL}u_{tkm}
+\end{array}
+\end{equation}
+
+As an alternative, the nesting unit could be the interaction
+person-opponent, in which case the opponent-level attributes are nested
+in the following fashion:
+
+\begin{equation}
+\label{eq:latent-function-with-opponent-variables}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \epsilon_{itk}
+\end{equation}
+
+\noindent with any person-level coefficient \(l\) that we wish to expand
+defined as follows:
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients}
+\alpha_{l}=\sum_{r=1}^R\alpha_{lr}o_{jvkr}
+\end{equation}
+
+\noindent with the same conditions as before, that \(j\ne i\) is the
+operator of traffic unit \(v\ne t\). The corresponding term in the
+latent function is now (assuming that \(o_{jvk1}=1\), i.e., it is a
+constant term):
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients}
+\begin{array}{rcl}\
+\alpha_{l}p_{itkl} &=& \big(\alpha_{l1} + \alpha_{l2}o_{jvk2} + \cdots + \alpha_{lR}o_{jvkR} \big)p_{itkl}\\
+&=& \alpha_{l1}p_{itkl} + \alpha_{l2}o_{jvk2}p_{itkl} + \cdots + \alpha_{lR}o_{jvkR}p_{itkl}
+\end{array} 
+\end{equation}
+
+Discerning readers will identify this model specification strategy as
+Casetti's expansion method (Casetti, 1972; Roorda et al., 2010). This is
+a deterministic strategy for modelling contextual effects which, when
+augmented with random components, becomes the well-known multi-level
+modelling method (Hedeker and Gibbons, 1994, more on this in Section
+\ref{sec:further-considerations}). It is worthwhile to note that
+higher-order hierarchical effects are possible; for instance, individual
+attributes nested within traffic units, which in turn are nested within
+collisions. We do not explore higher-level hierarchies further in the
+current paper.
+
+\hypertarget{strategy-3-sample-subsetting}{%
+\subsection{Strategy 3: sample
+subsetting}\label{strategy-3-sample-subsetting}}
+
+The third model specification strategy that we will consider is
+subsetting the sample. This is applicable in conjunction with any of the
+other strategies discussed above. In essence, we define the latent
+function with restrictions as follows. Consider a continuous variable,
+e.g., age of person, and imagine that we wish to concentrate the
+analysis on older adults (e.g., Dissanayake and Lu, 2002). The latent
+function is defined as desired (see above), however, the following
+restriction is applied to the sample:
+
+\begin{equation}
+\label{eq:sampling-age}
+\text{Age of individual } i \text{ in traffic unit } t \text{ in crash } k = 
+\begin{cases}
+\ge 65 & \text{use record } itk\\
+< 65 & \text{do not use record } itk
+\end{cases}
+\end{equation}
+
+Suppose instead that we are interested in crashes by or against a
+specific type of traffic unit (e.g., pedestrians, Amoh-Gyimah et al.,
+2017):
+
+\begin{equation}
+\label{eq:sampling-pedestrian}
+\text{Road user class of individual } i \text{ in traffic unit } t \text{ in crash } k = 
+\begin{cases}
+\text{Pedestrian} & \text{use record } itk\\
+\text{Not pedestrian} & \text{do not use record } itk
+\end{cases}
+\end{equation}
+
+\noindent or:
+
+\begin{equation}
+\label{eq:sampling-pedestrian-opponent}
+\text{Road user class of individual } j \text{ in traffic unit } v \text{ in crash } k = 
+\begin{cases}
+\text{Pedestrian} & \text{use record } jvk\\
+\text{Not pedestrian} & \text{do not use record } jvk
+\end{cases}
+\end{equation}
+
+More generally, for any variable \(x\) of interest:
+
+\begin{equation}
+\label{eq:sampling-general}
+x_{itk} = 
+\begin{cases}
+\text{Condition: TRUE} & \text{use record } itk\\
+\text{Condition: FALSE} & \text{do not use record } itk
+\end{cases}
+\end{equation}
+
+Several conditions can be imposed to subset the sample in any way that
+the analyst deems appropriate or suitable.
+
+\hypertarget{sec:application}{%
+\section{Setting for empirical assessment}\label{sec:application}}
+
+In this section we present the setting for the empirical assessment of
+the modelling strategies discussed in Section \ref{sec:methods}, namely
+matters related to data and model estimation.
+
+\hypertarget{sec:data}{%
+\subsection{Data for empirical assessment}\label{sec:data}}
+
+To assess the performance of the various modelling strategies we use
+data from Canada's National Collision Database (NCDB). This database
+contains all police-reported motor vehicle collisions on public roads in
+Canada. Data are originally collected by provinces and territories, and
+shared with the federal government, that proceeds to combine, track, and
+analyze them for reporting deaths, injuries, and collisions in Canada at
+the national level. The NCDB is provided by Transport Canada, the agency
+of the federal government of Canada in charge of transportation policies
+and programs, under the Open Government License - Canada version 2.0
+{[}https://open.canada.ca/en/open-government-licence-canada{]}.
+
+The NCDB is available from 1999. For the purpose of this paper, we use
+the data corresponding to 2017, which is the most recent year available
+as of this writing. Furthermore, for assessment we also use the data
+corresponding to 2016. Similar to databases in other jurisdictions (see
+Montella et al., 2013), the NCDB contains information pertaining to the
+collision, the traffic unit(s), and the person(s) involved in a crash.
+The definitions of variables in this database are shown in the Appendix
+at the end of this document, in Tables
+\ref{tab:ncdb-descriptives-collision},
+\ref{tab:ncdb-descriptives-vehicle}, and
+\ref{tab:ncdb-descriptives-person}. Notice that, compared to Table
+\ref{tab:variable-categories}, environmental-factors variables and
+road-factors variables are gathered under a single variable class,
+namely collision-related, since they are unique for each crash.
+
+Data are organized by person; in other words, there is one record per
+individual in a collision, be they drivers, passengers, pedestrians,
+etc. The only variable directly available with respect to opponents in a
+collision is the number of vehicles involved (see models in Bogue et
+al., 2017). Therefore, the data needs to be processed to obtain
+attributes of the opposing party for each individual in a collision. The
+protocol to do this is described next.
+
+\hypertarget{data-preprocessing}{%
+\subsection{Data preprocessing}\label{data-preprocessing}}
+
+To prepare the data for analysis, in particular for Strategy 1
+(opponent-related factors), we apply an initial filter, whereby we scan
+the database to remove all records that are not a person (including
+parked cars and other objects) or that are missing information.
+
+After the initial filter, the database is summarized to find the number
+of individual-level records that correspond to each collision (C\_CASE).
+At this point, there are 32,298 collisions, involving only one (known)
+individual, there are 46,483 collisions involving two parties, 19,433
+collisions with three parties, 8,250 collisions involving four parties,
+3,783 collisions with five parties, 1,789 collisions with six parties,
+and 1,491 collisions involving seven or more parties These parties were
+possibly occupants in different vehicles or were otherwise their own
+traffic units (e.g., pedestrians). Accordingly, the sample includes
+174,741 drivers, 61,403 passengers, 10,798 pedestrians, 5,286
+bicyclists, and 6,564 motorcyclists.
+
+The next step is to remove all collisions that involve only one party.
+This still leaves numerous cases where multiple parties could have been
+in a single vehicle, for instance in a collision against a stationary
+object. Therefore, we proceed to use the vehicle sequence number to find
+the number of vehicles involved in each collision. This reveals that
+there are 20,732 collisions that involve only one vehicle but possibly
+multiple individuals (i.e., driver and one or more passengers). In
+addition, there are 165,520 collisions involving two vehicles (and
+possibly multiple individuals). Finally, there are 40,242 collisions
+with three or more vehicles.
+
+Once we have identified the number of vehicles in each collision, we
+select all cases that involve only two vehicles. The most common cases
+in two-vehicle collisions are those that include drivers (40,297
+collisions; this is reflective of the prevalence of single-occupant
+vehicles). This is followed by cases with passengers (14,120
+collisions), pedestrians (5,204 collisions), bicyclists (2,238
+collisions), and motorcyclists (1,016 collisions). The distribution of
+individuals per traffic unit is as follows: 80,382 individuals are coded
+as being in V\_ID = 1, 76,523 individuals are coded as being in V\_ID =
+2, and 7,932 individuals are coded as pedestrians. In addition, 683
+individuals are coded as being in vehicles 3 through 9, despite our
+earlier filter to retain only collisions with two vehicles. At this
+point we select only individuals assigned to vehicles 1 or 2, as well as
+pedestrians. As a result of this filter a number of cases with only one
+known individual need to be removed.
+
+\begin{table}[!h]
+
+\caption{\label{tab:summary-opponent-information}\label{tab:summary-opponent-information}Summary of opponent interactions and outcomes by road user class}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lrrrrrrrlll}
+\toprule
+\multicolumn{1}{c}{} & \multicolumn{4}{c}{Road User Class of Opponent} & \multicolumn{3}{c}{Outcome} & \multicolumn{3}{c}{Proportion by Road User Class} \\
+\cmidrule(l{3pt}r{3pt}){2-5} \cmidrule(l{3pt}r{3pt}){6-8} \cmidrule(l{3pt}r{3pt}){9-11}
+Road User Class & Driver & Pedestrian & Bicyclist & Motorcyclist & No Injury & Injury & Fatality & No Injury & Injury & Fatality\\
+\midrule
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{All opponents}}\\
+\hspace{1em}Driver & 97582 & 7880 & 3799 & 2498 & 59180 & 52143 & 436 & 0.52953 & 0.46657 & 0.003901\\
+\hspace{1em}Passenger & 35359 & 1282 & 667 & 818 & 19308 & 18667 & 151 & 0.50643 & 0.48961 & 0.003961\\
+\rowcolor{gray!6}  \hspace{1em}Pedestrian & 7880 & 0 & 0 & 0 & 145 & 7507 & 228 & 0.01840 & 0.95266 & \vphantom{1} 0.028934\\
+\hspace{1em}Bicyclist & 3799 & 1 & 0 & 40 & 49 & 3760 & 31 & 0.01276 & 0.97917 & 0.008073\\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist & 2498 & 30 & 40 & 338 & 204 & 2598 & 104 & 0.07020 & 0.89401 & 0.035788\\
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Opponent: Driver}}\\
+\hspace{1em}Driver & 97582 & 0 & 0 & 0 & 45493 & 51657 & 432 & 0.46620 & 0.52937 & 0.004427\\
+\rowcolor{gray!6}  \hspace{1em}Passenger & 35359 & 0 & 0 & 0 & 16672 & 18536 & 151 & 0.47151 & 0.52422 & 0.004270\\
+Pedestrian & 7880 & 0 & 0 & 0 & 145 & 7507 & 228 & 0.01840 & 0.95266 & \vphantom{1} 0.028934\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist & 3799 & 0 & 0 & 0 & 43 & 3725 & 31 & 0.01132 & 0.98052 & 0.008160\\
+\hspace{1em}Motorcyclist & 2498 & 0 & 0 & 0 & 98 & 2299 & 101 & 0.03923 & 0.92034 & 0.040432\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Opponent: Pedestrian}}\\
+\hspace{1em}Driver & 0 & 7880 & 0 & 0 & 7693 & 187 & 0 & 0.97627 & 0.02373 & 0.000000\\
+\hspace{1em}Passenger & 0 & 1282 & 0 & 0 & 1246 & 36 & 0 & 0.97192 & 0.02808 & 0.000000\\
+\rowcolor{gray!6}  \hspace{1em}Pedestrian & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & \vphantom{2} -\\
+\hspace{1em}Bicyclist & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0.00000 & 1.00000 & 0.000000\\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist & 0 & 30 & 0 & 0 & 11 & 19 & 0 & 0.36667 & 0.63333 & 0.000000\\
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Opponent: Bicyclist}}\\
+\hspace{1em}Driver & 0 & 0 & 3799 & 0 & 3706 & 93 & 0 & 0.97552 & 0.02448 & 0.000000\\
+\rowcolor{gray!6}  \hspace{1em}Passenger & 0 & 0 & 667 & 0 & 649 & 18 & 0 & 0.97301 & 0.02699 & 0.000000\\
+\hspace{1em}Pedestrian & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & \vphantom{1} -\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & -\\
+\hspace{1em}Motorcyclist & 0 & 0 & 40 & 0 & 16 & 24 & 0 & 0.40000 & 0.60000 & 0.000000\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Opponent: Motorcyclist}}\\
+\hspace{1em}Driver & 0 & 0 & 0 & 2498 & 2288 & 206 & 4 & 0.91593 & 0.08247 & 0.001601\\
+\hspace{1em}Passenger & 0 & 0 & 0 & 818 & 741 & 77 & 0 & 0.90587 & 0.09413 & 0.000000\\
+\rowcolor{gray!6}  Pedestrian & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & \vphantom{2} -\\
+\hspace{1em}Bicyclist & 0 & 0 & 0 & 40 & 6 & 34 & 0 & 0.15000 & 0.85000 & 0.000000\\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist & 0 & 0 & 0 & 338 & 79 & 256 & 3 & 0.23373 & 0.75740 & 0.008876\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+At this point we have a complete, workable sample of individual records
+of parties in two-vehicle collisions. There are two possible cases for
+the collisions, depending on the traffic units involved: 1) vehicle vs
+vehicle collisions (``vehicle'' is all motorized vehicles, including
+motorcycles/mopeds, as well as bicycles); and 2) vehicle vs pedestrian
+collisions. To identify the opposite parties in each collision it is
+convenient to classify collisions by pedestrian involvement. In this
+way, we find that the database includes 16,636 collisions that are
+vehicle vs pedestrian (possibly multiple pedestrians), and 147,594
+collisions that involve two vehicles. After splitting the database
+according to pedestrian involvement, we can now extract relevant
+information about the different parties in the collision. This involves
+renaming the person-level variables so that we can distinguish each
+individual by their party in a given record. Notice that when working
+with individuals in vehicles, only drivers are considered opposites in a
+collision.
+
+Once the personal attributes of opposite operators in a given collision
+are extracted, their information is joined to the individual records by
+means of the collision unique identifier. As a result of this process, a
+new set of variables are now available for analysis: the age, sex, and
+road user class of the opposite driver, as well as the type of the
+opposite vehicle. A summary of opponent interactions and outcomes can be
+found in Table \ref{tab:summary-opponent-information}. The information
+there shows that the most common type of opponent for drivers are other
+drivers, followed by pedestrians. The only opponents of pedestrians, on
+the other hand, are drivers. Bicyclists and motorcyclists are mostly
+opposed by drivers, but occasionally by other road users as well. In
+terms of outcomes, we observe that virtually all fatalities occur when
+the opponent is a driver, and only very rarely when the opponent is a
+motorcyclist. Injuries are also more common when the opponent is a
+driver, whereas ``no injury'' is a relatively more frequent outcome when
+the opponent is a pedestrian or a bicyclist.
+
+\hypertarget{sec:model-estimation}{%
+\subsection{Model estimation}\label{sec:model-estimation}}
+
+Before model estimation, the variables are prepared as follows. First,
+age is scaled from years to decades. Secondly, new variables are defined
+to describe the vehicle type. Three classes of vehicle types are
+considered: 1) light duty vehicles (which in Canada include passenger
+cars, passenger vans, light utility vehicles, and light duty pick up
+trucks); 2) light trucks (all other vehicles \(\le\) 4536 kg in gross
+vehicle weight rating); and heavy vehicles (all other vehicles \(\ge\)
+4536 kg in gross vehicle weight rating). Furthermore, this typology of
+vehicle is combined with the road user class of the individual to
+distinguish between drivers and passengers of light duty vehicles, light
+trucks, and heavy vehicles, in addition to pedestrians, bicyclists, and
+motorcyclists. This is done for both the individual and the opponent.
+Variable interactions are calculated to produce hierarchical variables.
+For example, for a hierarchical definition of traffic unit-level
+variables, age (and the square of age to account for possible
+non-monotonic effects) are interacted with gender, road user class, and
+vehicle type. For hierarchical opponent variables, age (and the square
+of age) are interacted with the age of opponent (and the corresponding
+square). The variables thus obtained are shown in Table
+\ref{tab:model-specification-summary}. As seen in the table, Models 1
+and 2 are single-level models, and the difference between them is that
+Model 2 includes opponent variables. Models 3 and 4, in contrast, are
+hierarchical models. Model 3 considers the hierarchy on the basis of the
+traffic unit, while Model 4 considers the hierarchy on the basis of the
+opponent.
+
+Models 1 through 4 are estimated using the full sample. As discussed
+above, a related modelling strategy is to subset the sample (e.g., Islam
+et al., 2014; Lee and Li, 2014; Torrao et al., 2014; Wu et al., 2014).
+In this case we subset by a combination of traffic unit type of the
+individual (i.e., light duty vehicle, light truck, heavy vehicle,
+pedestrian, bicyclist, and motorcyclist) and vehicle type of the
+opponent (i.e., light duty vehicle, light truck, heavy vehicle). This
+leads to an ensemble of eighteen models to be estimated using subsets of
+data (see Table \ref{tab:model-specification-summary}). By subsetting
+the sample, at least \emph{some} opponent effects are incorporated
+implicitly. Models 1 and 2 are re-estimated using this strategy,
+dropping variables as necessary whenever they become irrelevant (for
+instance, after filtering for pedestrians, no other traffic unit types
+are present in the subset of data). In addition to variables that are no
+longer relevant in some data subsets, it is important to note that when
+using some data subsets a few variables had to be occasionally dropped
+to avoid convergence issues. This tended to happen particularly with
+smaller subsets where some particular combination of attributes was rare
+as a result of subsampling (e.g., in 2017 there were few or no
+collisions that involved a motorcyclist and a heavy vehicle in a bridge,
+or overpass, or viaduct). The process of estimation carefully paid
+attention to convergence issues to ensure the validity of the models
+reported here.
+
+\begin{table}[!h]
+
+\caption{\label{tab:model-specification-summary}\label{tab:model-specification-summary}Summary of variables and model specification}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{ll>{\raggedright\arraybackslash}p{6em}>{\raggedright\arraybackslash}p{6em}>{\raggedright\arraybackslash}p{6em}>{\raggedright\arraybackslash}p{6em}}
+\toprule
+Variable & Notes & Model 1
+Single-level
+/No opponent & Model 2
+Single-level
+/Opponent attributes & Model 3
+Hierarchical: Traffic unit & Model 4
+Hierarchical: Opponent attributes\\
+\midrule
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Individual-level variables}}\\
+\hspace{1em}Age & In decades & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Age Squared &  & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Sex & Reference: Female & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Use of Safety Devices & 7 levels; Reference: No Safety Device & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Traffic unit-level variables}}\\
+\hspace{1em}Passenger & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Pedestrian & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Motorcyclist & Reference: Driver & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Light Truck & Reference: Light Duty Vehicle & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\hspace{1em}Heavy Vehicle & Reference: Light Duty Vehicle & $\checkmark$ & $\checkmark$ &  & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Opponent variables}}\\
+\hspace{1em}Age of Opponent & In decades &  & $\checkmark$ & $\checkmark$ & \\
+\hspace{1em}Age of Opponent Squared &  &  & $\checkmark$ & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Sex of Opponent & Reference: Female &  & $\checkmark$ & $\checkmark$ & \\
+\hspace{1em}Opponent: Light Duty Vehicle & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Opponent: Light Truck & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Opponent: Heavy Vehicle & Reference: Pedestrian/Bicyclist/Motorcyclist &  & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Hierarchical traffic unit variables}}\\
+\hspace{1em}Light Truck Driver:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Light Truck Driver:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Heavy Vehicle Driver:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Heavy Vehicle Driver:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Light Truck Passenger:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Light Truck Passenger:Age Squared: &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Heavy Vehicle Passenger:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Heavy Vehicle Passenger:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Pedestrian:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Pedestrian:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Bicyclist:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Bicyclist:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \hspace{1em}Motorcyclist:Age &  &  &  & $\checkmark$ & \\
+\hspace{1em}Motorcyclist:Age Squared &  &  &  & $\checkmark$ & \\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Hierarchical opponent variables}}\\
+\hspace{1em}Age:Age of Opponent &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age:Age of Female Opponent &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Age:Age of Male Opponent Squared &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age:Age of Female Opponent Squared &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Age Squared:Age of Male Opponent &  &  &  &  & $\checkmark$\\
+\hspace{1em}Age Squared:Age of Female Opponent &  &  &  &  & $\checkmark$\\
+\rowcolor{gray!6}  \addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Collision-level variables}}\\
+\hspace{1em}Crash Configuration & 19 levels; Reference: Hit a moving object & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Road Configuration & 12 levels; Reference: Non-intersection & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Weather & 9 levels; Reference: Clear and sunny & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Surface & 11 levels; Reference: Dry & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Road Alignment & 8 levels; Reference: Straight and level & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\hspace{1em}Traffic Controls & 19 levels; Reference: Operational traffic signals & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\rowcolor{gray!6}  \hspace{1em}Month & 12 levels; Reference: January & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\hypertarget{sec:assessment}{%
+\section{Model assessment}\label{sec:assessment}}
+
+In this section we report an in-depth examination of the performance of
+the models. We begin by inspecting the statistical goodness of fit of
+the models by means of Akaike's Information Criterion (\(AIC\)). Next,
+we use the models to conduct in-sample predictions (i.e.,
+\emph{nowcasting}), using the same sample that was used to estimate the
+models, and out-of-sample predictions, using the data set corresponding
+to the year 2016 (i.e., \emph{backcasting}). Predictions are commonly
+evaluated in two different ways in the literature. Some researchers
+analyze the outcome shares based on the predicted probabilities (e.g.,
+Bogue et al., 2017; Yasmin and Eluru, 2013). This is a form of aggregate
+forecasting. Other researchers, in contrast, evaluate the classes of
+outcomes based on the individual-level predictions (e.g., Tang et al.,
+2019; Torrao et al., 2014). This is a form of disaggregate forecasting.
+
+\hypertarget{sec:goodness-of-fit}{%
+\subsection{Goodness of fit of models}\label{sec:goodness-of-fit}}
+
+We begin our empirical assessment by examining the results of estimating
+the models described above. Tables \ref{tab:model-full-sample-summary}
+and \ref{tab:model-subsample-summary} present some key summary
+statistics of the estimated models. Of interest is the goodness of fit
+of the models, which in the case is measured with Akaike's Information
+Criterion (\(AIC\)). This criterion is calculated as follows:
+
+\begin{equation}
+\label{eq:aic}
+AIC = 2Z - 2\ln{\hat{L}}
+\end{equation}
+
+\noindent where \(Z\) is the number of coefficients estimated by the
+model, and \(\hat{L}\) the maximized likelihood of the model. Since
+\(AIC\) penalizes the model fit by means of the number of coefficients,
+this criterion gives preference to more parsimonious models. The
+objective is to minimize the \(AIC\), and therefore smaller values of
+this criterion represent better model fits. Model comparison can be
+conducted using the relative likelihood. Suppose that we have two
+models, say Model \(a\) and Model \(b\), with \(AIC_{a} \le AIC_{b}\).
+The relative likelihood is calculated as:
+
+\begin{equation}
+\label{eq:relative-likelihood}
+e^{(AIC_a - AIC_b)/2}
+\end{equation}
+
+The relative likelihood is interpreted as the probability that Model
+\(b\) minimizes the information loss as well as Model \(a\).
+
+Turning our attention to the models estimated using the full sample
+(Table \ref{tab:model-full-sample-summary}), it is possible to see that,
+compared to the base (single-level) model without opponent variables
+(Model 1), there are large and significant improvements in goodness of
+fit to be gained by introducing opponent effects. However, the gains are
+not as large when hierarchical specifications are used, even when the
+number of additional coefficients that need to be estimated is not
+substantially larger (recall that the penalty per coefficient in \(AIC\)
+is 2). The best model according to this measure of goodness of fit is
+Model 2 (single-level with opponent effects), followed by Model 4
+(hierarchical opponent variables), Model 3 (hierarchical traffic unit
+variables with opponent effects), and finally Model 1 (single-level
+without opponent effects).
+
+It is important to note that the likelihood function of a model, and
+therefore the value of its \(AIC\), both depend on the size of the
+sample, which is why \(AIC\) is not comparable across models estimated
+with different sample sizes. For this reason, the full sample models
+cannot be compared directly to the models estimated with subsets of
+data. The models in the ensembles, however, can be compared to each
+other (Table \ref{tab:model-subsample-summary}). As seen in the table,
+introducing opponent variables leads to a better fit in the case of
+most, but not all models. The simplest model (single-level without
+opponent effects) is clearly the best fitting candidate in the case of
+bicycle vs light truck collisions, bicycle vs heavy vehicle collisions,
+motorcyclist vs light duty vehicle collisions, and motorcyclist vs heavy
+vehicle collisions. Model 1 is a statistical toss for best performance
+with two competing models in the case of pedestrian vs heavy vehicle
+collisions. The relative likelihood of Model 1 compared to Models 2 and
+3 in this case is 0.56, which means that these two models are 0.56 times
+as probable as Model 1 to minimize the information loss.
+
+Model 2 is the best fit in the case of light truck vs heavy vehicle
+collisions. This model is also tied for best fit with Model 2 in the
+case of pedestrian vs light duty vehicle and pedestrian vs light truck
+collisions, and is a statistical toss with Model 4 in the case of heavy
+vehicle vs heavy vehicle collisions (relative likelihood is 0.592).
+Model 3 is the best fit in the case of light duty vehicle vs light duty
+vehicle collisions and heavy vehicle vs light duty vehicle. Model 4 is
+the best fit in the case of light duty vehicle vs light truck
+collisions, light duty vehicle vs heavy vehicle collisions, light truck
+vs light duty vehicle collisions, heavy vehicle vs light truck
+collisions, and motorcycle vs light truck collisions. This model is a
+statistical toss with Model 2 in the case of light truck vs light truck
+collisions, with a relative likelihood of 0.791.
+
+These results give some preliminary ideas about the relative performance
+of the different modelling strategies. In the next subsection we delve
+more deeply into this question by examining the predictive performance
+of the various modelling strategies. The results up to this point
+indicate that different model specification strategies might work best
+when combined with subsampling strategies. For space reasons, from this
+point onwards, we will consider the ensembles of models for predictions
+and will not compare individual models within the ensembles; this we
+suggest is a matter for future research.
+
+\begin{table}
+
+\caption{\label{tab:model-full-sample-summary}\label{tab:model-full-sample-summary}Summary of model estimation results: Full sample models}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lccc}
+\toprule
+Model & \makecell[l]{Number of\\observations} & \makecell[l]{Number of\\coefficients} & AIC\\
+\midrule
+\rowcolor{gray!6}  Model 1. Single-level/No opponent & 164,511 & 102 & 195,215\\
+Model 2. Single-level/Opponent attributes & 164,511 & 108 & 178,943\\
+\rowcolor{gray!6}  Model 3. Hierarchical: Traffic unit & 164,511 & 118 & 181,333\\
+Model 4. Hierarchical: Opponent) & 164,511 & 111 & 179,018\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:model-subsample-summary}\label{tab:model-summary}Summary of model estimation results: Data Subset Models}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lccccccccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{\makecell[c]{Model 1\\Single-level/No opponent}} & \multicolumn{2}{c}{\makecell[c]{Model 2\\Single-level/Opponent attributes}} & \multicolumn{2}{c}{\makecell[c]{Model 3\\Hierarchical: Traffic unit}} & \multicolumn{2}{c}{\makecell[c]{Model 4\\Hierarchical: Opponent}} \\
+\cmidrule(l{3pt}r{3pt}){3-4} \cmidrule(l{3pt}r{3pt}){5-6} \cmidrule(l{3pt}r{3pt}){7-8} \cmidrule(l{3pt}r{3pt}){9-10}
+Model & \makecell[l]{Number of\\observations} & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC & \makecell[l]{Number of\\coefficients} & AIC\\
+\midrule
+\rowcolor{gray!6}  Light duty vehicle vs light duty vehicle & 114,841 & 94 & 145,390 & 97 & 143,903 & 100 & 143,896 & 100 & 144,004\\
+Light duty vehicle vs light truck & 3,237 & 79 & 3,943 & 82 & 3,927 & 85 & 3,937 & 85 & 3,922\\
+\rowcolor{gray!6}  Light duty vehicle vs heavy vehicle & 5,013 & 88 & 5,895 & 91 & 5,878 & 94 & 5,888 & 94 & 5,864\\
+Light truck vs light duty vehicle & 3,121 & 79 & 3,885 & 82 & 3,877 & 85 & 3,881 & 85 & 3,875\\
+\rowcolor{gray!6}  Light truck vs light truck & 809 & 67 & 1,170 & 70 & 1,156 & 73 & 1,162 & 73 & 1,155\\
+\addlinespace
+Light truck vs heavy vehicle & 198 & 64 & 288 & 67 & 281 & 70 & 287 & 70 & 286\\
+\rowcolor{gray!6}  Heavy vehicle vs light duty vehicle & 4,726 & 79 & 4,326 & 84 & 4,283 & 86 & 4,268 & 87 & 4,287\\
+Heavy vehicle vs light truck & 180 & 64 & 225 & 65 & 205 & 67 & 207 & 66 & 187\\
+\rowcolor{gray!6}  Heavy vehicle vs heavy vehicle & 779 & 74 & 1,147 & 77 & 1,136 & 80 & 1,141 & 80 & 1,137\\
+Pedestrian vs light duty vehicle & 7,176 & 88 & 2,826 & 91 & 2,821 & 91 & 2,821 & 93 & 2,827\\
+\addlinespace
+\rowcolor{gray!6}  Pedestrian vs light truck & 328 & 62 & 202 & 65 & 200 & 65 & 200 & 68 & 206\\
+Pedestrian vs heavy vehicle & 376 & 64 & 409 & 67 & 410 & 67 & 410 & 70 & 417\\
+\rowcolor{gray!6}  Bicyclist vs light duty vehicle & 3,521 & 80 & 654 & 83 & 659 & 83 & 659 & 85 & 657\\
+Bicyclist vs light truck & 116 & 42 & 84 & 57 & 114 & 57 & 114 & 54 & 108\\
+\rowcolor{gray!6}  Bicyclist vs heavy vehicle & - & - & - & - & - & - & - & - & -\\
+\addlinespace
+Motorcyclist vs light duty vehicle & 2,298 & 78 & 1,367 & 81 & 1,373 & 81 & 1,373 & 84 & 1,373\\
+\rowcolor{gray!6}  Motorcyclist vs light truck & 127 & 56 & 153 & 59 & 153 & 59 & 153 & 47 & 94\\
+Motorcyclist vs heavy vehicle & 62 & 43 & 88 & 45 & 90 & 46 & 92 & 51 & 102\\
+\bottomrule
+\multicolumn{10}{l}{\textit{Note: }}\\
+\multicolumn{10}{l}{There are zero cases of Bicyclist vs heavy vehicle in the sample}\\
+\end{tabular}}
+\end{table}
+\end{landscape}
+
+\hypertarget{sec:outcomes-shares}{%
+\subsection{Outcome shares based on predicted
+probabilities}\label{sec:outcomes-shares}}
+
+In this, and the following section, \emph{backcasting} refers to the
+prediction of probabilities and classes of outcomes using the 2016 data
+set. When conducting backcasting, the data set is preprocessed in
+identical manner as the 2017 data set. In addition, the variables used
+in backcasting match exactly those in the models. This means that some
+variables were dropped when they were present in the 2016 data set but
+not in the models. This tended to happen in the case of relatively rare
+outcomes (e.g., in 2016, there was at least one collision between a
+heavy vehicle and a light duty vehicle in a school crossing zone; no
+such event was observed in 2017).
+
+The shares of each outcome are calculated as the sum of the estimated
+probabilities for each observation:
+
+\begin{equation}
+\label{eq:predicted-shares}
+\begin{array}{rcl}
+\hat{S}_{\text{PDO}} &=& \sum_{itk}\hat{P}(y_{itk}=\text{PDO})\\
+\hat{S}_{\text{injury}} &=& \sum_{itk}\hat{P}(y_{itk}=\text{injury})\\
+\hat{S}_{\text{fatality}} &=& \sum_{itk}\hat{P}(y_{itk}=\text{fatality})
+\end{array}
+\end{equation}
+
+\noindent where \(\hat{P}(y_{itk}=h_w)\) is the estimated probability of
+outcome \(h_w\) for individual \(i\) in traffic unit \(t\) and crash
+\(k\). The estimated share of outcome \(h\) is \(\hat{S}_{h_w}\).
+
+The estimated shares can be used to assess the ability of the model to
+forecast for the population the total number of cases of each outcome. A
+summary statistic useful to evaluate the performance is the Average
+Percentage Error, or \(APE\) (see Bogue et al., 2017, p. 31), which is
+calculated for each outcome as follows:
+
+\begin{equation}
+\label{eq:APE}
+APE_{h_w} = \Bigg|\frac{\hat{S}_{h_w} - S_{h_w}}{S_{h_w}}\Bigg|\times 100
+\end{equation}
+
+The Weighted Average Percentage Error (\(WAPE\)) aggregates the \(APE\)
+as follows:
+
+\begin{equation}
+\label{eq:WAPE}
+WAPE = \frac{\sum_w^WAPE_{h_w}\times S_{h_w}}{\sum_w^WS_{h_w}}
+\end{equation}
+
+The results of this exercise are reported in Table
+\ref{tab:ape-results}. Of the four full-sample models (Models 1-4), the
+\(APE\) of Model 2 is lowest in the nowcasting exercise for every
+outcome, with the exception of Fatality, where Model 4 produces a
+considerably lower \(APE\). When the results are aggregated by means of
+the \(WAPE\), Model 2 gives marginally better results than Model 4. It
+is interesting to see that the four ensemble models have lower \(APE\)
+values across the board in the nowcasting exercise, and much better
+\(WAPE\) than the full sample models. However, once we turn to the
+results of the backcasting exercise, these results do not hold, and it
+is possible to see that the Average Percentage Errors of the ensemble
+worsen considerably, particularly in the case of Fatality. The Weighted
+Average Prediction Error of the ensemble models in the backcasting
+exercise is also worse than for any of the full sample models. Excellent
+in-sample predictions but not as good out-of-sample predictions are
+often evidence of overfitting, as in the case of the ensemble models
+here.
+
+In terms of backcasting, full sample Model 1 is marginally better than
+full sample Models 2 and 3, and better than full sample Model 4. The
+reason for this is the lower \(APE\) of Model 1 when predicting Injury,
+the most frequent outcome. However, the performance of Model 1 with
+respect to Fatality (the least frequent outcome) is the worst of all
+models. Whereas Model 4 has the best performance predicting Fatality,
+its performance with respect to other classes of outcomes is less
+impressive. Model 3 does better than Model 2 with respect to Injury, but
+performs relatively poorly when backcasting Fatality. Overall, Model 2
+appears to be the most balanced, with good in-sample performance and
+competitive out-of-sample performance that is also balanced with respect
+to the various classes of outcomes.
+
+\begin{table}
+
+\caption{\label{tab:table-ape-results}\label{tab:ape-results}Predicted shares and average prediction errors (APE) by model (percentages)}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lrrrrrrrrrr}
+\toprule
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{No Injury} & \multicolumn{3}{c}{Injury} & \multicolumn{3}{c}{Fatality} & \multicolumn{1}{c}{} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-7} \cmidrule(l{3pt}r{3pt}){8-10}
+Model & Observed & Predicted & APE & Observed & Predicted & APE & Observed & Predicted & APE & WAPE\\
+\rowcolor{gray!15}
+\midrule
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{In-sample (nowcasting using 2017 data set, i.e., estimation data set)}}\\
+\hspace{1em}Model 1 & 78886 & 79029.00 & 0.18 & 84675 & 84533.74 & 0.17 & 950 & 948.26 & 0.18 & 0.17\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 & 78886 & 78928.98 & 0.05 & 84675 & 84641.94 & 0.04 & 950 & 940.08 & 1.04 & 0.05\\
+\hspace{1em}Model 3 & 78886 & 79027.29 & 0.18 & 84675 & 84512.50 & 0.19 & 950 & 971.21 & 2.23 & 0.20\\
+\rowcolor{gray!15}
+\hspace{1em}Model 4 & 78886 & 78939.18 & 0.07 & 84675 & 84622.54 & 0.06 & 950 & 949.28 & 0.08 & 0.06\\
+\hspace{1em}Model 1 Ensemble & 62413 & 62402.78 & 0.02 & 83564 & 83573.58 & 0.01 & 931 & 931.64 & 0.07 & 0.01\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 Ensemble & 62417 & 62407.00 & 0.02 & 83595 & 83604.14 & 0.01 & 931 & 931.86 & 0.09 & 0.01\\
+\rowcolor{gray!15}
+\hspace{1em}Model 3 Ensemble & 62411 & 62401.23 & 0.02 & 83596 & 83604.71 & 0.01 & 933 & 934.06 & 0.11 & 0.01\\
+\hspace{1em}Model 4 Ensemble & 62405 & 62395.28 & 0.02 & 83578 & 83586.75 & 0.01 & 932 & 932.97 & 0.10 & 0.01\\
+\rowcolor{gray!15}
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Out-of-sample (backcasting using 2016 data set)}}\\
+\hspace{1em}Model 1 & 96860 & 96364.67 & 0.51 & 101605 & 102002.59 & 0.39 & 1109 & 1206.74 & 8.81 & 0.50\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 & 96860 & 96361.41 & 0.51 & 101605 & 102112.08 & 0.50 & 1109 & 1100.51 & 0.77 & 0.51\\
+\hspace{1em}Model 3 & 96860 & 96354.01 & 0.52 & 101605 & 102086.18 & 0.47 & 1109 & 1133.82 & 2.24 & 0.51\\
+\rowcolor{gray!15}
+\hspace{1em}Model 4 & 96860 & 96325.85 & 0.55 & 101605 & 102136.72 & 0.52 & 1109 & 1111.43 & 0.22 & 0.54\\
+\hspace{1em}Model 1 Ensemble & 77457 & 76822.49 & 0.82 & 100013 & 100580.60 & 0.57 & 1072 & 1138.91 & 6.24 & 0.71\\
+\rowcolor{gray!15}
+\hspace{1em}Model 2 Ensemble & 77459 & 76799.11 & 0.85 & 100049 & 100630.48 & 0.58 & 1071 & 1149.41 & 7.32 & 0.74\\
+\hspace{1em}Model 3 Ensemble & 77459 & 76786.76 & 0.87 & 100050 & 100644.29 & 0.59 & 1072 & 1149.95 & 7.27 & 0.75\\
+\rowcolor{gray!15}
+Model 4 Ensemble & 77461 & 76766.08 & 0.90 & 100029 & 100630.21 & 0.60 & 1070 & 1163.71 & 8.76 & 0.78\\
+\bottomrule
+\multicolumn{11}{l}{\textit{Note: }}\\
+\multicolumn{11}{l}{Model 1. Single-level/No opponent}\\
+\multicolumn{11}{l}{Model 2. Single-level/Opponent attributes}\\
+\multicolumn{11}{l}{Model 3. Hierarchical: Traffic unit}\\
+\multicolumn{11}{l}{Model 4. Hierarchical: Opponent}\\
+\end{tabular}
+\end{table}
+
+\hypertarget{sec:outcomes-classes}{%
+\subsection{Outcome frequency based on predicted
+classes}\label{sec:outcomes-classes}}
+
+\(APE\) and \(WAPE\) are summary measures of the performance of models
+at the aggregated level. Aggregate-level predictions (i.e., shares of
+outcomes) are of interest from a population health perspective. In other
+cases, an analyst might be interested in the predicted outcomes at the
+individual level. In this section we examine the frequency of outcomes
+based on predicted classes, using the same two settings as above:
+nowcasting and backcasting.
+
+The individual-level outcomes are examined using an array of
+verification statistics. Verification statistics are widely used in the
+evaluation of predictive approaches were the outcomes are categorical,
+and are often based on the analysis of \emph{confusion matrices} (e.g.,
+Provost and Kohavi, 1998; Beguería, 2006). Confusion matrices are
+cross-tabulations of \emph{observed} and \emph{predicted} classes. In a
+two-by-two confusion matrix there are four possible combinations of
+observed to predicted classes: hits, misses, false alarms, and correct
+non-events, as shown in Table \ref{tab:confusion-matrix}. When the
+outcome has more than two classes, the confusion matrix is converted to
+a two-by-two table to calculate verification statistics.
+
+\begin{table}[!h]
+
+\caption{\label{tab:example-confusion-matrix}\label{tab:confusion-matrix}Example of a two-by-two confusion matrix}
+\centering
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lccc}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Observed} & \multicolumn{1}{c}{ } \\
+\cmidrule(l{3pt}r{3pt}){2-3}
+Predicted & Yes & No & Marginal Total\\
+\midrule
+\rowcolor{gray!6}  Yes & Hit & False Alarm & Predicted Yes\\
+No & Miss & Correct Non-event & Predicted No\\
+\rowcolor{gray!6}  Marginal Total & Observed Yes & Observed No & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The statistics used in our assessment are summarized in Table
+\ref{tab:verification-statistics}, including brief descriptions of their
+interpretation. The statistics evaluate different aspects of the
+performance of a model. Some are concerned with the ability of the model
+to be right, others are concerned with the ability of the model to match
+the observed outcomes, and yet others measure the ability of the model
+to not be wrong. These verification statistics are discussed briefly
+next.
+
+Percent correct and percent correct by class \(PC\) and \(PC_c\) are
+relatively simple statistics, and are calculated as the proportion of
+correct predictions (i.e., hits and correct non-events) relative to the
+number of events, for the whole table \(PC\) or for one class only
+\(PC_c\).
+
+Bias (\(B\)) measures for each outcome class the proportion of total
+predictions by class (e.g., hits as well as false alarms) relative to
+the total number of cases observed for that class. For this reason, it
+is possible for predictions to have low bias (values closer to 1) but
+still do poorly in terms of hits.
+
+Critical Success Index (\(CSI\)) evaluates forecasting skill while
+assuming that the number of correct non-events is inconsequential for
+demonstrating skill. Accordingly, the statistic is calculated as the
+proportion of hits relative to the sum of hits plus false alarms plus
+misses.
+
+Probability of False Detection (\(F\)) is the proportion of false alarms
+relative to the total number of times that the event is not observed.
+This statistic measures the frequency with which the model incorrectly
+predicts an event, but not when it incorrectly misses it. The
+Probability of Detection (\(POD\)), in contrast, measures the frequency
+with which the model correctly predicts a class, relative to the number
+of cases of that class.
+
+The False Alarm Ratio (\(FAR\)) is the fraction of predictions by class
+that were false alarms evaluate a different way in which a model can
+make equivocal predictions. In this case, lower scores are better.
+
+The last three verification statistics that we consider are skill scores
+that simultaneously consider different aspects of prediction, and are
+therefore overall indicators of prediction skill. Heidke's Skill Score
+(\(HSS\)) is the fraction of correct predictions above those that could
+be attributed to chance. Peirce's Skill Score (\(PSS\)) combines the
+Probability of Detection (\(POD\)) of a model and its Probability of
+False Detection (\(F\)) to measure the skill of a model to discriminate
+the classes of outcomes. Lastly, Gerrity Score (\(GS\)) is a measure of
+the model's skill predicting the correct classes that tends to reward
+correct forecasts of the least frequent class.
+
+We discuss the results of calculating this battery of verification
+statistics, first for the nowcasting case (Table
+\ref{tab:nowcast-outcomes-assessment}) and subsequently for the
+backcasting case (Table \ref{tab:backcast-outcomes-assessment}).
+
+\begin{landscape}\begin{table}
+
+\caption{\label{tab:table-verification-statistics}\label{tab:verification-statistics}Verification statistics}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{l>{\raggedright\arraybackslash}p{30em}>{\raggedright\arraybackslash}p{30em}}
+\toprule
+Statistic & Description & Notes\\
+\midrule
+\rowcolor{gray!6}  Percent Correct ($PC$) & Total hits and correct non-events divided by number of cases & Strongly influenced by most common category\\
+Percent Correct by Class ($PC_c$) & Same as Percent Correct but by category & Strongly influenced by most common category\\
+\rowcolor{gray!6}  Bias ($B$) & Total predicted by category, divided by total observed by category & $B>1$: class is overpredicted; $B<1$: class is underpredicted\\
+Critical Success Index ($CSI$) & Total hits divided by total hits + false alarms + misses & $CSI = 1$: perfect score; $CSI = 0$: no skill\\
+\rowcolor{gray!6}  Probability of False Detection ($F$) & Proportion of no events forecast as yes; sensitive to false alarms but ignores misses & $F = 0$: perfect score\\
+\addlinespace
+Probability of Detection ($POD$) & Total hits divided by total observed by class & $POD = 1$: perfect score\\
+\rowcolor{gray!6}  False Alarm Ratio ($FAR$) & Total false alarms divided by total forecast yes by class; measures fraction of predicted yes that did not occur & $FAR = 0$: perfect score\\
+Heidke Skill Score ($HSS$) & Fraction of correct predictions after removing predictions attributable to chance; measures fractional improvement over random; tends to reward conservative forecasts & $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better\\
+\rowcolor{gray!6}  Peirce Skill Score ($PSS$) & Combines $POD$ and $F$; measures ability to separate yes events from no events; tends to reward conservative forecasts & $PSS = 1$: perfect score; $PSS = 0$: no skill\\
+Gerrity Score ($GS$) & Measures accuracy of predicting the correct category, relative to random; tends to reward correct forecasts of less likely category & $GS = 1$: perfect score; $GS = 0$: no skill\\
+\bottomrule
+\end{tabular}}
+\end{table}
+\end{landscape}
+
+\hypertarget{nowcasting-verification-statistics}{%
+\subsubsection{Nowcasting: verification
+statistics}\label{nowcasting-verification-statistics}}
+
+At first glance, the results of the verification statistics (Table
+\ref{tab:nowcast-outcomes-assessment}) make it clear that no model under
+comparison is consistently a top performer from every aspect of
+prediction. Recalling Box's aphorism, all models are wrong but some are
+useful - in this case it just so happens that some models are more wrong
+than others in subtly different ways. That said, it is noticeable that
+the worst scores across the board tend to accrue to Model 1 in its full
+sample and ensemble versions. On the other hand, Model 2 (full sample)
+concentrates most of the best scores and second best scores of all the
+models, but also some of the worst scores for Fatality. Model 4, in
+contrast, has most of the second best scores and a few top scores, but
+not a single worst score.
+
+Of all the models, Model 2 (full sample) performs best in terms of
+Percent Correct, followed by Model 4 (full sample). The worst performer
+from this perspective is Model 1 (full sample), with a \(PC\) score
+several percentage points below the top models. The second score is
+Percent Correct by Class (\(PC_c\)). This score is calculated
+individually for each outcome class. Model 2 (full sample), has the best
+performance for outcomes No Injury and Injury, and the second best score
+for Fatality. Model 4 (full sample) has the best score for Fatality, and
+is second best for No Injury and Injury. Model 1 (full sample) has worst
+scores for No Injury and Injury whereas its ensemble version has the
+worst score for Fatality. It is important to note that \(PC\) and
+\(PC_c\) are heavily influenced by the most common category, something
+that can be particularly appreciated in the scores for Fatality. The
+scores for this class of outcome are generally high, despite the fact
+that the number of hits are relatively low; the high values of \(PC_c\)
+in this case are due to the high occurrence of correct non-events
+elsewhere in the table.
+
+The models with the best performance in terms of \(B\) are Model 1 (full
+sample) for No Injury and Injury, and Model 3 (ensemble) for Fatality.
+Model 4 (full sample) is the second best performer for No Injury and
+Injury, and Model 4 (ensemble) is second best performer for Fatality.
+Model 1 (ensemble) has the worst bias for No Injury and Injury, whereas
+Model 2 (full sample) has the worst bias for Fatality.
+
+No model performs uniformly best from the perspective of Critical
+Success Index (\(CSI\)). Model 2 (full sample) has the best \(CSI\) for
+No Injury, Model 2 (ensemble) has the best score for Injury, and Model 4
+(ensemble) the best score for Fatality. On the other hand, Model 1
+(ensemble) has the worst score for No Injury, Model 1 (full sample) the
+worst score for Injury, and Model 2 the worst score for Fatality. These
+scores indicates that the models are not particularly skilled at
+predicting the corresponding classes correctly, given the frequency with
+which they give false alarms or miss the class.
+
+The lowest probability of false detection \(F\) in the case of No Injury
+is 19.17\% for Model 2 (ensemble), with every other model having values
+lower than 21\%, with the exception of Model 1 (full sample) that has a
+score of 26.46\%. With respect to Injury, the lowest probabilities range
+35.8\% and 35.29\% and 35.35\% for Models 4 (full sample) and 2 (full
+sample). In contrast, the highest probability of false detection for
+Injury is 45.12\% for Model 1 (ensemble). The scores for \(F\) for
+Fatality are all extremely low as a consequence of the very low
+frequency of this class of outcome in the sample.
+
+As with some other verification statistics, no model is consistently a
+best performer in terms of \(POD\). Model 4 (full sample) has the
+highest probability of detection for No Injury (65.38\%), followed by
+Model 2 (65.32\%), whereas the worst probability of detection is by
+Model 1 (ensemble) with a score of 55.54\%. In terms of Injury, all
+models have \(POD\) higher than 79\%, and the highest score is 80.67\%
+for Model 2 (ensemble). The exception is Model 1 (full sample), which
+has a considerably lower \(POD\) of Injury with a score of 73.36\%.
+Lastly, in terms of Fatalities, all models have very low probabilities
+of detection, ranging from a high of 4.94\% in the case of Model 4
+(ensemble) to a worst score of 0.11\% in the case of Model 2 (full
+sample).
+
+Model 2 (full sample) has the best \(FAR\) statistic for No Injury, as
+only 25.05\% of predictions for this class are false alarms. The next
+best score is by Model 4 (full sample), with only 25.23\% of No Injury
+predictions being false alarms. The worst performance in this class is
+by Model 1 (ensemble), which produces almost a third of false alarms in
+its predictions of No Injury. In the case of Injury, the False Alarm
+Ratio ranges from a low of 29.15\% by Model (ensemble), with every other
+model having scores lower than 30\% except Model 1 (full sample), that
+gives almost 32\% of false alarms. In terms of Fatality, the lowest
+\(FAR\) is also for Model 4 (ensemble) with only 17.86\% of false
+alarms, whereas the worst performance is by Model 2 (full sample), which
+produces over 95\% of false alarms.
+
+The skill scores help to remove some of the ambiguity regarding the
+overall performance of a model. In this way, we know that Model 2 (full
+sample) does not do particularly well with the class Fatality - however,
+of all models, it tends to have the best overall performance. Its
+\(HSS\), for example, suggests that it achieves 44.74\% of correct
+predictions after removing correct predictions attributable to chance.
+In contrast, the lowest score is for Model 1 (ensemble), which only
+achieves 36.26\% correct predictions after removing those attributable
+to chance. Model 2 (full sample) also has the highest \(PSS\) and the
+second highest \(GS\). Model 4 (full sample) has the highest \(GS\) and
+the second highest \(HSS\) and \(PSS\).
+
+\begin{table}
+
+\caption{\label{tab:nowcast-outcomes-assessment}\label{tab:nowcast-outcomes-assessment}Assessment of in-sample outcomes (nowcasting using 2017 data set, i.e., estimation data set)}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\begin{tabular}[t]{lrrrllllllllll}
+\toprule
+\multicolumn{1}{c}{Predicted} & \multicolumn{3}{c}{Observed Outcome} & \multicolumn{10}{c}{Verification Statistics} \\
+\cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-14}
+Outcome & No Injury & Injury & Fatality & \makecell[l]{Percent\\Correct} & \makecell[l]{Percent\\Correct\\by Class} & Bias$^1$ & \makecell[l]{Critical\\Success\\Index$^2$} & \makecell[l]{Probability of\\False\\Detection$^3$} & \makecell[l]{Probability\\of\\Detection$^4$} & \makecell[l]{False\\Alarm\\Ratio$^5$} & \makecell[l]{Heidke\\Skill\\Score$^6$} & \makecell[l]{Peirce\\Skill\\Score$^7$} & \makecell[l]{Gerrity\\Score$^8$}\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1. Single-level/No opponent}}\\
+\hspace{1em}No Injury & 50652 & 22503 & 150 &  & \textcolor{red}{69.07} & \textcolor{black}{\textbf{0.9293}} & \textcolor{black}{0.4988} & \textcolor{red}{0.2646} & \textcolor{black}{0.6421} & \textcolor{black}{0.309} &  &  & \\
+
+\hspace{1em}Injury & 28232 & 62121 & 797 &  & \textcolor{red}{68.64} & \textcolor{black}{\textbf{1.0765}} & \textcolor{red}{0.5463} & \textcolor{black}{0.3636} & \textcolor{red}{0.7336} & \textcolor{red}{0.3185} &  &  & \\
+
+Fatality & 2 & 51 & 3 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{68.55}} & \textcolor{black}{99.39} & \textcolor{black}{0.0589} & \textcolor{black}{0.003} & \textcolor{red}{3e-04} & \textcolor{black}{0.0032} & \textcolor{black}{0.9464} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3725}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3696}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.1902}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2. Single-level/Opponent attributes}}\\
+\hspace{1em}No Injury & 51530 & 17136 & 85 &  & \textcolor{black}{\textbf{72.9}} & \textcolor{black}{0.8715} & \textcolor{black}{\textbf{0.5362}} & \textcolor{black}{0.2011} & \textcolor{black}{\underline{0.6532}} & \textcolor{black}{\textbf{0.2505}} &  &  & \\
+
+\hspace{1em}Injury & 27356 & 67515 & 864 &  & \textcolor{black}{\textbf{72.42}} & \textcolor{black}{1.1306} & \textcolor{black}{0.598} & \textcolor{black}{\underline{0.3535}} & \textcolor{black}{0.7973} & \textcolor{black}{0.2948} &  &  & \\
+
+Fatality & 0 & 24 & 1 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{72.36}}} & \textcolor{black}{\underline{99.41}} & \textcolor{red}{0.0263} & \textcolor{red}{0.001} & \textcolor{black}{1e-04} & \textcolor{red}{0.0011} & \textcolor{red}{0.96} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.4474}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.4429}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.2265}}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3. Hierarchical: Traffic unit}}\\
+\hspace{1em}No Injury & 51102 & 17297 & 79 &  & \textcolor{black}{72.55} & \textcolor{black}{0.8681} & \textcolor{black}{0.5309} & \textcolor{black}{0.2029} & \textcolor{black}{0.6478} & \textcolor{black}{0.2537} &  &  & \\
+
+\hspace{1em}Injury & 27784 & 67337 & 868 &  & \textcolor{black}{72.04} & \textcolor{black}{1.1336} & \textcolor{black}{0.5942} & \textcolor{black}{0.3589} & \textcolor{black}{0.7952} & \textcolor{black}{0.2985} &  &  & \\
+
+Fatality & 0 & 41 & 3 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{72}} & \textcolor{black}{99.4} & \textcolor{black}{0.0463} & \textcolor{black}{0.003} & \textcolor{black}{3e-04} & \textcolor{black}{0.0032} & \textcolor{black}{0.9318} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.44}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.4356}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.2239}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4. Hierarchical: Opponent}}\\
+\hspace{1em}No Injury & 51574 & 17317 & 84 &  & \textcolor{black}{\underline{72.82}} & \textcolor{black}{\underline{0.8744}} & \textcolor{black}{\underline{0.5356}} & \textcolor{black}{0.2032} & \textcolor{black}{\textbf{0.6538}} & \textcolor{black}{\underline{0.2523}} &  &  & \\
+
+\hspace{1em}Injury & 27312 & 67335 & 863 &  & \textcolor{black}{\underline{72.33}} & \textcolor{black}{\underline{1.128}} & \textcolor{black}{0.5967} & \textcolor{black}{\textbf{0.3529}} & \textcolor{black}{0.7952} & \textcolor{black}{0.295} &  &  & \\
+
+Fatality & 0 & 23 & 3 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{72.28}}} & \textcolor{black}{\textbf{99.41}} & \textcolor{black}{0.0274} & \textcolor{black}{0.0031} & \textcolor{black}{1e-04} & \textcolor{black}{0.0032} & \textcolor{black}{0.8846} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.4458}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.4414}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.2268}}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1 Ensemble. Single-level/No opponent}}\\
+\hspace{1em}No Injury & 34663 & 16435 & 63 &  & \textcolor{black}{69.88} & \textcolor{red}{0.8197} & \textcolor{red}{0.4393} & \textcolor{black}{0.1953} & \textcolor{red}{0.5554} & \textcolor{red}{0.3225} &  &  & \\
+
+\hspace{1em}Injury & 27750 & 67119 & 829 &  & \textcolor{black}{69.35} & \textcolor{red}{1.1452} & \textcolor{black}{0.5985} & \textcolor{red}{0.4512} & \textcolor{black}{0.8032} & \textcolor{black}{0.2986} &  &  & \\
+
+Fatality & 0 & 10 & 39 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{69.31}} & \textcolor{red}{99.39} & \textcolor{black}{0.0526} & \textcolor{black}{0.0414} & \textcolor{black}{\underline{1e-04}} & \textcolor{black}{0.0419} & \textcolor{black}{\underline{0.2041}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.3626}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.3521}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.201}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2 Ensemble. Single-level/Opponent attributes}}\\
+\hspace{1em}No Injury & 35443 & 16145 & 60 &  & \textcolor{black}{70.62} & \textcolor{black}{0.8275} & \textcolor{black}{0.4508} & \textcolor{black}{\textbf{0.1917}} & \textcolor{black}{0.5678} & \textcolor{black}{0.3138} &  &  & \\
+
+\hspace{1em}Injury & 26974 & 67437 & 829 &  & \textcolor{black}{70.08} & \textcolor{black}{1.1393} & \textcolor{black}{\textbf{0.6054}} & \textcolor{black}{0.4389} & \textcolor{black}{\textbf{0.8067}} & \textcolor{black}{0.2919} &  &  & \\
+
+Fatality & 0 & 13 & 42 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{70.05}} & \textcolor{black}{99.39} & \textcolor{black}{0.0591} & \textcolor{black}{0.0445} & \textcolor{black}{1e-04} & \textcolor{black}{0.0451} & \textcolor{black}{0.2364} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3784}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3678}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.2106}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3 Ensemble. Hierarchical: Traffic unit}}\\
+\hspace{1em}No Injury & 35499 & 16203 & 60 &  & \textcolor{black}{70.62} & \textcolor{black}{0.8294} & \textcolor{black}{0.4512} & \textcolor{black}{\underline{0.1924}} & \textcolor{black}{0.5688} & \textcolor{black}{0.3142} &  &  & \\
+
+\hspace{1em}Injury & 26912 & 67380 & 828 &  & \textcolor{black}{70.09} & \textcolor{black}{1.1379} & \textcolor{black}{\underline{0.6052}} & \textcolor{black}{0.4379} & \textcolor{black}{\underline{0.806}} & \textcolor{black}{\underline{0.2916}} &  &  & \\
+
+Fatality & 0 & 13 & 45 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{70.04}} & \textcolor{black}{99.39} & \textcolor{black}{\textbf{0.0622}} & \textcolor{black}{\underline{0.0476}} & \textcolor{black}{1e-04} & \textcolor{black}{\underline{0.0482}} & \textcolor{black}{0.2241} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3787}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3681}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.2123}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4 Ensemble. Hierarchical: Opponent}}\\
+\hspace{1em}No Injury & 35553 & 16297 & 59 &  & \textcolor{black}{70.59} & \textcolor{black}{0.8318} & \textcolor{black}{0.4514} & \textcolor{black}{0.1935} & \textcolor{black}{0.5697} & \textcolor{black}{0.3151} &  &  & \\
+
+\hspace{1em}Injury & 26852 & 67271 & 827 &  & \textcolor{black}{70.06} & \textcolor{black}{1.1361} & \textcolor{black}{0.6046} & \textcolor{black}{0.437} & \textcolor{black}{0.8049} & \textcolor{black}{\textbf{0.2915}} &  &  & \\
+
+Fatality & 0 & 10 & 46 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{70.02}} & \textcolor{black}{99.39} & \textcolor{black}{\underline{0.0601}} & \textcolor{black}{\textbf{0.0488}} & \textcolor{black}{\textbf{1e-04}} & \textcolor{black}{\textbf{0.0494}} & \textcolor{black}{\textbf{0.1786}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3783}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3679}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.2127}}\\
+\bottomrule
+\multicolumn{14}{l}{\textit{Note: }}\\
+\multicolumn{14}{l}{Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores}\\
+\multicolumn{14}{l}{\textsuperscript{1} $B>1$: class is overpredicted; $B<1$: class is underpredicted; }\\
+\multicolumn{14}{l}{\textsuperscript{2} $CSI = 1$: perfect score; $CSI = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{3} $F = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{4} $POD = 1$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{5} $FAR = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{6} $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; }\\
+\multicolumn{14}{l}{\textsuperscript{7} $PSS = 1$: perfect score; $PSS = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{8} $GS = 1$: perfect score; $GS = 0$: no skill.}\\
+\end{tabular}}
+\end{table}
+
+\hypertarget{backcasting-verification-statistics}{%
+\subsubsection{Backcasting: verification
+statistics}\label{backcasting-verification-statistics}}
+
+Table \ref{tab:backcast-outcomes-assessment} presents the results of the
+verification exercise for the case of our out-of-sample predictions
+(i.e., backasting). Qualitatively, the results are similar to those of
+the nowcasting experiments, but with a somewhat weaker performance of
+the ensemble models. This, again, supports the idea that these models
+might be overfitting the process, as discussed in reference to the
+aggregate forecasts (see Section \ref{sec:outcomes-shares}). Models 2
+(full sample) and 4 (full sample) are again identified as the best
+overall performers, and particularly Model 2 (full sample) performs
+somewhat more adroitly with respect to Fatality in backcasting than it
+did in nowcasting.
+
+\begin{table}
+
+\caption{\label{tab:backcast-outcomes-assessment}\label{tab:backcast-outcomes-assessment}Assessment of out-of-sample outcomes (backcasting using 2016 data set)}
+\centering
+\resizebox{\linewidth}{!}{
+\fontsize{7}{9}\selectfont
+\resizebox{\linewidth}{!}{
+\begin{tabular}[t]{lrrrllllllllll}
+\toprule
+\multicolumn{1}{c}{Predicted} & \multicolumn{3}{c}{Observed Outcome} & \multicolumn{10}{c}{Verification Statistics} \\
+\cmidrule(l{3pt}r{3pt}){1-1} \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){5-14}
+Outcome & No Injury & Injury & Fatality & \makecell[l]{Percent\\Correct} & \makecell[l]{Percent\\Correct\\by Class} & Bias$^1$ & \makecell[l]{Critical\\Success\\Index$^2$} & \makecell[l]{Probability of\\False\\Detection$^3$} & \makecell[l]{Probability\\of\\Detection$^4$} & \makecell[l]{False\\Alarm\\Ratio$^5$} & \makecell[l]{Heidke\\Skill\\Score$^6$} & \makecell[l]{Peirce\\Skill\\Score$^7$} & \makecell[l]{Gerrity\\Score$^8$}\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1. Single-level/No opponent}}\\
+\hspace{1em}No Injury & 61684 & 27447 & 184 &  & \textcolor{red}{68.53} & \textcolor{black}{\textbf{0.9221}} & \textcolor{black}{0.4955} & \textcolor{red}{0.269} & \textcolor{black}{0.6368} & \textcolor{black}{0.3094} &  &  & \\
+
+\hspace{1em}Injury & 35171 & 74073 & 915 &  & \textcolor{red}{68.12} & \textcolor{black}{\textbf{1.0842}} & \textcolor{red}{0.538} & \textcolor{black}{0.3683} & \textcolor{red}{0.729} & \textcolor{red}{0.3276} &  &  & \\
+
+Fatality & 5 & 85 & 10 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{68.03}} & \textcolor{black}{99.4} & \textcolor{black}{0.0902} & \textcolor{black}{0.0083} & \textcolor{black}{5e-04} & \textcolor{black}{0.009} & \textcolor{red}{0.9} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3628}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3604}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.1882}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2. Single-level/Opponent attributes}}\\
+\hspace{1em}No Injury & 62735 & 21013 & 106 &  & \textcolor{black}{\textbf{72.32}} & \textcolor{black}{0.8657} & \textcolor{black}{\textbf{0.5317}} & \textcolor{black}{0.2056} & \textcolor{black}{\underline{0.6477}} & \textcolor{black}{\textbf{0.2519}} &  &  & \\
+
+\hspace{1em}Injury & 34125 & 80569 & 996 &  & \textcolor{black}{\textbf{71.86}} & \textcolor{black}{1.1386} & \textcolor{black}{0.5893} & \textcolor{black}{\underline{0.3585}} & \textcolor{black}{0.793} & \textcolor{black}{\textbf{0.3036}} &  &  & \\
+
+Fatality & 0 & 23 & 7 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{71.81}}} & \textcolor{black}{\textbf{99.44}} & \textcolor{red}{0.0271} & \textcolor{black}{0.0062} & \textcolor{black}{\textbf{1e-04}} & \textcolor{black}{0.0063} & \textcolor{black}{\textbf{0.7667}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.4372}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.4335}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\textbf{0.2241}}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3. Hierarchical: Traffic unit}}\\
+\hspace{1em}No Injury & 62248 & 21133 & 107 &  & \textcolor{black}{72.01} & \textcolor{black}{0.8619} & \textcolor{black}{0.5271} & \textcolor{black}{0.2068} & \textcolor{black}{0.6427} & \textcolor{black}{0.2544} &  &  & \\
+
+\hspace{1em}Injury & 34610 & 80433 & 996 &  & \textcolor{black}{71.55} & \textcolor{black}{1.1421} & \textcolor{black}{0.5862} & \textcolor{black}{0.3634} & \textcolor{black}{0.7916} & \textcolor{black}{0.3068} &  &  & \\
+
+Fatality & 2 & 39 & 6 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{71.5}} & \textcolor{black}{99.43} & \textcolor{black}{0.0424} & \textcolor{red}{0.0052} & \textcolor{black}{2e-04} & \textcolor{red}{0.0054} & \textcolor{black}{0.8723} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.431}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.4274}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.2205}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4. Hierarchical: Opponent}}\\
+\hspace{1em}No Injury & 62788 & 21246 & 102 &  & \textcolor{black}{\underline{72.23}} & \textcolor{black}{\underline{0.8686}} & \textcolor{black}{\underline{0.5312}} & \textcolor{black}{0.2078} & \textcolor{black}{\textbf{0.6482}} & \textcolor{black}{\underline{0.2537}} &  &  & \\
+
+\hspace{1em}Injury & 34071 & 80332 & 1000 &  & \textcolor{black}{\underline{71.77}} & \textcolor{black}{\underline{1.1358}} & \textcolor{black}{0.5878} & \textcolor{black}{\textbf{0.358}} & \textcolor{black}{0.7906} & \textcolor{black}{0.3039} &  &  & \\
+
+Fatality & 1 & 27 & 7 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{71.72}}} & \textcolor{black}{\underline{99.43}} & \textcolor{black}{0.0316} & \textcolor{black}{0.0062} & \textcolor{black}{\underline{1e-04}} & \textcolor{black}{0.0063} & \textcolor{black}{\underline{0.8}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.4355}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.4318}}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{\underline{0.2233}}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 1 Ensemble. Single-level/No opponent}}\\
+\hspace{1em}No Injury & 42896 & 20230 & 95 &  & \textcolor{black}{69.26} & \textcolor{red}{0.8162} & \textcolor{red}{0.4387} & \textcolor{black}{0.2011} & \textcolor{red}{0.5538} & \textcolor{red}{0.3215} &  &  & \\
+
+\hspace{1em}Injury & 34546 & 79692 & 962 &  & \textcolor{black}{68.73} & \textcolor{red}{1.1519} & \textcolor{black}{0.588} & \textcolor{red}{0.4522} & \textcolor{black}{0.7968} & \textcolor{black}{0.3082} &  &  & \\
+
+Fatality & 15 & 91 & 15 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{68.67}} & \textcolor{black}{99.35} & \textcolor{black}{0.1129} & \textcolor{black}{0.0127} & \textcolor{black}{6e-04} & \textcolor{black}{0.014} & \textcolor{black}{0.876} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.3539}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.3447}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{red}{0.1831}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 2 Ensemble. Single-level/Opponent attributes}}\\
+\hspace{1em}No Injury & 43486 & 19937 & 95 &  & \textcolor{black}{69.76} & \textcolor{black}{0.82} & \textcolor{black}{0.4461} & \textcolor{black}{\textbf{0.1981}} & \textcolor{black}{0.5614} & \textcolor{black}{0.3154} &  &  & \\
+
+\hspace{1em}Injury & 33953 & 80009 & 961 &  & \textcolor{black}{69.23} & \textcolor{black}{1.1487} & \textcolor{black}{\textbf{0.5928}} & \textcolor{black}{0.4446} & \textcolor{black}{\textbf{0.7997}} & \textcolor{black}{\underline{0.3038}} &  &  & \\
+
+Fatality & 20 & 103 & 15 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{69.16}} & \textcolor{black}{99.34} & \textcolor{black}{\underline{0.1289}} & \textcolor{black}{0.0126} & \textcolor{black}{7e-04} & \textcolor{black}{0.014} & \textcolor{black}{0.8913} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3644}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3551}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.1883}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 3 Ensemble. Hierarchical: Traffic unit}}\\
+\hspace{1em}No Injury & 43527 & 20033 & 92 &  & \textcolor{black}{69.73} & \textcolor{black}{0.8218} & \textcolor{black}{0.446} & \textcolor{black}{\underline{0.199}} & \textcolor{black}{0.5619} & \textcolor{black}{0.3162} &  &  & \\
+
+\hspace{1em}Injury & 33914 & 79915 & 964 &  & \textcolor{black}{69.19} & \textcolor{black}{1.1474} & \textcolor{black}{\underline{0.5923}} & \textcolor{black}{0.4441} & \textcolor{black}{\underline{0.7988}} & \textcolor{black}{0.3038} &  &  & \\
+
+Fatality & 18 & 102 & 16 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{69.13}} & \textcolor{black}{99.34} & \textcolor{black}{0.1269} & \textcolor{black}{\underline{0.0134}} & \textcolor{black}{7e-04} & \textcolor{black}{\underline{0.0149}} & \textcolor{black}{0.8824} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3639}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3546}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.1885}}\\
+\cmidrule{1-14}
+\addlinespace[0.3em]
+\multicolumn{14}{l}{\textbf{Model 4 Ensemble. Hierarchical: Opponent}}\\
+\hspace{1em}No Injury & 43560 & 20160 & 94 &  & \textcolor{black}{69.67} & \textcolor{black}{0.8238} & \textcolor{black}{0.4458} & \textcolor{black}{0.2003} & \textcolor{black}{0.5623} & \textcolor{black}{0.3174} &  &  & \\
+
+\hspace{1em}Injury & 33876 & 79762 & 959 &  & \textcolor{black}{69.14} & \textcolor{black}{1.1456} & \textcolor{black}{0.5914} & \textcolor{black}{0.4436} & \textcolor{black}{0.7974} & \textcolor{black}{0.304} &  &  & \\
+
+Fatality & 25 & 107 & 17 & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{69.07}} & \textcolor{red}{99.34} & \textcolor{black}{\textbf{0.1393}} & \textcolor{black}{\textbf{0.0141}} & \textcolor{red}{7e-04} & \textcolor{black}{\textbf{0.0159}} & \textcolor{black}{0.8859} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3629}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.3538}} & \multirow{-3}{*}{\raggedright\arraybackslash \textcolor{black}{0.1886}}\\
+\bottomrule
+\multicolumn{14}{l}{\textit{Note: }}\\
+\multicolumn{14}{l}{Bold numbers: best scores; underlined numbers: second best scores; red numbers: worst scores}\\
+\multicolumn{14}{l}{\textsuperscript{1} $B>1$: class is overpredicted; $B<1$: class is underpredicted; }\\
+\multicolumn{14}{l}{\textsuperscript{2} $CSI = 1$: perfect score; $CSI = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{3} $F = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{4} $POD = 1$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{5} $FAR = 0$: perfect score; }\\
+\multicolumn{14}{l}{\textsuperscript{6} $HSS = 1$: perfect score; $HSS = 0$: no skill; $HSS < 0$: random is better; }\\
+\multicolumn{14}{l}{\textsuperscript{7} $PSS = 1$: perfect score; $PSS = 0$: no skill; }\\
+\multicolumn{14}{l}{\textsuperscript{8} $GS = 1$: perfect score; $GS = 0$: no skill.}\\
+\end{tabular}}}
+\end{table}
+
+\hypertarget{sec:further-considerations}{%
+\section{Further considerations}\label{sec:further-considerations}}
+
+As discussed in Section \ref{sec:methods}, there is a rich selection of
+modelling approaches that are applicable to crash severity analysis.
+Based on the literature, we limited our empirical assessment of
+modelling strategies to only one model, namely the ordinal logit. On the
+other hand, since the modelling strategies discussed here all relate to
+the specification of the latent function and data subsetting, it is a
+relatively simple matter to extend them to other modelling approaches.
+For example, take Expression
+\ref{eq:latent-function-with-opponent-variables} and add a random
+component \(\mu_{k}\) as follows:
+
+\begin{equation}
+\label{eq:latent-function-with-opponent-variables-and-random-component}
+y_{itk}^*=\sum_{l=1}^L\alpha_lp_{itkl} + \sum_{m=1}^M\beta_mu_{tkm} + \sum_{q=1}^Q\kappa_qc_{kq} + \sum_{r=1}^R\delta_ro_{jvkr} + \mu_{k} + \epsilon_{itk}
+\end{equation}
+
+The addition of the random component in this fashion would help to
+capture, when appropriate, unobserved heterogeneity at the level of the
+crash (this is similar to the random intercepts approach in multi-level
+modelling; also see Mannering et al., 2016). As a second example, take
+Expressions \ref{eq:latent-function-with-hierarchical-traffic-unit} to
+\ref{eq:hierarchical-traffic-unit-coefficients} and add a random
+component to a hierarchical coefficient, to obtain:
+
+\begin{equation}
+\label{eq:hierarchical-traffic-unit-coefficients-with-random-component}
+\begin{array}{rcl}\
+\beta_{m}u_{tkm} &=& \big( \beta_{m1} + \beta_{m2}p_{itk2} + \cdots + \beta_{mL}p_{itkL} + \mu_{mk}\big)u_{tkm}\\ 
+&=& \beta_{m1}u_{tkm} + \beta_{m2}p_{itk2}u_{tkm} + \cdots + \beta_{mL}p_{itkL}u_{tkm} + \mu_{mk}u_{tkm}
+\end{array}
+\end{equation}
+
+This is similar to the random slopes strategy in multi-level modelling.
+
+We do not report results regarding other modelling strategies. On the
+one hand, more sophisticated modelling frameworks are generally capable
+of improving the performance of a model. On the other hand, there are
+well-known challenges in the estimation of more sophisticated models
+(see Lenguerrand et al., 2006, p. 47, for a discussion of convergence
+issues in models with mixed effects; Mannering et al., 2016, p. 13, for
+some considerations regarding the complexity and cost of estimating more
+complex models; and Bogue et al., 2017, p. 27, on computational demands
+of models with random components). The additional cost and complexity of
+more sophisticated modelling approaches would, in our view, have greatly
+complicated our empirical assessment, particularly considering the large
+size of the sample involved in this research (a data set with over
+164,000 records in the case of the full sample models). That said, we
+experimented with a model with random components using monthly subsets
+of data to find that, indeed, estimation takes considerably longer, is
+more demanding in terms of fixing potential estimation quirks, and in
+the end resulted in variance components that could not be reliably
+estimated as different from zero (results can be consulted in the source
+R Notebook). For this reason, we choose to leave the application of more
+sophisticated models as a matter for future research.
+
+\hypertarget{sec:concluding-remarks}{%
+\section{Concluding remarks}\label{sec:concluding-remarks}}
+
+The study of crash severity is an important component of accident
+research, as seen from a large and vibrant literature and numerous
+applications. Part of this literature covers different modelling
+strategies that can be used to model complex hierarchical, multievent
+outcomes such as the severity of injuries following a collision. In this
+paper, our objective has been to assess the performance of different
+strategies to model opponent effects in two-vehicle crashes. In broad
+terms, three strategies were considered: 1) incorporating opponent-level
+variables in the model; 2) single- versus multi-level model
+specifications; and 3) sample subsetting and estimation of separate
+models for different types of individual-opponent interactions. The
+empirical evaluation was based on data from Canada's National Crash
+Database and the application of ordered probit models. A suite of models
+that implemented the various strategies considered was estimated using
+data from 2017. We then assessed the performance of the models using one
+information criterion (AIC). Furthermore, the predictive performance of
+the models was assessed in terms of both nowcasting (in-sample
+predictions) and backcasting (out-of-sample predictions), the latter
+using data from 2016.
+
+The results of the empirical assessment strongly suggest that
+incorporating opponent effects can greatly improve the goodness-of-fit
+and predictive performance of a model. Two modelling strategies appear
+to outperform the rest: a relatively simple single-level modelling
+approach that incorporates opponent effects, and a hierarchical
+modelling approach with nested opponent effects. There was some evidence
+that subsetting the sample can improve the results in some cases (e.g.,
+when modelling the severity of crashes involving active travelers or
+motorcyclists), but possibly at the risk of overfitting the process. It
+is well known that overfitting can increase the accuracy of in-sample
+predictions at the expense of bias in out-of-sample predictions. Alas,
+since the true data generating process is unknowable in this empirical
+research, it is not possible to assess the extent of estimator bias. It
+is also worthwhile noting that in this paper we did not compare
+individual models in our ensemble approach, but we suggest that this is
+an avenue for future research.
+
+The results of this research should be informative to analysts
+interested in crashes involving two parties, since it provides some
+useful guidelines regarding the specification of opponent effects. Not
+only do opponent effects improve the goodness of fit and performance of
+models, they also add rich insights into their effects. The focus on
+this paper was on performance, and for space reasons it is not possible
+to include an examination of the best model without failing to do it
+justice. We plan to report the results of the best-fitting model in a
+future paper.
+
+The analysis also opens up a few avenues for future research. First, for
+reasons discussed in Section \ref{sec:further-considerations}, we did
+not consider more sophisticated modelling approaches, such as models
+with random components, partial proportional odds, ranked ordered
+models, or multinomial models, to mention just a few possibilities.
+Secondly, we only considered the performance of the models when making
+predictions for the full sample. That is, the submodels in the ensembles
+were not compared in detail, just their aggregate results when
+predicting the full sample. However, the goodness-of-fit was not
+uniformly better for any one modelling strategy when the data were
+subset, and it is possible that individual models perform better for a
+certain subset than competitors that are part of a better ensemble,
+overall. For this reason, we suggest that additional work with ensemble
+approaches is warranted. Finally, it is clear that the models do not
+generally do well when predicting the least frequent class of outcome,
+namely Fatality. It would be worthwhile to further investigate
+approaches for so-called imbalanced learning, a task that has received
+attention in the machine learning community (e.g., Haixiang et al.,
+2017; He and Garcia, 2009), and where Torrao et al.~(2014) have already
+made some headway in crash severity analysis.
+
+Finally, as an aside, this paper is, to the best of our knowledge, the
+first example of reproducible research in crash severity analysis. By
+providing the data \emph{and} code for the analysis, it is our hope that
+this will allow other researchers to easily verify the results, and to
+extend them. A common practice in the machine learning community is to
+use canonical data set to demonstrate the performance of new techniques.
+Sharing code and data has remained relatively rare in transportation
+research, and we would like to suggest that the data sets used in this
+research could constitute one such canonical data set for future
+methodological developments.
+
+\hypertarget{acknowledgments}{%
+\section*{Acknowledgments}\label{acknowledgments}}
+\addcontentsline{toc}{section}{Acknowledgments}
+
+This research was supported by a Research Excellence grant from McMaster
+University. The authors wish to express their gratitude to the Office of
+the Provost, the Faculty of Science, and the Faculty of Engineering for
+their generous support. The comments of four anonymous reviewers are
+also duly acknowledged: their feedback helped to improve the quality and
+clarity of presentation of this paper.
+
+\hypertarget{appendix}{%
+\section*{Appendix}\label{appendix}}
+\addcontentsline{toc}{section}{Appendix}
+
+Variable definitions in Canada's National Collision Database.
+
+\begingroup\fontsize{7}{9}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{32em}}
+\caption{\label{tab:ncdb-descriptives-collision}\label{tab:ncdb-descriptives-collision}Contents of National Collision Database: Collision-level variables}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endfirsthead
+\caption[]{\label{tab:ncdb-descriptives-collision}Contents of National Collision Database: Collision-level variables \textit{(continued)}}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endhead
+\
+\endfoot
+\bottomrule
+\multicolumn{3}{l}{\textit{Note: }}\\
+\multicolumn{3}{l}{Source NCDB available from https://open.canada.ca/data/en/data set/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a}\\
+\multicolumn{3}{l}{Source data files for analysis also available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb\_XV}\\
+\endlastfoot
+\rowcolor{gray!6}  C\_CASE & Unique collision identifier & Unique identifier for collisions\\
+C\_YEAR & Year & Last two digits of year.\\
+\rowcolor{gray!6}  C\_MNTH & Month & 14 levels: January - December; unknown; not reported by jurisdiction.\\
+C\_WDAY & Day of week & 9 levels: Monday - Sunday; unknown; not reported by jurisdiction.\\
+\rowcolor{gray!6}  C\_HOUR & Collision hour & 25 levels: hourly intervals; unknown; not reported by jurisdiction.\\
+\addlinespace
+C\_SEV & Collision severity & 4 levels: collision producing at least one fatality; collision producing non-fatal injury; unknown; not reported by jurisdiction.\\
+\rowcolor{gray!6}  C\_VEHS & Number of vehicles involved in collision & Number of vehicles: 1-98 vehicles involved; 99 or more vehicles involved; unknown; not reported by jurisdiction.\\
+C\_CONF & Collision configuration & 21 levels: SINGLE VEHICLE: Hit a moving object (e.g. a person or an animal); Hit a stationary object (e.g. a tree); Ran off left shoulder; Ran off right shoulder; Rollover on roadway; Any other single vehicle collision configuration; TWO-VEHICLES SAME DIRECTION OF TRAVEL: Rear-end collision; Side swipe; One vehicle passing to the left of the other, or left turn conflict; One vehicle passing to the right of the other, or right turn conflict; Any other two vehicle - same direction of travel configuration; TWO-VEHICLES DIFFERENT DIRECTION OF TRAVEL: Head-on collision; Approaching side-swipe; Left turn across opposing traffic; Right turn, including turning conflicts; Right angle collision; Any other two-vehicle - different direction of travel configuration; TWO-VEHICLES, HIT A PARKED VEHICLE: Hit a parked motor vehicle; Choice is other than the preceding values; unknown;not reported by jurisdiction.\\
+\rowcolor{gray!6}  C\_RCFG & Roadway configuration & 15 levels: Non-intersection; At an intersection of at least two public roadways; Intersection with parking lot entrance/exit, private driveway or laneway; Railroad level crossing; Bridge, overpass, viaduct; Tunnel or underpass; Passing or climbing lane; Ramp; Traffic circle; Express lane of a freeway system; Collector lane of a freeway system; Transfer lane of a freeway system; Choice is other than the preceding values; unknown;not reported by jurisdiction.\\
+C\_WTHR & Weather condition & 10 levels: Clear and sunny; Overcast, cloudy but no precipitation; Raining; Snowing, not including drifting snow; Freezing rain, sleet, hail; Visibility limitation; Strong wind; Choice is other than the preceding values; unknown;not reported by jurisdiction.\\
+\addlinespace
+\rowcolor{gray!6}  C\_RSUR & Road surface & 12 levels: Dry, normal; Wet; Snow (fresh, loose snow); Slush, wet snow; Icy, packed snow; Debris on road (e.g., sand/gravel/dirt); Muddy; Oil; Flooded; Choice is other than the preceding values; unknown;not reported by jurisdiction.\\
+C\_RALN & Road alignment & 9 levels: Straight and level; Straight with gradient; Curved and level; Curved with gradient; Top of hill or gradient; Bottom of hill or gradient; Choice is other than the preceding values; unknown;not reported by jurisdiction.\\
+\rowcolor{gray!6}  C\_TRAF & Traffic control & 21 levels: Traffic signals fully operational; Traffic signals in flashing mode; Stop sign; Yield sign; Warning sign; Pedestrian crosswalk; Police officer; School guard, flagman; School crossing; Reduced speed zone; No passing zone sign; Markings on the road; School bus stopped with school bus signal lights flashing; School bus stopped with school bus signal lights not flashing; Railway crossing with signals, or signals and gates; Railway crossing with signs only; Control device not specified; No control present; Choice is other than the preceding values; unknown; not reported by jurisdiction.\\*
+\end{longtable}
+\endgroup{}
+
+\begingroup\fontsize{7}{9}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{32em}}
+\caption{\label{tab:ncdb-descriptives-vehicle}\label{tab:ncdb-descriptives-vehicle}Contents of National Collision Database: Traffic unit-level variables}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endfirsthead
+\caption[]{\label{tab:ncdb-descriptives-vehicle}Contents of National Collision Database: Traffic unit-level variables \textit{(continued)}}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endhead
+\
+\endfoot
+\bottomrule
+\multicolumn{3}{l}{\textit{Note: }}\\
+\multicolumn{3}{l}{Source NCDB available from https://open.canada.ca/data/en/data set/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a}\\
+\multicolumn{3}{l}{Source data files for analysis also available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb\_XV}\\
+\endlastfoot
+\rowcolor{gray!6}  V\_ID & Vehicle sequence number & Number of vehicles: 1-98; Pedestrian sequence number: 99; unknown.\\
+V\_TYPE & Vehicle type & 21 levels: Light Duty Vehicle (Passenger car, Passenger van, Light utility vehicles and light duty pick up trucks); Panel/cargo van (<= 4536 KG GVWR   Panel or window type of van designed primarily for carrying goods); Other trucks and vans (<= 4536 KG GVWR); Unit trucks (> 4536 KG GVWR); Road tractor; School bus; Smaller school bus (< 25 passengers); Urban and Intercity Bus; Motorcycle and moped; Off road vehicles; Bicycle; Purpose-built motorhome; Farm equipment; Construction equipment; Fire engine; Snowmobile; Street car; Data element is not applicable  (e.g. dummy vehicle record created for pedestrian); Choice is other than the preceding values; unknown; not reported by jurisdiction.\\
+\rowcolor{gray!6}  V\_YEAR & Vehicle model year & Model year; dummy for pedestrians; unknown; not reported by jurisdiction.\\*
+\end{longtable}
+\endgroup{}
+
+\begingroup\fontsize{7}{9}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{32em}}
+\caption{\label{tab:ncdb-descriptives-person}\label{tab:ncdb-descriptives-person}Contents of National Collision Database: Personal-level variables}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endfirsthead
+\caption[]{\label{tab:ncdb-descriptives-person}Contents of National Collision Database: Personal-level variables \textit{(continued)}}\\
+\toprule
+Variable & Description & Notes\\
+\midrule
+\endhead
+\
+\endfoot
+\bottomrule
+\multicolumn{3}{l}{\textit{Note: }}\\
+\multicolumn{3}{l}{Source NCDB available from https://open.canada.ca/data/en/data set/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a}\\
+\multicolumn{3}{l}{Source data files for analysis also available from https://drive.google.com/open?id=12aJtVBaQ4Zj0xa7mtfqxh0E48hKCb\_XV}\\
+\endlastfoot
+\rowcolor{gray!6}  P\_ID & Person sequence number & Sequence number: 1-99; Not applicable (dummy for parked vehicles); not reported by jurisdiction.\\
+P\_SEX & Person sex & 5 levels: Male; Female; Not applicable (dummy for parked vehicles); unknown (runaway vehicle); not reported by jurisdiction.\\
+\rowcolor{gray!6}  P\_AGE & Person age & Age: less than 1 year; 1-98 years old; 99 years or older; Not applicable (dummy for parked vehicles); unknown (runaway vehicle); not reported by jurisdiction.\\
+P\_PSN & Person position & Person position: Driver; Passenger front row, center; Passenger front row, right outboard (including motorcycle passenger in sidecar); Passenger second row, left outboard, including motorcycle passenger; Passenger second row, center; Passenger second row, right outboard; Passenger third row, left outboard;...; Position unknown, but the person was definitely an occupant; Sitting on someone’s lap; Outside passenger compartment; Pedestrian; Not applicable (dummy for parked vehicles); Choice is other than the preceding values; unknown (runaway vehicle); not reported by jurisdiction.\\
+\rowcolor{gray!6}  P\_ISEV & Medical treatment required & 6 levels: No Injury; Injury; Fatality; Not applicable (dummy for parked vehicles); Choice is other than the preceding values; unknown (runaway vehicle); not reported by jurisdiction.\\
+\addlinespace
+P\_SAFE & Safety device used & 11 levels: No safety device used; Safety device used; Helmet worn; Reflective clothing worn; Both helmet and reflective clothing used; Other safety device used; No safety device equipped   (e.g. buses); Not applicable (dummy for parked vehicles); Choice is other than the preceding values; unknown (runaway vehicle); not reported by jurisdiction.\\
+\rowcolor{gray!6}  P\_USER & Road user class & 6 levels: Motor Vehicle Driver; Motor Vehicle Passenger; Pedestrian; Bicyclist; Motorcyclist; Not stated/Other/Unknown.\\*
+\end{longtable}
+\endgroup{}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Amoh2017effect}{}%
+Amoh-Gyimah, R., Aidoo, E.N., Akaateba, M.A., Appiah, S.K., 2017. The
+effect of natural and built environmental characteristics on
+pedestrian-vehicle crash severity in ghana. International Journal of
+Injury Control and Safety Promotion 24, 459--468.
+doi:\href{https://doi.org/10.1080/17457300.2016.1232274}{10.1080/17457300.2016.1232274}
+
+\leavevmode\hypertarget{ref-Aziz2013exploring}{}%
+Aziz, H.M.A., Ukkusuri, S.V., Hasan, S., 2013. Exploring the
+determinants of pedestrian-vehicle crash severity in new york city.
+Accident Analysis and Prevention 50, 1298--1309.
+doi:\href{https://doi.org/10.1016/j.aap.2012.09.034}{10.1016/j.aap.2012.09.034}
+
+\leavevmode\hypertarget{ref-Begueria2006validation}{}%
+Beguería, S., 2006. Validation and evaluation of predictive models in
+hazard assessment and risk management. Natural Hazards 37, 315--329.
+doi:\href{https://doi.org/10.1007/s11069-005-5182-6}{10.1007/s11069-005-5182-6}
+
+\leavevmode\hypertarget{ref-Bogue2017modified}{}%
+Bogue, S., Paleti, R., Balan, L., 2017. A modified rank ordered logit
+model to analyze injury severity of occupants in multivehicle crashes.
+Analytic Methods in Accident Research 14, 22--40.
+doi:\href{https://doi.org/10.1016/j.amar.2017.03.001}{10.1016/j.amar.2017.03.001}
+
+\leavevmode\hypertarget{ref-Casetti1972generating}{}%
+Casetti, E., 1972. Generating models by the expansion method:
+Applications to geographic research. Geographical Analysis 4, 81--91.
+
+\leavevmode\hypertarget{ref-Chang2006analysis}{}%
+Chang, L.Y., Wang, H.W., 2006. Analysis of traffic injury severity: An
+application of non-parametric classification tree techniques. Accident
+Analysis and Prevention 38, 1019--1027.
+doi:\href{https://doi.org/10.1016/j.aap.2006.04.009}{10.1016/j.aap.2006.04.009}
+
+\leavevmode\hypertarget{ref-Chen2019investigation}{}%
+Chen, F., Song, M.T., Ma, X.X., 2019. Investigation on the injury
+severity of drivers in rear-end collisions between cars using a random
+parameters bivariate ordered probit model. International Journal of
+Environmental Research and Public Health 16.
+doi:\href{https://doi.org/10.3390/ijerph16142632}{10.3390/ijerph16142632}
+
+\leavevmode\hypertarget{ref-Chiou2013modeling}{}%
+Chiou, Y.C., Hwang, C.C., Chang, C.C., Fu, C., 2013. Modeling
+two-vehicle crash severity by a bivariate generalized ordered probit
+approach. Accident Analysis and Prevention 51, 175--184.
+doi:\href{https://doi.org/10.1016/j.aap.2012.11.008}{10.1016/j.aap.2012.11.008}
+
+\leavevmode\hypertarget{ref-Dissanayake2002factors}{}%
+Dissanayake, S., Lu, J.J., 2002. Factors influential in making an injury
+severity difference to older drivers involved in fixed object-passenger
+car crashes. Accident Analysis and Prevention 34, 609--618.
+doi:\href{https://doi.org/10.1016/s0001-4575(01)00060-4}{10.1016/s0001-4575(01)00060-4}
+
+\leavevmode\hypertarget{ref-Duddu2018modeling}{}%
+Duddu, V.R., Penmetsa, P., Pulugurtha, S.S., 2018. Modeling and
+comparing injury severity of at-fault and not at-fault drivers in
+crashes. Accident Analysis and Prevention 120, 55--63.
+doi:\href{https://doi.org/10.1016/j.aap.2018.07.036}{10.1016/j.aap.2018.07.036}
+
+\leavevmode\hypertarget{ref-Effati2015geospatial}{}%
+Effati, M., Thill, J.C., Shabani, S., 2015. Geospatial and machine
+learning techniques for wicked social science problems: Analysis of
+crash severity on a regional highway corridor. Journal of Geographical
+Systems 17, 107--135.
+doi:\href{https://doi.org/10.1007/s10109-015-0210-x}{10.1007/s10109-015-0210-x}
+
+\leavevmode\hypertarget{ref-Gong2017modeling}{}%
+Gong, L.F., Fan, W.D., 2017. Modeling single-vehicle run-off-road crash
+severity in rural areas: Accounting for unobserved heterogeneity and age
+difference. Accident Analysis and Prevention 101, 124--134.
+doi:\href{https://doi.org/10.1016/j.aap.2017.02.014}{10.1016/j.aap.2017.02.014}
+
+\leavevmode\hypertarget{ref-Haixiang2017learning}{}%
+Haixiang, G., Yijing, L., Shang, J., Mingyun, G., Yuanyue, H., Bing, G.,
+2017. Learning from class-imbalanced data: Review of methods and
+applications. Expert Systems with Applications 73, 220--239.
+doi:\href{https://doi.org/https://doi.org/10.1016/j.eswa.2016.12.035}{https://doi.org/10.1016/j.eswa.2016.12.035}
+
+\leavevmode\hypertarget{ref-Haleem2013effect}{}%
+Haleem, K., Gan, A., 2013. Effect of driver's age and side of impact on
+crash severity along urban freeways: A mixed logit approach. Journal of
+Safety Research 46, 67--76.
+doi:\href{https://doi.org/10.1016/j.jsr.2013.04.002}{10.1016/j.jsr.2013.04.002}
+
+\leavevmode\hypertarget{ref-He2009learning}{}%
+He, H., Garcia, E.A., 2009. Learning from imbalanced data. IEEE
+Transactions on knowledge and data engineering 21, 1263--1284.
+
+\leavevmode\hypertarget{ref-Hedeker1994random}{}%
+Hedeker, D., Gibbons, R.D., 1994. A random-effects ordinal
+regression-model for multilevel analysis. Biometrics 50, 933--944.
+
+\leavevmode\hypertarget{ref-Iranitalab2017comparison}{}%
+Iranitalab, A., Khattak, A., 2017. Comparison of four statistical and
+machine learning methods for crash severity prediction. Accident
+Analysis and Prevention 108, 27--36.
+doi:\href{https://doi.org/10.1016/j.aap.2017.08.008}{10.1016/j.aap.2017.08.008}
+
+\leavevmode\hypertarget{ref-Islam2014comprehensive}{}%
+Islam, S., Jones, S.L., Dye, D., 2014. Comprehensive analysis of single-
+and multi-vehicle large truck at-fault crashes on rural and urban
+roadways in alabama. Accident Analysis \& Prevention 67, 148--158.
+doi:\href{https://doi.org/https://doi.org/10.1016/j.aap.2014.02.014}{https://doi.org/10.1016/j.aap.2014.02.014}
+
+\leavevmode\hypertarget{ref-Khan2015exploring}{}%
+Khan, G., Bill, A.R., Noyce, D.A., 2015. Exploring the feasibility of
+classification trees versus ordinal discrete choice models for analyzing
+crash severity. Transportation Research Part C-Emerging Technologies 50,
+86--96.
+doi:\href{https://doi.org/10.1016/j.trc.2014.10.003}{10.1016/j.trc.2014.10.003}
+
+\leavevmode\hypertarget{ref-Kim2013driver}{}%
+Kim, J.K., Ulfarsson, G.F., Kim, S., Shankar, V.N., 2013. Driver-injury
+severity in single-vehicle crashes in california: A mixed logit analysis
+of heterogeneity due to age and gender. Accident Analysis and Prevention
+50, 1073--1081.
+doi:\href{https://doi.org/10.1016/j.aap.2012.08.011}{10.1016/j.aap.2012.08.011}
+
+\leavevmode\hypertarget{ref-Kim1995personal}{}%
+Kim, K., Nitz, L., Richardson, J., Li, L., 1995. PERSONAL and behavioral
+predictors of automobile crash and injury severity. Accident Analysis
+and Prevention 27, 469--481.
+doi:\href{https://doi.org/10.1016/0001-4575(95)00001-g}{10.1016/0001-4575(95)00001-g}
+
+\leavevmode\hypertarget{ref-Lee2014analysis}{}%
+Lee, C., Li, X.C., 2014. Analysis of injury severity of drivers involved
+in single- and two-vehicle crashes on highways in ontario. Accident
+Analysis and Prevention 71, 286--295.
+doi:\href{https://doi.org/10.1016/j.aap.2014.06.008}{10.1016/j.aap.2014.06.008}
+
+\leavevmode\hypertarget{ref-Lenguerrand2006modelling}{}%
+Lenguerrand, E., Martin, J.L., Laumon, B., 2006. Modelling the
+hierarchical structure of road crash data - application to severity
+analysis. Accident Analysis and Prevention 38, 43--53.
+doi:\href{https://doi.org/10.1016/j.aap.2005.06.021}{10.1016/j.aap.2005.06.021}
+
+\leavevmode\hypertarget{ref-Li2017interplay}{}%
+Li, L., Hasnine, M.S., Habib, K.M.N., Persaud, B., Shalaby, A., 2017.
+Investigating the interplay between the attributes of at-fault and
+not-at-fault drivers and the associated impacts on crash injury
+occurrence and severity level. Journal of Transportation Safety \&
+Security 9, 439--456.
+doi:\href{https://doi.org/10.1080/19439962.2016.1237602}{10.1080/19439962.2016.1237602}
+
+\leavevmode\hypertarget{ref-Ma2008multivariate}{}%
+Ma, J.M., Kockelman, K.M., Damien, P., 2008. A multivariate
+poisson-lognormal regression model for prediction of crash counts by
+severity, using bayesian methods. Accident Analysis and Prevention 40,
+964--975.
+doi:\href{https://doi.org/10.1016/j.aap.2007.11.002}{10.1016/j.aap.2007.11.002}
+
+\leavevmode\hypertarget{ref-Maddala1986limited}{}%
+Maddala, G.S., 1986. Limited-dependent and qualitative variables in
+econometrics. Cambridge university press.
+
+\leavevmode\hypertarget{ref-Mannering2016unobserved}{}%
+Mannering, F., Shankar, V., Bhat, C.R., 2016. Unobserved heterogeneity
+and the statistical analysis of highway accident data. Analytic Methods
+in Accident Research 11, 1--16.
+doi:\href{https://doi.org/10.1016/j.amar.2016.04.001}{10.1016/j.amar.2016.04.001}
+
+\leavevmode\hypertarget{ref-Montella2013crash}{}%
+Montella, A., Andreassen, D., Tarko, A.P., Turner, S., Mauriello, F.,
+Imbriani, L.L., Romero, M.A., 2013. Crash databases in australasia, the
+european union, and the united states review and prospects for
+improvement. Transportation Research Record 128--136.
+doi:\href{https://doi.org/10.3141/2386-15}{10.3141/2386-15}
+
+\leavevmode\hypertarget{ref-Mooradian2013analysis}{}%
+Mooradian, J., Ivan, J.N., Ravishanker, N., Hu, S., 2013. Analysis of
+driver and passenger crash injury severity using partial proportional
+odds models. Accident Analysis and Prevention 58, 53--58.
+doi:\href{https://doi.org/10.1016/j.aap.2013.04.022}{10.1016/j.aap.2013.04.022}
+
+\leavevmode\hypertarget{ref-Osman2018injury}{}%
+Osman, M., Mishra, S., Paleti, R., 2018. Injury severity analysis of
+commercially-licensed drivers in single-vehicle crashes: Accounting for
+unobserved heterogeneity and age group differences. Accident Analysis
+and Prevention 118, 289--300.
+doi:\href{https://doi.org/10.1016/j.aap.2018.05.004}{10.1016/j.aap.2018.05.004}
+
+\leavevmode\hypertarget{ref-Penmetsa2017examining}{}%
+Penmetsa, P., Pulugurtha, S.S., Duddu, V.R., 2017. Examining injury
+severity of not-at-fault drivers in two-vehicle crashes. Transportation
+Research Record 164--173.
+doi:\href{https://doi.org/10.3141/2659-18}{10.3141/2659-18}
+
+\leavevmode\hypertarget{ref-Provost1998glossary}{}%
+Provost, F., Kohavi, R., 1998. Glossary of terms. Journal of Machine
+Learning 30, 271--274.
+
+\leavevmode\hypertarget{ref-Rana2010copula}{}%
+Rana, T.A., Sikder, S., Pinjari, A.R., 2010. Copula-based method for
+addressing endogeneity in models of severity of traffic crash injuries
+application to two-vehicle crashes. Transportation Research Record
+75--87. doi:\href{https://doi.org/10.3141/2147-10}{10.3141/2147-10}
+
+\leavevmode\hypertarget{ref-Rifaat2007accident}{}%
+Rifaat, S.M., Chin, H.C., 2007. Accident severity analysis using ordered
+probit model. Journal of Advanced Transportation 41, 91--114.
+doi:\href{https://doi.org/10.1002/atr.5670410107}{10.1002/atr.5670410107}
+
+\leavevmode\hypertarget{ref-Roorda2010trip}{}%
+Roorda, M.J., Paez, A., Morency, C., Mercado, R., Farber, S., 2010. Trip
+generation of vulnerable populations in three canadian cities: A spatial
+ordered probit approach. Transportation 37, 525--548.
+doi:\href{https://doi.org/10.1007/s11116-010-9263-3}{10.1007/s11116-010-9263-3}
+
+\leavevmode\hypertarget{ref-Sasidharan2014partial}{}%
+Sasidharan, L., Menendez, M., 2014. Partial proportional odds model-an
+alternate choice for analyzing pedestrian crash injury severities.
+Accident Analysis and Prevention 72, 330--340.
+doi:\href{https://doi.org/10.1016/j.aap.2014.07.025}{10.1016/j.aap.2014.07.025}
+
+\leavevmode\hypertarget{ref-Savolainen2007probabilistic}{}%
+Savolainen, P., Mannering, F., 2007. Probabilistic models of
+motorcyclists' injury severities in single- and multi-vehicle crashes.
+Accident Analysis and Prevention 39, 955--963.
+doi:\href{https://doi.org/10.1016/j.aap.2006.12.016}{10.1016/j.aap.2006.12.016}
+
+\leavevmode\hypertarget{ref-Savolainen2011statistical}{}%
+Savolainen, P.T., Mannering, F., Lord, D., Quddus, M.A., 2011. The
+statistical analysis of highway crash-injury severities: A review and
+assessment of methodological alternatives. Accident Analysis and
+Prevention 43, 1666--1676.
+doi:\href{https://doi.org/10.1016/j.aap.2011.03.025}{10.1016/j.aap.2011.03.025}
+
+\leavevmode\hypertarget{ref-Shamsunnahar2014examining}{}%
+Shamsunnahar, Y., Eluru, N., Pinjari, A.R., Tay, R., 2014. Examining
+driver injury severity in two vehicle crashes - a copula based approach.
+Accident Analysis and Prevention 66, 120--135.
+doi:\href{https://doi.org/10.1016/j.aap.2014.01.018}{10.1016/j.aap.2014.01.018}
+
+\leavevmode\hypertarget{ref-Tang2019crash}{}%
+Tang, J.J., Liang, J., Han, C.Y., Li, Z.B., Huang, H.L., 2019. Crash
+injury severity analysis using a two-layer stacking framework. Accident
+Analysis and Prevention 122, 226--238.
+doi:\href{https://doi.org/10.1016/j.aap.2018.10.016}{10.1016/j.aap.2018.10.016}
+
+\leavevmode\hypertarget{ref-Tay2011multinomial}{}%
+Tay, R., Choi, J., Kattan, L., Khan, A., 2011. A multinomial logit model
+of pedestrian-vehicle crash severity. International Journal of
+Sustainable Transportation 5, 233--249.
+doi:\href{https://doi.org/10.1080/15568318.2010.497547}{10.1080/15568318.2010.497547}
+
+\leavevmode\hypertarget{ref-Torrao2014modeling}{}%
+Torrao, G.A., Coelho, M.C., Rouphail, N.M., 2014. Modeling the impact of
+subject and opponent vehicles on crash severity in two-vehicle
+collisions. Transportation Research Record 53--64.
+doi:\href{https://doi.org/10.3141/2432-07}{10.3141/2432-07}
+
+\leavevmode\hypertarget{ref-Train2009discrete}{}%
+Train, K., 2009. Discrete choice methods with simulation, 2nd Edition.
+ed. Cambridge University Press, Cambridge.
+
+\leavevmode\hypertarget{ref-Wang2015copula}{}%
+Wang, K., Yasmin, S., Konduri, K.C., Eluru, N., Ivan, J.N., 2015.
+Copula-based joint model of injury severity and vehicle damage in
+two-vehicle crashes. Transportation Research Record 158--166.
+doi:\href{https://doi.org/10.3141/2514-17}{10.3141/2514-17}
+
+\leavevmode\hypertarget{ref-Wang2005use}{}%
+Wang, X.K., Kockelman, K.M., 2005. Use of heteroscedastic ordered logit
+model to study severity of occupant injury - distinguishing effects of
+vehicle weight and type, in: Statistical Methods; Highway Safety Data,
+Analysis, and Evaluation; Occupant Protection; Systematic Reviews and
+Meta-Analysis, Transportation Research Record. pp. 195--204.
+
+\leavevmode\hypertarget{ref-White1972effects}{}%
+White, S., Clayton, S., 1972. Some effects of alcohol, age of driver,
+and estimated speed on the likelihood of driver injury. Accident
+Analysis \& Prevention 4.
+
+\leavevmode\hypertarget{ref-Wu2014mixed}{}%
+Wu, Q., Chen, F., Zhang, G.H., Liu, X.Y.C., Wang, H., Bogus, S.M., 2014.
+Mixed logit model-based driver injury severity investigations in single-
+and multi-vehicle crashes on rural two-lane highways. Accident Analysis
+and Prevention 72, 105--115.
+doi:\href{https://doi.org/10.1016/j.aap.2014.06.014}{10.1016/j.aap.2014.06.014}
+
+\leavevmode\hypertarget{ref-Yasmin2013evaluating}{}%
+Yasmin, S., Eluru, N., 2013. Evaluating alternate discrete outcome
+frameworks for modeling crash injury severity. Accident Analysis \&
+Prevention 59, 506--521.
+doi:\href{https://doi.org/https://doi.org/10.1016/j.aap.2013.06.040}{https://doi.org/10.1016/j.aap.2013.06.040}
+
+
+\end{document}
+
+

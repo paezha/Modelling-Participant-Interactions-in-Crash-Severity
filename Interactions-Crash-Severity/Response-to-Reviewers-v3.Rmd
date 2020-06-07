@@ -5,6 +5,12 @@ date: "6/6/2020"
 output: pdf_document
 ---
 
+```{r include=FALSE}
+library(tidyverse)
+library(kableExtra)
+```
+
+
 We wish to thank three anonymous reviewers for their feedback on the second version of our paper. In this letter we respond to their comments and describe the changes made to the paper in response. Reviewer comments are in black and our responses in blue.
 
 \newpage
@@ -21,42 +27,83 @@ No comment to authors.
 
 This paper is very well done and the revisions have improved it even further.
 
->\textcolor{blue}{Thank you for your suggestions to improve the paper.}
+>\textcolor{blue}{Thank you for your earlier suggestions to improve the paper.}
 
 \newpage
 
 # Reviewer 4
 
-1. Authors mentioned that the WAPE are still less than one percent for every model/ensemble of models in Table 6. This is true. But it does not change the fact that the models are overfitting. If you evaluate the model performances based on other criteria, the in-sample and out-of-sample performances might be quite different. As such, these models might be biased.
+Authors mentioned that the WAPE are still less than one percent for every model/ensemble of models in Table 6. This is true. But it does not change the fact that the models are overfitting. If you evaluate the model performances based on other criteria, the in-sample and out-of-sample performances might be quite different. As such, these models might be biased.
 
-2. I’m very confused by the calculation process of “percent correct”. Not sure if it is a proper performance measure. As the authors mentioned, that crash data is highly imbalanced. In this case, there are other performance metrics which are more adapted into imbalanced data problem, such as ROC, G-mean, or F-measure. You can refer to the following paper
+>\textcolor{blue}{We recognize that the models might be biased, although the amount of bias is unknowable in this case since we do not know the true data generation process. See the following in the concluding remarks:}
 
-Learning from class-imbalanced data: Review of methods and applications
+>>\textcolor{blue}{"There was some evidence that subsetting the sample can improve the results in some cases (e.g., when modelling the severity of crashes involving active travelers or motorcyclists), but possibly at the risk of overfitting the process. It is well known that overfitting can increase the accuracy of in-sample predictions at the expense of bias in out-of-sample predictions. Alas, since the true data generating process is unknowable in this empirical research, it is not possible to assess the extent of estimator bias."}
+
+I’m very confused by the calculation process of “percent correct”. Not sure if it is a proper performance measure. 
+
+>\textcolor{blue}{Thank you for this comment. We suspect that the confusion is caused by the differences in terminology. The terminology we are using is as follows:}
+
+```{r example-confusion-matrix, echo=FALSE}
+data.frame(Predicted = c("Yes",
+                        "No",
+                        "Marginal Total"),
+           Yes = c("Hit", "Miss", "Observed Yes"),
+           No = c("False Alarm", "Correct Non-event", "Observed No"),
+           Margin = c("Predicted Yes", "Predicted No", " ")) %>%
+  kable(booktabs = TRUE,
+        align = c("l", "c", "c", "c"),
+        col.names = c("Predicted", "Yes", "No", "Marginal Total"),
+        caption = "\\label{tab:confusion-matrix}Example of a two-by-two confusion matrix") %>%
+  kable_styling(font_size = 7, latex_options =  c("striped", "hold_position")) %>%
+  add_header_above(c(" " = 1, "Observed" = 2, " " = 1))
+```
+
+>\textcolor{blue}{An alternative terminology is used by He and Garcia in their 2009 paper "Learning from Imbalanced Data" (see Fig. 9 in their paper):}
+
+```{r example-confusion-matrix-2, echo=FALSE}
+data.frame(Predicted = c("Yes",
+                        "No",
+                        "Marginal Total"),
+           Yes = c("True Positive (TP)", "False Positive (FP)", "P_c"),
+           No = c("False Negative (FN)", "True Negative (TN)", "N_c")) %>%
+  kable(booktabs = TRUE,
+        align = c("l", "c", "c"),
+        col.names = c("Hypothesis", "Yes", "No"),
+        caption = "\\label{tab:confusion-matrix}Example of a two-by-two confusion matrix") %>%
+  kable_styling(font_size = 7, latex_options =  c("striped", "hold_position")) %>%
+  add_header_above(c(" " = 1, "True" = 2))
+```
+
+>\textcolor{blue}{Percent correct in our paper is simply the accuracy of the forecast, in the terminology of He and Garcia (see formula 13 in their paper):}
+
+$$
+PC = \frac{\text{Hit} + \text{Correct Non-event}}{\text{Observed Yes} + \text{Observed No}} = Accuracy = \frac{\text{TP} + \text{TN}}{P_c + N_c}
+$$
+
+As the authors mentioned, that crash data is highly imbalanced. In this case, there are other performance metrics which are more adapted into imbalanced data problem, such as ROC, G-mean, or F-measure.
+
+>\textcolor{blue}{Other performance metrics for imbalanced data in He and Garcia include the Precision (formula 14 in He and Garcia):}
+
+$$
+Precision = \frac{TP}{TP + TF}
+$$
+
+>\textcolor{blue}{The Precision is equivalent to the Post-Agreement, which we don't report, but that is the complement of the False Alarm Ratio, which we do report:}
+
+$$
+PA = \frac{\text{Hit}}{\text{Hit} + \text{False Alarm}} = 1 - FAR
+$$
+
+>\textcolor{blue}{Another example: Recall in He and Garcia is our Probability of Detection:}
+
+$$
+Recall = \frac{TP}{TP + FN} = POD = \frac{\text{Hit}}{\text{Hit} + \text{Miss}}
+$$
+
+>\textcolor{blue}{As you can see, the metrics that we use are suitable for imbalanced data. Other measures, such as ROC, G-mean, or F-measure, represent different ways of combining the same metrics (Hits, False Alarm, Miss, Correct Non-event), similar to the Skill Scores that we report. Hopefully this will clear the matter.}
+
+You can refer to the following paper. Learning from class-imbalanced data: Review of methods and applications
 
 https://www.sciencedirect.com/science/article/pii/S0957417416307175
 
->>It is curious that its ‘percent correct by class’ is generally very high (close to or greater than 90%) when numbers are so bad; it is curious too that the ‘percent correct’ is always lower than the lowest value of each ‘percent correct by class’.  
-
->\textcolor{blue}{Percent correct by class is heavily influenced by the dominant class (see note in Table 8). It is calculated as the sum of total hits and correct non-events divided by the number of cases. Accordingly (see for example Table 9, Model 1):}
-
-
-Outcome | Pred. No Injury | Pred. Injury | Pred. Fatality |
---- | --- | --- | --- |
-No Injury | 50652 | 22503 | 150 |
-Injury | 28232 | 62121 | 797 |
-Fatality | 2 | 51 | 3 |
-
->\textcolor{blue}{The percent correct by class (No Injury) is calculated as follows:}
-
-$$
-PC_{No-Injury} = \frac{50652 + 62121 + 797 + 51 + 3}{164511} = 0.6907 = 69.07\%
-$$
-
->\textcolor{blue}{In the above, $50652$ is the number of total hits, and $62121 + 797 + 51 + 3$ is the number of correct non-events. Compare to the percent correct by class (Fatality):}
-
-$$
-PC_{Fatality} = \frac{3 + 50652 + 22503 + 28232 + 62121}{164511} = 0.9939 = 99.39\%
-$$
-
->\textcolor{blue}{In the above, $3$ is the number of total hits, and $50652 + 22503 + 28232 + 62121$ is the number of correct non-events. It is not surprising that the value is so high: in fact, the model correctly predicts non-fatalities most of the time! However, when we look at bias ($B$) we see that fatalities are severely underpredicted. This is despite APE and WAPE statistics that are similar or better than those reported in the literature. Our argument is that the use of verification statistics provides a more nuanced view of the performance of the models. Again, to the best of our knowledge, this more nuanced perspective is not currently available, and it provides new insights into the performance of models.}
-
+>\textcolor{blue}{Thank you for bringing this paper to our attention. We now cite it (as well as He and Garcia) in the concluding remarks.}
