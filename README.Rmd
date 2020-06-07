@@ -19,6 +19,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
+Antonio Paez (McMaster University)  
+Hany Hassan (Louisiana State University)  
+Mark Ferguson (McMaster University)  
+Saiedeh Razavi (McMaster University)  
+
 ## Abstract
   
 Road crashes impose an important burden on health and the economy. Numerous efforts have been undertaken to understand the factors that affect road collisions in general, and the severity of crashes in particular. In this literature several strategies have been proposed to model interactions between parties in a crash, including the use of variables regarding the other party (or parties) in the collision, data subsetting, and estimating models with hierarchical components. Since no systematic assessment has been conducted of the performance of these strategies, they appear to be used in an ad-hoc fashion in the literature. The objective of this paper is to empirically evaluate ways to model party interactions in the context of crashes involving two parties. To this end, a series of models are estimated using data from Canada's National Collision Database. Three levels of crash severity (no injury/injury/fatality) are analyzed using ordered probit models and covariates for the parties in the crash and the conditions of the crash. The models are assessed using predicted shares and classes of outcomes, and the results highlight the importance of considering opponent effects in crash severity analysis. The study also suggests that hierarchical (i.e., multi-level) specifications and subsetting do not necessarily perform better than a relatively simple single-level model with opponent-related factors. The results of this study provide insights regarding the performance of different modelling strategies, and should be informative to researchers in the field of crash severity.
