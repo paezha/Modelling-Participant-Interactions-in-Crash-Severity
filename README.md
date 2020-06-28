@@ -14,6 +14,8 @@ Hany Hassan (Louisiana State University)
 Mark Ferguson (McMaster University)  
 Saiedeh Razavi (McMaster University)
 
+Forthcoming in Accident Prevention and Analysis.
+
 ## Abstract
 
 Road crashes impose an important burden on health and the economy.
