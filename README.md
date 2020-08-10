@@ -14,7 +14,8 @@ Hany Hassan (Louisiana State University)
 Mark Ferguson (McMaster University)  
 Saiedeh Razavi (McMaster University)
 
-Forthcoming in Accident Prevention and Analysis.
+Accident Prevention and Analysis (2020) 144:105666,
+<https://doi.org/10.1016/j.aap.2020.105666>
 
 ## Abstract
 
